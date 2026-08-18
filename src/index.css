@@ -1,13 +1,20 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
-/* ── Tailwind theme overrides (wowi_wowi pixel-arcade palette) ──────── */
+/* ═══════════════════════════════════════════════════════════
+   NULL ORIGIN CTF — cartoon-poster theme
+   Comic-book layout language (rounded cards, thick outlines,
+   gradient display type, pill buttons, parallax sky) rendered in
+   Null Origin's own neon-on-near-black palette. Artwork is drawn
+   procedurally in-repo rather than borrowed.
+   ═══════════════════════════════════════════════════════════ */
+
 @theme {
-  /* fonts: VT323 = body/mono, Press Start 2P = display/headings */
-  --font-sans: 'VT323', monospace;
-  --font-mono: 'VT323', monospace;
-  --font-display: 'Press Start 2P', monospace;
+  /* Bangers = display, Mouse Memoirs = body, Fira Code = code/labels */
+  --font-sans: 'Mouse Memoirs', system-ui, sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, monospace;
+  --font-display: 'Bangers', system-ui, cursive;
 
-  /* red accent → wowi red */
   --color-red-300: #ff9fb0;
   --color-red-400: #ff6b85;
   --color-red-500: #ff3355;
@@ -17,17 +24,14 @@
   --color-red-900: #5c0a1c;
   --color-red-950: #2e0510;
 
-  /* green accent → wowi green */
   --color-green-400: #6dff96;
   --color-green-500: #39ff6a;
   --color-green-600: #1fdc52;
 
-  /* amber accent → wowi amber */
   --color-amber-400: #ffc23c;
   --color-amber-800: #6e4f12;
   --color-amber-900: #44300b;
 
-  /* zinc → wowi ink / panel / dim scale */
   --color-zinc-100: #f4f6f5;
   --color-zinc-300: #cfd3d6;
   --color-zinc-400: #9aa1a6;
@@ -38,60 +42,67 @@
   --color-zinc-900: #15151f;
   --color-zinc-950: #0a0a12;
 
-  /* emerald (used for live/success dots) → wowi green */
   --color-emerald-500: #39ff6a;
 }
 
-/* ── Design tokens ─────────────────────────────────────── */
+/* ── Design tokens ───────────────────────────────────────── */
 :root {
   --bg: #0a0a12;
   --bg2: #101018;
   --surface: #15151f;
   --panel: #15151f;
-  --ink: #0a0a12;
-  --line: #000000;
-  --line-strong: #000000;
+  --panel-2: #1b1b28;
+  --ink: #07070d;
+  --line: #ff3355;
+  --line-soft: rgba(255, 51, 85, 0.35);
+  --line-strong: #ff3355;
   --text: #f4f6f5;
-  --muted: #7c8389;
-  --faint: #5e6469;
+  --muted: #a2a9b0;
+  --faint: #767d85;
   --green: #39ff6a;
   --red: #ff3355;
   --amber: #ffc23c;
   --white: #f4f6f5;
-  --dim: #7c8389;
-  --radius: 0px;
-  --radius-sm: 0px;
-}
+  --dim: #a2a9b0;
 
-* { image-rendering: pixelated; }
+  /* Comic panels are generously rounded — this is the single knob
+     that most defines the look, so everything reads off it. */
+  --radius: 28px;
+  --radius-sm: 18px;
+  --radius-lg: 44px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 18px 0 -6px rgba(0, 0, 0, 0.55), 0 26px 60px rgba(0, 0, 0, 0.55);
+  --shadow-pop: 0 10px 0 -2px rgba(0, 0, 0, 0.5);
+}
 
 html {
   scroll-behavior: smooth;
-  /* Offsets anchor-link jumps (#about, #schedule, etc.) so the fixed
-     navbar never overlaps the target section's top content. */
-  scroll-padding-top: 112px;
+  /* Keeps anchor jumps clear of the fixed navbar. */
+  scroll-padding-top: 116px;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'VT323', monospace;
-  font-size: 18px;
+  font-family: 'Mouse Memoirs', system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0),
-    linear-gradient(rgba(57,255,106,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(57,255,106,.035) 1px, transparent 1px);
-  background-size: 24px 24px, 96px 96px, 96px 96px;
+    radial-gradient(1100px 620px at 50% -8%, rgba(255, 51, 85, 0.10), transparent 70%),
+    radial-gradient(900px 520px at 88% 12%, rgba(57, 255, 106, 0.06), transparent 70%),
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: auto, auto, 26px 26px;
+  background-attachment: fixed, fixed, scroll;
 }
 
-::selection { background: var(--red); color: #000; }
+::selection { background: var(--red); color: #0a0a12; }
 
-/* ── Pixel cursors ──────────────────────────────────────────
-   Retro image cursors in place of the OS pointer. Two states only:
-   an arrow everywhere, a glove hand on anything clickable. Native
-   keywords stay as the fallback after the comma, so the site is
-   still usable if the PNGs ever fail to load. */
+/* ── Pixel cursors ───────────────────────────────────────────
+   Image cursors in place of the OS pointer: an arrow everywhere, a
+   glove hand on anything clickable. Native keywords stay as the
+   fallback so the site still works if the PNGs fail to load. */
 html,
 body {
   cursor: url('/cursors/cursor-default.png') 0 0, auto;
@@ -111,14 +122,13 @@ select,
   cursor: url('/cursors/cursor-pointer.png') 9 0, pointer;
 }
 
-/* Disabled controls should not invite a click. */
 button:disabled,
 [aria-disabled="true"] {
   cursor: url('/cursors/cursor-default.png') 0 0, not-allowed;
 }
 
-/* Text entry keeps the native caret — a glove over a text field
-   makes it genuinely harder to place the cursor in the string. */
+/* Text entry keeps the native caret — a glove over a text field makes
+   it genuinely harder to place the cursor in the string. */
 input,
 textarea,
 [contenteditable="true"] {
@@ -134,7 +144,7 @@ input[type="file"] {
 }
 
 /* Touch devices have no pointer to replace, and a phantom hotspot
-   offset there just breaks tap accuracy. */
+   offset there only breaks tap accuracy. */
 @media (hover: none), (pointer: coarse) {
   html, body, a, button, summary, label, select,
   [role="button"], [role="tab"], [onclick],
@@ -146,20 +156,35 @@ input[type="file"] {
   }
 }
 
-/* Kill backdrop blur (glassmorphism) — pixel-art panels are solid */
-.backdrop-blur, .backdrop-blur-sm, .backdrop-blur-md, .backdrop-blur-lg, .backdrop-blur-xl {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+/* ── Focus ───────────────────────────────────────────────────
+   Visible for keyboard users, absent for mouse users. */
+:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* Kill rounded corners everywhere except deliberate circles (rounded-full) for the pixel-art look */
-.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl,
-.rounded-t, .rounded-b, .rounded-l, .rounded-r,
-.rounded-t-lg, .rounded-b-lg, .rounded-t-xl, .rounded-b-xl, .rounded-t-2xl, .rounded-b-2xl {
-  border-radius: 0 !important;
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% -140%;
+  z-index: 200;
+  background: var(--green);
+  color: #06120a;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  transition: translate 0.18s ease;
+}
+.skip-link:focus {
+  translate: -50% 0;
 }
 
-/* ── Layout shell ───────────────────────────────────────── */
+/* ── Layout shell ────────────────────────────────────────── */
 .shell {
   width: 100%;
   max-width: 1200px;
@@ -167,301 +192,314 @@ input[type="file"] {
   padding-inline: clamp(1rem, 4vw, 2.5rem);
 }
 
-/* ── Section spacing ────────────────────────────────────── */
 .section {
-  padding-block: clamp(3rem, 6vw, 5.25rem);
+  padding-block: clamp(3.25rem, 6.5vw, 6rem);
 }
 
-/* ── Chunky pixel block util ─────────────────────────────── */
-.block-px {
-  border: 3px solid var(--line);
-  box-shadow: 6px 6px 0 var(--line);
-}
-
-/* ── "Glass" panel → solid pixel panel (no blur in pixel-art) ───────── */
+/* ── Comic panel ─────────────────────────────────────────────
+   The workhorse surface. Thick coloured outline, deep radius and a
+   hard drop shadow give the printed-panel feel. */
 .glass {
   background: var(--panel);
-  border: 3px solid var(--line) !important;
-  border-radius: 0 !important;
-  box-shadow: 6px 6px 0 var(--line);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  border: 3px solid var(--line-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
 }
 
 .glass-strong {
-  background: var(--bg2);
-  border: 3px solid var(--line) !important;
-  box-shadow: 8px 8px 0 var(--red);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 3px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .glass-hover {
-  transition: transform 0.08s, box-shadow 0.08s;
+  transition: transform 0.22s cubic-bezier(.2, .8, .2, 1),
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
 }
 .glass-hover:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 4px 4px 0 var(--line);
-  border-color: var(--green) !important;
-  background: var(--panel);
+  transform: translateY(-6px) rotate(-0.35deg);
+  border-color: var(--green);
+  box-shadow: 0 22px 0 -8px rgba(0, 0, 0, 0.55), 0 30px 70px rgba(57, 255, 106, 0.12);
 }
 
-/* ── Hairline ───────────────────────────────────────────── */
+.block-px {
+  border: 3px solid var(--line-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+}
+
 .hairline {
   width: 100%;
   height: 3px;
-  background: var(--line);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, transparent, var(--line-soft), transparent);
 }
 
-/* ── Grid background ────────────────────────────────────── */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(57,255,106,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(57,255,106,.08) 1px, transparent 1px);
-  background-size: 24px 24px;
+    linear-gradient(rgba(57, 255, 106, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 106, .07) 1px, transparent 1px);
+  background-size: 26px 26px;
 }
 
-/* ── Typography ─────────────────────────────────────────── */
+/* ── Typography ───────────────────────────────────────────── */
 .h-display {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Bangers', system-ui, cursive;
   font-weight: 400;
-  letter-spacing: 0;
-  color: var(--white);
-  line-height: 1.5;
-  -webkit-text-stroke: 1.5px #000;
-  text-shadow: 4px 4px 0 var(--red), 8px 8px 0 var(--green);
+  letter-spacing: 0.035em;
+  line-height: 1.06;
+  text-transform: uppercase;
+  /* Gradient fill is the signature of this poster style. The solid
+     colour underneath is what shows if background-clip is unsupported,
+     so it must stay legible on its own. */
+  color: var(--amber);
+  background: linear-gradient(180deg, #ff6b85 0%, var(--red) 45%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.55));
+  padding-bottom: 0.08em;
 }
 
-/* The 4px/8px offsets are tuned for the large desktop display size; at
-   phone widths they smear into the glyphs and cost legibility, so the
-   whole treatment scales down with the type. */
-@media (max-width: 640px) {
-  .h-display {
-    -webkit-text-stroke-width: 1px;
-    text-shadow: 2px 2px 0 var(--red), 4px 4px 0 var(--green);
-  }
+/* Gradient text clips away any coloured span inside it, so nested
+   accents opt out and paint themselves. */
+.h-display .accent {
+  -webkit-text-fill-color: var(--green);
+  color: var(--green);
+}
+
+.lead {
+  font-size: clamp(17px, 1.45vw, 21px);
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .eyebrow {
   align-items: center;
   gap: 10px;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--dim);
-  background: var(--panel);
-  padding: 10px 14px;
-  border: 3px solid var(--line);
+  color: var(--green);
+  background: rgba(57, 255, 106, 0.07);
+  padding: 9px 18px;
+  border: 2px solid rgba(57, 255, 106, 0.32);
+  border-radius: var(--radius-pill);
 }
 .eyebrow::before {
   content: "";
-  width: 4px;
-  height: 14px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: var(--green);
+  box-shadow: 0 0 10px var(--green);
   flex-shrink: 0;
 }
-
-.eyebrow--center {
-  justify-content: center;
-}
-
-.lead {
-  font-size: clamp(16px, 1.5vw, 20px);
-  color: var(--muted);
-  line-height: 1.6;
-  font-family: 'VT323', monospace;
-}
+.eyebrow--center { justify-content: center; }
 
 .data-num {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Bangers', system-ui, cursive;
   font-weight: 400;
   color: var(--green);
-  letter-spacing: 0;
-  line-height: 1.4;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
 }
 
-/* ── Chip / tag ─────────────────────────────────────────── */
+/* ── Chip / status ───────────────────────────────────────── */
 .chip {
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
-  border-radius: 0;
-  border: 3px solid var(--line);
-  background: var(--panel);
-  font-size: 14px;
-  color: var(--dim);
-  font-family: 'VT323', monospace;
-  letter-spacing: 0.5px;
-  transition: transform 0.08s, box-shadow 0.08s;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--line-soft);
+  background: rgba(255, 51, 85, 0.06);
+  font-size: 15px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 .chip:hover {
   border-color: var(--green);
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--line);
+  color: var(--text);
+  transform: translateY(-2px);
 }
 
-/* ── Status badge ───────────────────────────────────────── */
 .status {
   align-items: center;
-  gap: 8px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  letter-spacing: 1px;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--dim);
-  border: 3px solid var(--line);
-  border-radius: 0;
-  background: var(--panel);
-  padding: 7px 12px;
-}
-
-/* ── Coin counter (hero countdown) ──────────────────────── */
-.coin-counter {
-  gap: 24px;
-  padding: 18px 26px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.coin { text-align: center; }
-.coin .n {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 22px;
-  color: var(--green);
-}
-.coin.r .n { color: var(--red); }
-.coin .l {
-  font-size: 13px;
-  color: var(--dim);
-  letter-spacing: 1px;
-  margin-top: 6px;
+  color: var(--muted);
+  border: 2px solid rgba(57, 255, 106, 0.3);
+  border-radius: var(--radius-pill);
+  background: rgba(57, 255, 106, 0.06);
+  padding: 8px 16px;
 }
 
 .dot {
   width: 8px;
   height: 8px;
-  border-radius: 0;
+  border-radius: 50%;
   background: var(--green);
-  border: 1px solid #000;
-  box-shadow: none;
-  animation: pulse-dot 1s steps(1) infinite;
+  box-shadow: 0 0 10px var(--green);
+  animation: pulse-dot 1.6s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(0.82); }
 }
 
-/* ── Buttons (pxbtn) ────────────────────────────────────── */
+/* ── Countdown ───────────────────────────────────────────── */
+.coin-counter {
+  gap: clamp(14px, 3vw, 34px);
+  padding: 20px clamp(20px, 4vw, 34px);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+}
+.coin { text-align: center; min-width: 62px; }
+
+/* Four units on one row at every width — flex-wrap dropped SEC onto a
+   line of its own on phones, which read as a layout fault. */
+@media (max-width: 560px) {
+  .coin-counter {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding-inline: 14px;
+    width: 100%;
+  }
+  .coin { min-width: 0; }
+}
+.coin .n {
+  font-family: 'Bangers', system-ui, cursive;
+  font-size: clamp(30px, 4.6vw, 46px);
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 22px rgba(57, 255, 106, 0.35);
+  font-variant-numeric: tabular-nums;
+}
+.coin.r .n { color: var(--red); text-shadow: 0 0 22px rgba(255, 51, 85, 0.4); }
+.coin .l {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--faint);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────
+   Comic pills: fully rounded, thick outline, hard shadow that
+   collapses on press so the button physically depresses. */
 .btn {
   align-items: center;
-  gap: 8px;
-  padding: 12px 18px;
-  border-radius: 0;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  font-family: 'Bangers', system-ui, cursive;
+  font-size: 19px;
   font-weight: 400;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  cursor: pointer;
-  transition: transform 0.08s, box-shadow 0.08s;
   text-decoration: none;
-  border: 3px solid var(--line);
-  box-shadow: 4px 4px 0 var(--line);
+  border: 3px solid #000;
+  box-shadow: 0 6px 0 #000;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.2s ease;
 }
-.btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--line);
-}
+.btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 0 #000; }
+.btn:active { transform: translateY(4px);  box-shadow: 0 2px 0 #000; }
 
 .btn-primary {
   background: var(--red);
-  color: #000;
-  border: 3px solid var(--line);
-  box-shadow: 4px 4px 0 var(--line);
+  color: #14030a;
 }
-.btn-primary:hover {
-  background: var(--red);
-  box-shadow: 2px 2px 0 var(--line);
-}
+.btn-primary:hover { background: #ff4d6b; }
 
 .btn-ghost {
   background: var(--white);
-  color: #000;
-  border: 3px solid var(--line);
+  color: #0a0a12;
 }
-.btn-ghost:hover {
-  background: var(--white);
-  color: #000;
+.btn-ghost:hover { background: #fff; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line-soft);
+  box-shadow: none;
+}
+.btn-outline:hover {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: none;
+  transform: translateY(-2px);
 }
 
-/* ── Sponsor slot ───────────────────────────────────────── */
+/* ── Sponsor slots ───────────────────────────────────────── */
 .slot {
   position: relative;
   align-items: center;
   justify-content: center;
-  border-radius: 0;
-  border: 3px dashed var(--green);
-  background: var(--panel);
+  border-radius: var(--radius);
+  border: 3px dashed rgba(57, 255, 106, 0.45);
+  background: rgba(57, 255, 106, 0.03);
   overflow: hidden;
-  padding-block: 28px;
+  padding-block: 30px;
 }
 
-.slot--title {
-  min-height: 160px;
-}
+.slot--title { min-height: 168px; }
 
-/* A confirmed partner, as opposed to an open slot: solid border rather
-   than the dashed "space available" outline, and a green offset shadow
-   so the filled tier reads as won, not pending. */
+/* A confirmed partner as opposed to an open slot: solid outline and a
+   green cast, so won and pending read differently at a glance. */
 .slot--filled {
   border-style: solid;
   border-color: var(--green);
-  box-shadow: 6px 6px 0 var(--line);
+  background: rgba(57, 255, 106, 0.045);
+  box-shadow: 0 16px 0 -6px rgba(0, 0, 0, 0.5), 0 24px 55px rgba(57, 255, 106, 0.10);
   padding-block: 36px;
-  transition: transform 0.08s, box-shadow 0.08s;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
-.slot--filled:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 4px 4px 0 var(--green);
-}
+.slot--filled:hover { transform: translateY(-5px); }
 
-/* The title partner gets a two-panel layout rather than a logo tile, so it
-   opts out of the centred placeholder geometry. */
+/* The featured partner uses a two-panel layout, not the centred
+   placeholder geometry. */
 .slot--feature {
   min-height: 0;
   padding-block: 0;
   text-align: left;
-  /* .slot centres its single placeholder child; this variant has two full
-     panels instead, which need to fill the box and sit flush. */
   align-items: stretch;
   justify-content: flex-start;
 }
 
-/* Sponsor artwork is real brand vector art — the global pixelated
-   rendering would visibly mangle it, so opt this one image back out. */
+/* Sponsor artwork is real brand vector art and must stay crisp and
+   unrecoloured. */
 .sponsor-logo {
   width: min(320px, 74%);
   height: auto;
-  image-rendering: auto;
 }
 
-/* In the slim band under the hero the logo sits inline with text, so it
-   is sized against that line rather than against a panel. */
 .sponsor-logo--strip {
-  width: clamp(120px, 22vw, 168px);
+  width: clamp(118px, 21vw, 164px);
 }
 
 .sheen {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 40%,
-    rgba(57, 255, 106, 0.08) 50%,
-    transparent 60%
-  );
+  background: linear-gradient(115deg, transparent 40%, rgba(57, 255, 106, 0.10) 50%, transparent 60%);
   background-size: 200% 100%;
-  animation: sheen 3s linear infinite;
+  animation: sheen 3.4s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes sheen {
@@ -470,55 +508,138 @@ input[type="file"] {
 }
 
 .slot-corner-tr {
-  position: absolute; top: 8px; right: 8px;
-  width: 12px; height: 12px;
-  border-top: 2px solid var(--green);
-  border-right: 2px solid var(--green);
+  position: absolute; top: 12px; right: 12px;
+  width: 14px; height: 14px;
+  border-top: 3px solid var(--green);
+  border-right: 3px solid var(--green);
+  border-top-right-radius: 6px;
 }
 
 .slot-corner-bl {
-  position: absolute; bottom: 8px; left: 8px;
-  width: 12px; height: 12px;
-  border-bottom: 2px solid var(--green);
-  border-left: 2px solid var(--green);
+  position: absolute; bottom: 12px; left: 12px;
+  width: 14px; height: 14px;
+  border-bottom: 3px solid var(--green);
+  border-left: 3px solid var(--green);
+  border-bottom-left-radius: 6px;
 }
 
-/* ── Scroll reveal ──────────────────────────────────────── */
+/* ── Scroll reveal ───────────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(26px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2, .8, .2, 1);
 }
 .reveal.in {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
-/* ── Floating animation ─────────────────────────────────── */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
-}
-.animate-float {
-  animation: float 4s ease-in-out infinite;
+/* ── Reading progress ────────────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  height: 4px;
+  z-index: 90;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--red), var(--amber), var(--green));
+  will-change: transform;
 }
 
-/* ── Pulse glow ─────────────────────────────────────────── */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 4px 4px 0 var(--line); }
-  50%       { box-shadow: 4px 4px 0 var(--green); }
+/* ── Back to top ─────────────────────────────────────────── */
+.to-top {
+  position: fixed;
+  right: clamp(14px, 3vw, 28px);
+  bottom: clamp(14px, 3vw, 28px);
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid #000;
+  background: var(--green);
+  color: #06120a;
+  box-shadow: 0 6px 0 #000;
+  opacity: 0;
+  translate: 0 18px;
+  pointer-events: none;
+  transition: opacity 0.24s ease, translate 0.24s ease, transform 0.12s ease;
 }
-.animate-pulse-glow {
-  animation: pulse-glow 1.2s infinite;
+.to-top.show {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
 }
-/* ── Display utilities must win ─────────────────────────────
-   The component classes above are plain unlayered CSS, and unlayered CSS
-   beats anything in a cascade layer — including Tailwind's own
-   `@layer utilities`. Left as-is, `.btn` silently defeated `hidden`, so
-   the desktop-only navbar actions rendered on phones and overflowed the
-   bar. Declaring `display` here instead puts it in @layer components,
-   which sits below utilities, so `hidden` / `sm:inline-flex` / `flex`
-   behave the way the markup expects. */
+.to-top:active { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
+
+/* ── Navigation ──────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-block: 6px;
+  transition: color 0.2s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--green);
+  scale: 0 1;
+  transform-origin: 0 50%;
+  transition: scale 0.24s cubic-bezier(.2, .8, .2, 1);
+}
+.nav-link:hover { color: var(--text); }
+.nav-link:hover::after,
+.nav-link[aria-current="true"]::after { scale: 1 1; }
+.nav-link[aria-current="true"] { color: var(--green); }
+
+/* ── Parallax sky ────────────────────────────────────────── */
+.sky-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ── Motion preferences ──────────────────────────────────────
+   Honour the OS setting: kill parallax, sheen and reveal motion,
+   but never hide content that a reveal was meant to bring in. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .sheen { display: none; }
+  .sky-layer { transform: none !important; }
+}
+
+/* ── Display utilities must win ──────────────────────────────
+   The component classes above are plain unlayered CSS, and unlayered
+   CSS beats anything in a cascade layer — including Tailwind's own
+   `@layer utilities`. Left as-is, `.btn` silently defeated `hidden`,
+   so desktop-only navbar actions rendered on phones and overflowed
+   the bar. Declaring `display` here puts it in @layer components,
+   which sits below utilities. */
 @layer components {
   .eyebrow,
   .chip,

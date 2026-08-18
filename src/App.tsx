@@ -3,6 +3,8 @@ import HackerBackground from "./components/HackerBackground";
 import Navbar from "./components/Navbar";
 import HomeHero from "./components/HomeHero";
 import SponsorStrip from "./components/SponsorStrip";
+import ScrollProgress from "./components/ScrollProgress";
+import BackToTop from "./components/BackToTop";
 import HomeSidebar from "./components/HomeSidebar";
 import AmbientLogs from "./components/AmbientLogs";
 import About from "./components/sections/About";
@@ -29,6 +31,8 @@ export default function App() {
 
   return (
     <div id="top" className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
+      <a href="#main" className="skip-link">Skip to content</a>
+      <ScrollProgress />
       <HackerBackground />
       <div className="relative z-10">
         <Navbar
@@ -37,14 +41,15 @@ export default function App() {
           onRegister={() => setPage("register")}
         />
 
-        {/* Hero section — wowi_wowi marquee style */}
+        {/* Hero */}
         <HomeHero {...state} onRegister={() => setPage("register")} />
 
-        {/* Title partner, surfaced before the fold-and-a-half */}
+        {/* Certification partner, surfaced before the fold-and-a-half */}
         <SponsorStrip />
 
 
 
+        <main id="main">
         {/* New design sections */}
         <About />
         <Highlights />
@@ -54,8 +59,10 @@ export default function App() {
         <Prizes />
         <Closer />
         <FAQ />
+        </main>
 
         <SiteFooter />
+        <BackToTop />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-import { useMemo } from "react";
 import { sound } from "../hooks/utils/audio";
+import SkyParallax from "./SkyParallax";
 
 interface TimeLeft {
   days: string;
@@ -14,26 +14,14 @@ interface HomeHeroProps {
 }
 
 export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
-  // The countdown re-renders this component once a second. Rolling the
-  // confetti inline would re-scatter all 40 pieces on every tick, so the
-  // layout is generated once and kept.
-  const confetti = useMemo(
-    () =>
-      Array.from({ length: 40 }, (_, i) => ({
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 78}%`,
-        size: `${3 + Math.random() * 4}px`,
-        color: i % 2 === 0 ? "var(--red)" : "#3a6ea5",
-      })),
-    []
-  );
-
   return (
     <section
       className="relative w-full overflow-hidden text-center border-b-[3px] border-black"
       style={{ padding: "236px 0 56px", background: "linear-gradient(180deg, #0b1422 0%, #0e1a2c 45%, #142235 75%, #0a0a12 100%)" }}
     >
-      {/* ── hero scene (moon / confetti / skyline / monitors) ── */}
+      {/* ── hero scene (sky / moon / skyline / monitors) ── */}
+      <SkyParallax />
+
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* moon — hard colour stops instead of a soft gradient so it reads as
             banded pixel art like the rest of the scene rather than a blur */}
@@ -44,23 +32,6 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
               "radial-gradient(circle at 50% 50%, #ffe9a8 0 38%, #ffc23c 38% 58%, rgba(255,194,60,.35) 58% 74%, rgba(255,194,60,.12) 74% 88%, rgba(255,194,60,0) 88%)",
           }}
         />
-
-        {/* scattered confetti */}
-        <div className="absolute inset-0 overflow-hidden">
-          {confetti.map((c, i) => (
-            <span
-              key={i}
-              className="absolute opacity-85"
-              style={{
-                left: c.left,
-                top: c.top,
-                width: c.size,
-                height: c.size,
-                background: c.color,
-              }}
-            />
-          ))}
-        </div>
 
         {/* pixel skyline */}
         <svg
@@ -134,14 +105,12 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
       {/* ── content ── */}
       <div className="relative z-10 shell">
-        {/* Sits directly over the moon, so it needs its own solid plate —
-            amber-on-amber was unreadable. */}
-        <div className="mb-[22px] flex justify-center">
-          <span
-            className="font-display uppercase tracking-[2px] text-[11px] text-[var(--amber)] bg-[var(--ink)] border-[3px] border-black px-[14px] py-[9px] inline-block"
-            style={{ animation: "pulse-dot 1s steps(1) infinite" }}
-          >
-            ▸ INSERT COIN
+        {/* Sits over the moon, so it carries its own plate — amber text on
+            the amber glow was unreadable. */}
+        <div className="mb-6 flex justify-center">
+          <span className="status !text-[11px] !text-[var(--amber)] !border-[rgba(255,194,60,.45)] !bg-[rgba(255,194,60,.08)]">
+            <span className="dot !bg-[var(--amber)] !shadow-[0_0_10px_var(--amber)]" />
+            Insert coin
           </span>
         </div>
 
@@ -164,17 +133,16 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
             type="button"
             onClick={() => { onRegister(); sound.playClick(); }}
             onMouseEnter={() => sound.playHover()}
-            className="btn btn-primary !text-[13px] !py-[18px] !px-[28px] cursor-pointer"
+            className="btn btn-primary cursor-pointer"
           >
-            ▸ START GAME
+            Start game
           </button>
           <a
             href="#about"
             onMouseEnter={() => sound.playHover()}
-            className="btn btn-ghost !text-[13px] !py-[18px] !px-[28px]"
-            style={{ background: "var(--white)", color: "#000" }}
+            className="btn btn-ghost"
           >
-            VIEW INTRO
+            View intro
           </a>
         </div>
 

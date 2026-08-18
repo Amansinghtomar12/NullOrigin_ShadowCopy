@@ -1,4 +1,4 @@
-import { NAV, SOCIALS, PARTNER_EMAIL, ORG_SITE, TITLE_SPONSOR } from "../constants";
+import { NAV, SOCIALS, PARTNER_EMAIL, ORG_SITE, CERT_PARTNER } from "../constants";
 
 export default function SiteFooter() {
   return (
@@ -81,18 +81,18 @@ export default function SiteFooter() {
 
         <div className="col-span-2 lg:col-span-4 border-t border-[var(--line)] pt-6 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-3">
           <p className="font-mono text-[9.5px] tracking-[0.2em] uppercase text-[var(--faint)]">
-            {TITLE_SPONSOR.tier}
+            {CERT_PARTNER.tier}
           </p>
           <a
-            href={TITLE_SPONSOR.href}
+            href={CERT_PARTNER.href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`${TITLE_SPONSOR.name} — ${TITLE_SPONSOR.tier} of Null Origin CTF`}
+            aria-label={`${CERT_PARTNER.name} — ${CERT_PARTNER.tier} of Null Origin CTF`}
             className="inline-flex"
           >
             <img
-              src={TITLE_SPONSOR.logo}
-              alt={TITLE_SPONSOR.name}
+              src={CERT_PARTNER.logo}
+              alt={CERT_PARTNER.name}
               className="sponsor-logo sponsor-logo--strip hover:opacity-80 transition-opacity"
               loading="lazy"
             />

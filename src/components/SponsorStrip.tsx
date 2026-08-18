@@ -1,12 +1,13 @@
-import { TITLE_SPONSOR } from "../constants";
+import { CERT_PARTNER } from "../constants";
 import { sound } from "../hooks/utils/audio";
 
 /**
- * Slim partner band that sits immediately under the hero, so the title
- * sponsor is visible without scrolling to the Sponsors section.
+ * Slim partner band that sits immediately under the hero, so our
+ * certification partner is visible without scrolling to the Sponsors
+ * section.
  */
 export default function SponsorStrip() {
-  const { name, logo, href, tier } = TITLE_SPONSOR;
+  const { name, logo, href, tier } = CERT_PARTNER;
 
   return (
     <aside

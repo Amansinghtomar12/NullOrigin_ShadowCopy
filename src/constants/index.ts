@@ -15,26 +15,24 @@ export const NAV = [
 ];
 
 /**
- * Confirmed partners, highest tier first.
+ * Confirmed partners.
  *
- * `includes` mirrors what Tier 00 is advertised as covering in the sponsor
- * tier table — keep the two in step if the package changes. Anything more
- * specific that INE is providing (prizes, vouchers, lab access, a speaker
- * name) belongs here too, but add it only once it is actually agreed.
+ * Keep `includes` to what has actually been agreed. INE provides
+ * certificates for the top finishers and Null Origin promotes INE in
+ * return — that is the whole arrangement, so nothing here should imply
+ * naming rights, a speaking slot, or a financial sponsorship.
  */
-export const TITLE_SPONSOR = {
+export const CERT_PARTNER = {
   name: "INE",
   logo: "/ine-logo.svg",
   href: "https://ine.com/",
-  tier: "Title Partner",
+  tier: "Certification Partner",
   blurb: "Hands-on cybersecurity and networking training — the team behind eJPT, eCPPT and eWPT.",
   about:
-    "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems — which makes them a natural fit to anchor a competition built on the same skills.",
+    "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems.",
   includes: [
-    "Event naming and top billing across the site",
-    "Keynote slot in the opening broadcast",
-    "Primary logo placement on the platform and stream",
-    "Direct line to standout competitors for recruiting",
+    "Certificates awarded to our top-placing teams",
+    "Featured across the Null Origin site and channels",
   ],
 };
 

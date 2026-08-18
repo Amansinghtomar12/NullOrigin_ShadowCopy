@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Volume2, VolumeX, Layers } from "lucide-react";
-import { NAV, REGISTER_URL } from "../constants";
+import { NAV } from "../constants";
+import { useScrollSpy } from "../hooks/useScrollSpy";
 import { sound } from "../hooks/utils/audio";
 
 interface NavbarProps {
@@ -12,6 +13,7 @@ interface NavbarProps {
 export default function Navbar({ audioEnabled, onToggleSound, onRegister }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const active = useScrollSpy(NAV.map((n) => n.id));
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 36);
@@ -57,7 +59,8 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--muted)] hover:text-white transition-colors"
+                className="nav-link"
+                aria-current={active === s.id ? "true" : undefined}
                 onMouseEnter={() => sound.playHover()}
               >
                 {s.label}

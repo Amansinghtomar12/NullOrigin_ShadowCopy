@@ -30,9 +30,12 @@
     <!-- Brand icon styling -->
     <link rel="icon" type="image/png" href="/logo.png" />
 
-    <!-- Pixel-arcade theme fonts (wowi_wowi design system) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <!-- Cartoon-poster theme fonts (Bangers = display, Mouse Memoirs =
+         body, Fira Code = labels) are self-hosted from /public/fonts and
+         declared in src/fonts.css, so there is no third-party request on
+         the critical path. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/bangers-400-latin.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/mouse-memoirs-400-latin.woff2" crossorigin>
   </head>
   <body>
     <div id="root"></div>
