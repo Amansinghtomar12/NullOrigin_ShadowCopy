@@ -6,7 +6,7 @@ import HomeSidebar from "./components/HomeSidebar";
 import AmbientLogs from "./components/AmbientLogs";
 import About from "./components/sections/About";
 import Highlights from "./components/sections/Highlights";
-// import Sponsors from "./components/sections/Sponsors"; // hidden for now
+import Sponsors from "./components/sections/Sponsors";
 import Impact from "./components/sections/Impact";
 import Schedule from "./components/sections/Schedule";
 import Prizes from "./components/sections/Prizes";
@@ -44,8 +44,7 @@ export default function App() {
         {/* New design sections */}
         <About />
         <Highlights />
-        {/* Sponsors hidden for now — re-enable by uncommenting <Sponsors /> below */}
-        {/* <Sponsors /> */}
+        <Sponsors />
         <Impact />
         <Schedule />
         <Prizes />

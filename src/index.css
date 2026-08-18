@@ -87,6 +87,65 @@ body {
 
 ::selection { background: var(--red); color: #000; }
 
+/* ── Pixel cursors ──────────────────────────────────────────
+   Retro image cursors in place of the OS pointer. Two states only:
+   an arrow everywhere, a glove hand on anything clickable. Native
+   keywords stay as the fallback after the comma, so the site is
+   still usable if the PNGs ever fail to load. */
+html,
+body {
+  cursor: url('/cursors/cursor-default.png') 0 0, auto;
+}
+
+a,
+button,
+summary,
+label,
+select,
+[role="button"],
+[role="tab"],
+[onclick],
+.btn,
+.chip,
+.cursor-pointer {
+  cursor: url('/cursors/cursor-pointer.png') 9 0, pointer;
+}
+
+/* Disabled controls should not invite a click. */
+button:disabled,
+[aria-disabled="true"] {
+  cursor: url('/cursors/cursor-default.png') 0 0, not-allowed;
+}
+
+/* Text entry keeps the native caret — a glove over a text field
+   makes it genuinely harder to place the cursor in the string. */
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: text;
+}
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"],
+input[type="submit"],
+input[type="button"],
+input[type="file"] {
+  cursor: url('/cursors/cursor-pointer.png') 9 0, pointer;
+}
+
+/* Touch devices have no pointer to replace, and a phantom hotspot
+   offset there just breaks tap accuracy. */
+@media (hover: none), (pointer: coarse) {
+  html, body, a, button, summary, label, select,
+  [role="button"], [role="tab"], [onclick],
+  .btn, .chip, .cursor-pointer,
+  button:disabled, [aria-disabled="true"],
+  input[type="checkbox"], input[type="radio"], input[type="range"],
+  input[type="submit"], input[type="button"], input[type="file"] {
+    cursor: auto;
+  }
+}
+
 /* Kill backdrop blur (glassmorphism) — pixel-art panels are solid */
 .backdrop-blur, .backdrop-blur-sm, .backdrop-blur-md, .backdrop-blur-lg, .backdrop-blur-xl {
   backdrop-filter: none !important;
@@ -110,7 +169,7 @@ body {
 
 /* ── Section spacing ────────────────────────────────────── */
 .section {
-  padding-block: clamp(4rem, 8vw, 7rem);
+  padding-block: clamp(3rem, 6vw, 5.25rem);
 }
 
 /* ── Chunky pixel block util ─────────────────────────────── */
@@ -171,8 +230,17 @@ body {
   text-shadow: 4px 4px 0 var(--red), 8px 8px 0 var(--green);
 }
 
+/* The 4px/8px offsets are tuned for the large desktop display size; at
+   phone widths they smear into the glyphs and cost legibility, so the
+   whole treatment scales down with the type. */
+@media (max-width: 640px) {
+  .h-display {
+    -webkit-text-stroke-width: 1px;
+    text-shadow: 2px 2px 0 var(--red), 4px 4px 0 var(--green);
+  }
+}
+
 .eyebrow {
-  display: inline-flex;
   align-items: center;
   gap: 10px;
   font-family: 'Press Start 2P', monospace;
@@ -213,7 +281,6 @@ body {
 
 /* ── Chip / tag ─────────────────────────────────────────── */
 .chip {
-  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
@@ -234,7 +301,6 @@ body {
 
 /* ── Status badge ───────────────────────────────────────── */
 .status {
-  display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: 'Press Start 2P', monospace;
@@ -250,7 +316,6 @@ body {
 
 /* ── Coin counter (hero countdown) ──────────────────────── */
 .coin-counter {
-  display: inline-flex;
   gap: 24px;
   padding: 18px 26px;
   align-items: center;
@@ -272,7 +337,6 @@ body {
 }
 
 .dot {
-  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 0;
@@ -289,7 +353,6 @@ body {
 
 /* ── Buttons (pxbtn) ────────────────────────────────────── */
 .btn {
-  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 18px;
@@ -334,7 +397,6 @@ body {
 /* ── Sponsor slot ───────────────────────────────────────── */
 .slot {
   position: relative;
-  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0;
@@ -346,6 +408,29 @@ body {
 
 .slot--title {
   min-height: 160px;
+}
+
+/* A confirmed partner, as opposed to an open slot: solid border rather
+   than the dashed "space available" outline, and a green offset shadow
+   so the filled tier reads as won, not pending. */
+.slot--filled {
+  border-style: solid;
+  border-color: var(--green);
+  box-shadow: 6px 6px 0 var(--line);
+  padding-block: 36px;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.slot--filled:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 var(--green);
+}
+
+/* Sponsor artwork is real brand vector art — the global pixelated
+   rendering would visibly mangle it, so opt this one image back out. */
+.sponsor-logo {
+  width: min(320px, 74%);
+  height: auto;
+  image-rendering: auto;
 }
 
 .sheen {
@@ -407,4 +492,27 @@ body {
 }
 .animate-pulse-glow {
   animation: pulse-glow 1.2s infinite;
+}
+/* ── Display utilities must win ─────────────────────────────
+   The component classes above are plain unlayered CSS, and unlayered CSS
+   beats anything in a cascade layer — including Tailwind's own
+   `@layer utilities`. Left as-is, `.btn` silently defeated `hidden`, so
+   the desktop-only navbar actions rendered on phones and overflowed the
+   bar. Declaring `display` here instead puts it in @layer components,
+   which sits below utilities, so `hidden` / `sm:inline-flex` / `flex`
+   behave the way the markup expects. */
+@layer components {
+  .eyebrow,
+  .chip,
+  .status,
+  .coin-counter,
+  .btn {
+    display: inline-flex;
+  }
+  .slot {
+    display: flex;
+  }
+  .dot {
+    display: inline-block;
+  }
 }

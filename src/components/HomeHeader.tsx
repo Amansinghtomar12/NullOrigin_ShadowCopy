@@ -25,7 +25,7 @@ export default function HomeHeader({
         <img
           src="/mask.png"
           alt="Null Origin Icon"
-          className="h-9 md:h-14 object-contain filter drop-shadow-[0_0_12px_rgba(255, 51, 85,0.7)] hover:scale-105 transition-all duration-300"
+          className="h-9 md:h-14 object-contain filter drop-shadow-[0_0_12px_rgba(255,51,85,0.7)] hover:scale-105 transition-all duration-300"
           onMouseEnter={() => sound.playHover()}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
@@ -40,7 +40,7 @@ export default function HomeHeader({
           aria-label="Null Origin Portal Status"
           className="flex items-center space-x-2.5 cursor-pointer group select-none bg-transparent border-0 p-0"
         >
-          <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(255, 51, 85,0.8)] group-hover:bg-red-400 flex-shrink-0" aria-hidden="true" />
+          <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(255,51,85,0.8)] group-hover:bg-red-400 flex-shrink-0" aria-hidden="true" />
           <span className="text-[12px] md:text-[14px] tracking-widest text-zinc-100 uppercase font-black font-sans group-hover:text-red-400 transition-colors">
             NULL ORIGIN <span className="hidden sm:inline text-red-500 font-mono">// SECURED PORTAL</span>
           </span>
@@ -71,7 +71,7 @@ export default function HomeHeader({
           onClick={() => navigate("/registration")}
           onMouseEnter={() => sound.playHover()}
           aria-label="Register for Null Origin CTF"
-          className="flex items-center space-x-2 px-4 md:px-5 py-2 bg-red-700 hover:bg-red-600 active:bg-red-800 border border-red-500/80 text-white text-[11px] font-black tracking-widest uppercase rounded-md transition-all shadow-[0_0_18px_rgba(255, 51, 85,0.25)] hover:shadow-[0_0_24px_rgba(255, 51, 85,0.4)] focus:outline-none focus:ring-2 focus:ring-red-400/70 focus:ring-offset-1 focus:ring-offset-black cursor-pointer"
+          className="flex items-center space-x-2 px-4 md:px-5 py-2 bg-red-700 hover:bg-red-600 active:bg-red-800 border border-red-500/80 text-white text-[11px] font-black tracking-widest uppercase rounded-md transition-all shadow-[0_0_18px_rgba(255,51,85,0.25)] hover:shadow-[0_0_24px_rgba(255,51,85,0.4)] focus:outline-none focus:ring-2 focus:ring-red-400/70 focus:ring-offset-1 focus:ring-offset-black cursor-pointer"
         >
           <ArrowRight className="h-3.5 w-3.5 flex-shrink-0" />
           <span>REGISTER</span>

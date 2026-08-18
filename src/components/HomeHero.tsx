@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { sound } from "../hooks/utils/audio";
 
 interface TimeLeft {
@@ -13,35 +14,49 @@ interface HomeHeroProps {
 }
 
 export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
+  // The countdown re-renders this component once a second. Rolling the
+  // confetti inline would re-scatter all 40 pieces on every tick, so the
+  // layout is generated once and kept.
+  const confetti = useMemo(
+    () =>
+      Array.from({ length: 40 }, (_, i) => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 78}%`,
+        size: `${3 + Math.random() * 4}px`,
+        color: i % 2 === 0 ? "var(--red)" : "#3a6ea5",
+      })),
+    []
+  );
+
   return (
     <section
       className="relative w-full overflow-hidden text-center border-b-[3px] border-black"
-      style={{ padding: "180px 0 50px", background: "linear-gradient(180deg, #0b1422 0%, #0e1a2c 45%, #142235 75%, #0a0a12 100%)" }}
+      style={{ padding: "236px 0 56px", background: "linear-gradient(180deg, #0b1422 0%, #0e1a2c 45%, #142235 75%, #0a0a12 100%)" }}
     >
       {/* ── hero scene (moon / confetti / skyline / monitors) ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* moon */}
+        {/* moon — hard colour stops instead of a soft gradient so it reads as
+            banded pixel art like the rest of the scene rather than a blur */}
         <div
-          className="absolute top-16 left-1/2 -translate-x-1/2 w-[120px] h-[120px] md:w-[170px] md:h-[170px] rounded-full"
+          className="absolute top-[92px] left-1/2 -translate-x-1/2 w-[96px] h-[96px] md:w-[124px] md:h-[124px] rounded-full"
           style={{
             background:
-              "radial-gradient(circle at 50% 50%, #ffe9a8 0%, #ffc23c 45%, rgba(255,194,60,0) 72%)",
-            filter: "blur(1px)",
+              "radial-gradient(circle at 50% 50%, #ffe9a8 0 38%, #ffc23c 38% 58%, rgba(255,194,60,.35) 58% 74%, rgba(255,194,60,.12) 74% 88%, rgba(255,194,60,0) 88%)",
           }}
         />
 
         {/* scattered confetti */}
         <div className="absolute inset-0 overflow-hidden">
-          {Array.from({ length: 40 }).map((_, i) => (
+          {confetti.map((c, i) => (
             <span
               key={i}
               className="absolute opacity-85"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 78}%`,
-                width: `${3 + Math.random() * 4}px`,
-                height: `${3 + Math.random() * 4}px`,
-                background: i % 2 === 0 ? "var(--red)" : "#3a6ea5",
+                left: c.left,
+                top: c.top,
+                width: c.size,
+                height: c.size,
+                background: c.color,
               }}
             />
           ))}
@@ -119,11 +134,15 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
       {/* ── content ── */}
       <div className="relative z-10 shell">
-        <div
-          className="font-display uppercase mb-[22px] tracking-[2px] text-[11px] text-[var(--amber)]"
-          style={{ animation: "pulse-dot 1s steps(1) infinite" }}
-        >
-          ▸ INSERT COIN
+        {/* Sits directly over the moon, so it needs its own solid plate —
+            amber-on-amber was unreadable. */}
+        <div className="mb-[22px] flex justify-center">
+          <span
+            className="font-display uppercase tracking-[2px] text-[11px] text-[var(--amber)] bg-[var(--ink)] border-[3px] border-black px-[14px] py-[9px] inline-block"
+            style={{ animation: "pulse-dot 1s steps(1) infinite" }}
+          >
+            ▸ INSERT COIN
+          </span>
         </div>
 
         <h1

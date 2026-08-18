@@ -53,7 +53,7 @@ export default function Footer() {
             <img
               src="/mask.png"
               alt="Null Origin"
-              className="h-9 object-contain filter drop-shadow-[0_0_10px_rgba(255, 51, 85,0.6)]"
+              className="h-9 object-contain filter drop-shadow-[0_0_10px_rgba(255,51,85,0.6)]"
               onError={(e) => {
                 const t = e.target as HTMLImageElement;
                 if (t.src.endsWith("/mask.png")) t.src = "/logo.png";
@@ -178,7 +178,7 @@ export default function Footer() {
             <img
               src="/mask.png"
               alt="CyberHX"
-              className="h-5 object-contain filter drop-shadow-[0_0_6px_rgba(255, 51, 85,0.5)]"
+              className="h-5 object-contain filter drop-shadow-[0_0_6px_rgba(255,51,85,0.5)]"
               onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
             />
             <span className="text-[11px] text-zinc-400 group-hover:text-red-300 tracking-widest uppercase transition-colors font-mono">CyberHX</span>

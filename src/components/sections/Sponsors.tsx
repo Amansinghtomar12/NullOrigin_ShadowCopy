@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Target, Users, Sparkles, Crown, Trophy, Network, Handshake, Mail, Plus } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
-import { PARTNER_EMAIL } from "../../constants";
+import { PARTNER_EMAIL, TITLE_SPONSOR } from "../../constants";
 
 const WHY_SPONSOR = [
   { icon: <Target className="h-4 w-4" />, title: "A vetted audience", desc: "Reach hundreds of motivated security practitioners and students in one focused window." },
@@ -29,6 +29,38 @@ function ReservedSlot({ size = "md", code }: { size?: "title" | "md" | "sm"; cod
   );
 }
 
+/** A confirmed partner: solid panel, real logo, links out to the sponsor. */
+function TitleSponsorSlot({ name, logo, href, blurb }: {
+  name: string; logo: string; href: string; blurb: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="slot slot--title slot--filled px-6 flex-col gap-4 no-underline"
+      onMouseEnter={() => sound.playHover()}
+      onClick={() => sound.playClick()}
+    >
+      <span className="sheen" />
+      <span className="slot-corner-tr" />
+      <span className="slot-corner-bl" />
+      <img
+        src={logo}
+        alt={`${name} — Title Partner of Null Origin CTF`}
+        className="sponsor-logo"
+        loading="lazy"
+      />
+      <span className="text-center text-[13px] leading-relaxed text-[var(--muted)] max-w-[46ch]">
+        {blurb}
+      </span>
+      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[var(--green)]">
+        Confirmed · Title Partner
+      </span>
+    </a>
+  );
+}
+
 function TierHeader({ code, name, perks, allocated, total, icon }: {
   code: string; name: string; perks: string; allocated: number; total: number; icon: ReactNode;
 }) {
@@ -52,10 +84,10 @@ function TierHeader({ code, name, perks, allocated, total, icon }: {
 export default function Sponsors() {
   return (
     <section id="sponsors" className="section relative">
-      <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(255, 51, 85,0.06),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(255,51,85,0.06),transparent_70%)]" />
       <div className="shell relative">
         <Reveal>
-          <SectionHeading tag="Partnership" title="Sponsors & Partners" sub="Null Origin is built with its partners. These tiers are open now — your brand could anchor the next edition." />
+          <SectionHeading tag="Partnership" title="Sponsors & Partners" sub="Null Origin is built with its partners — led this edition by INE. A handful of tiers are still open." />
         </Reveal>
         <div className="grid sm:grid-cols-3 gap-4 mt-12">
           {WHY_SPONSOR.map((w, i) => (
@@ -70,8 +102,8 @@ export default function Sponsors() {
         </div>
         <Reveal delay={120}>
           <div className="glass glass-strong rounded-[26px] p-6 sm:p-8 mt-6">
-            <TierHeader code="Tier 00" name="Title Partner" perks="Naming · keynote · top logo placement" allocated={0} total={1} icon={<Crown className="h-4 w-4" />} />
-            <ReservedSlot size="title" code="Your brand here" />
+            <TierHeader code="Tier 00" name="Title Partner" perks="Naming · keynote · top logo placement" allocated={1} total={1} icon={<Crown className="h-4 w-4" />} />
+            <TitleSponsorSlot {...TITLE_SPONSOR} />
             <div className="mt-9">
               <TierHeader code="Tier 01" name="Gold Sponsors" perks="Prominent logo · category sponsorship" allocated={0} total={3} icon={<Trophy className="h-4 w-4" />} />
               <div className="grid sm:grid-cols-3 gap-4">

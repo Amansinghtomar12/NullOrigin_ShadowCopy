@@ -88,8 +88,8 @@ function AccordionItem({ q, a, open, onToggle }: AccordionItemProps) {
     <div
       className="border transition-all duration-200 cursor-pointer select-none"
       style={{
-        borderColor: open ? "rgba(255, 51, 85,0.5)" : "rgba(63,63,70,0.8)",
-        background: open ? "rgba(255, 51, 85,0.04)" : "rgba(9,9,11,0.7)",
+        borderColor: open ? "rgba(255,51,85,0.5)" : "rgba(63,63,70,0.8)",
+        background: open ? "rgba(255,51,85,0.04)" : "rgba(9,9,11,0.7)",
       }}
       onClick={onToggle}
     >
@@ -107,7 +107,7 @@ function AccordionItem({ q, a, open, onToggle }: AccordionItemProps) {
       </div>
       {open && (
         <div className="px-5 pb-5">
-          <div className="w-full h-[1px] mb-4" style={{ background: "rgba(255, 51, 85,0.2)" }} />
+          <div className="w-full h-[1px] mb-4" style={{ background: "rgba(255,51,85,0.2)" }} />
           <p className="text-[12px] text-zinc-400 leading-relaxed font-sans tracking-wide uppercase">{a}</p>
         </div>
       )}
@@ -124,7 +124,7 @@ export default function FAQ() {
       {/* ── TIMELINE ── */}
       <div>
         <div className="flex items-center gap-3 mb-10">
-          <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255, 51, 85,0.15)", border: "1px solid rgba(255, 51, 85,0.3)" }}>
+          <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,51,85,0.15)", border: "1px solid rgba(255,51,85,0.3)" }}>
             <Calendar className="h-3.5 w-3.5 text-red-500" />
           </div>
           <div>
@@ -138,7 +138,7 @@ export default function FAQ() {
         <div className="relative">
           {/* Center line */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2"
-            style={{ background: "linear-gradient(to bottom, rgba(255, 51, 85,0.6), rgba(63,63,70,0.3), transparent)" }} />
+            style={{ background: "linear-gradient(to bottom, rgba(255,51,85,0.6), rgba(63,63,70,0.3), transparent)" }} />
 
           <div className="flex flex-col gap-10">
             {TIMELINE.map((item, i) => {
@@ -223,7 +223,7 @@ export default function FAQ() {
       {/* ── STAY CONNECTED ── */}
       <div>
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255, 51, 85,0.15)", border: "1px solid rgba(255, 51, 85,0.3)" }}>
+          <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,51,85,0.15)", border: "1px solid rgba(255,51,85,0.3)" }}>
             <MessageCircle className="h-3.5 w-3.5 text-red-500" />
           </div>
           <h2 className="text-xl font-black tracking-wider text-zinc-100" style={{ fontFamily: "'Press Start 2P', monospace" }}>
@@ -253,7 +253,7 @@ export default function FAQ() {
       {/* ── FAQ ACCORDION ── */}
       <div>
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255, 51, 85,0.15)", border: "1px solid rgba(255, 51, 85,0.3)" }}>
+          <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: "rgba(255,51,85,0.15)", border: "1px solid rgba(255,51,85,0.3)" }}>
             <HelpCircle className="h-3.5 w-3.5 text-red-500" />
           </div>
           <div>

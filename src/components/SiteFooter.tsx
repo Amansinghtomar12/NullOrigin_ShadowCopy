@@ -10,7 +10,7 @@ export default function SiteFooter() {
             <img
               src="/mask.png"
               alt=""
-              className="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(255, 51, 85,0.4)]"
+              className="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(255,51,85,0.4)]"
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />
             <div>

@@ -8,11 +8,19 @@ export const EVENT_DATE = new Date("2026-07-10T13:00:00+05:30");
 export const NAV = [
   { id: "about", label: "About" },
   { id: "highlights", label: "Highlights" },
-  // { id: "sponsors", label: "Sponsors" }, // hidden for now — matches hidden section in App.tsx
+  { id: "sponsors", label: "Sponsors" },
   { id: "schedule", label: "Schedule" },
   { id: "prizes", label: "Prizes" },
   { id: "faq", label: "FAQ" },
 ];
+
+/** Confirmed partners, highest tier first. */
+export const TITLE_SPONSOR = {
+  name: "INE",
+  logo: "/ine-logo.svg",
+  href: "https://ine.com/",
+  blurb: "Hands-on cybersecurity and networking training — the team behind eJPT, eCPPT and eWPT.",
+};
 
 export const SOCIALS = [
   {

@@ -38,7 +38,7 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
             <img
               src="/mask.png"
               alt="Null Origin"
-              className="h-9 w-9 object-contain drop-shadow-[0_0_10px_rgba(255, 51, 85,0.45)] group-hover:scale-110 transition-transform"
+              className="h-9 w-9 object-contain drop-shadow-[0_0_10px_rgba(255,51,85,0.45)] group-hover:scale-110 transition-transform"
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />
             <span className="flex flex-col leading-none">

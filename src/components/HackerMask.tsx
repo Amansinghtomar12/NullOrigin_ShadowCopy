@@ -48,7 +48,7 @@ export default function HackerMask() {
             src={imgSrc}
             alt="Null Origin CTF Mask"
             referrerPolicy="no-referrer"
-            className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255, 51, 85,0.25)] brightness-75 contrast-125"
+            className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,51,85,0.25)] brightness-75 contrast-125"
           />
           {/* Cyber Overlay Details */}
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
@@ -72,7 +72,7 @@ export default function HackerMask() {
           viewBox="0 0 400 500"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full filter drop-shadow-[0_0_15px_rgba(255, 51, 85,0.15)]"
+          className="w-full h-full filter drop-shadow-[0_0_15px_rgba(255,51,85,0.15)]"
         >
           {/* Definitions for gradients and masking */}
           <defs>
