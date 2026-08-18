@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Target, Users, Sparkles, Crown, Trophy, Network, Handshake, Mail, Plus } from "lucide-react";
+import { Target, Users, Sparkles, Crown, Trophy, Network, Handshake, Mail, Plus, Check, ExternalLink } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 import { PARTNER_EMAIL, TITLE_SPONSOR } from "../../constants";
@@ -29,35 +29,71 @@ function ReservedSlot({ size = "md", code }: { size?: "title" | "md" | "sm"; cod
   );
 }
 
-/** A confirmed partner: solid panel, real logo, links out to the sponsor. */
-function TitleSponsorSlot({ name, logo, href, blurb }: {
-  name: string; logo: string; href: string; blurb: string;
+/**
+ * The confirmed title partner, given real estate rather than a logo tile:
+ * artwork on one side, who they are and what the package covers on the
+ * other. Open tiers below still use the dashed placeholder treatment.
+ */
+function TitlePartnerFeature({ name, logo, href, tier, blurb, about, includes }: {
+  name: string; logo: string; href: string; tier: string;
+  blurb: string; about: string; includes: string[];
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="slot slot--title slot--filled px-6 flex-col gap-4 no-underline"
-      onMouseEnter={() => sound.playHover()}
-      onClick={() => sound.playClick()}
-    >
+    <div className="slot slot--filled slot--feature flex-col lg:flex-row items-stretch gap-0 p-0 text-left">
       <span className="sheen" />
       <span className="slot-corner-tr" />
       <span className="slot-corner-bl" />
-      <img
-        src={logo}
-        alt={`${name} — Title Partner of Null Origin CTF`}
-        className="sponsor-logo"
-        loading="lazy"
-      />
-      <span className="text-center text-[13px] leading-relaxed text-[var(--muted)] max-w-[46ch]">
-        {blurb}
-      </span>
-      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[var(--green)]">
-        Confirmed · Title Partner
-      </span>
-    </a>
+
+      {/* logo panel */}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${name} — ${tier} of Null Origin CTF`}
+        className="group relative grid place-items-center shrink-0 px-8 py-10 lg:w-[38%] bg-[var(--ink)] border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black"
+        onMouseEnter={() => sound.playHover()}
+        onClick={() => sound.playClick()}
+      >
+        <img
+          src={logo}
+          alt={name}
+          className="sponsor-logo transition-transform group-hover:scale-105"
+        />
+      </a>
+
+      {/* content panel */}
+      <div className="relative flex-1 p-6 sm:p-8">
+        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-[var(--green)] flex items-center gap-2">
+          <span className="dot" aria-hidden="true" /> Confirmed · {tier}
+        </p>
+        <p className="font-display text-white text-[15px] tracking-wide mt-3 leading-snug">
+          {blurb}
+        </p>
+        <p className="text-[13px] leading-relaxed text-[var(--muted)] mt-3">{about}</p>
+
+        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-red-400 mt-6 mb-3">
+          What the partnership covers
+        </p>
+        <ul className="grid sm:grid-cols-2 gap-x-5 gap-y-2">
+          {includes.map((item) => (
+            <li key={item} className="flex items-start gap-2.5 text-[12.5px] text-[var(--muted)]">
+              <Check className="h-3.5 w-3.5 mt-[3px] shrink-0 text-[var(--green)]" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-ghost mt-7"
+          onMouseEnter={() => sound.playHover()}
+        >
+          Visit {name} <ExternalLink className="h-3.5 w-3.5" />
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -103,7 +139,7 @@ export default function Sponsors() {
         <Reveal delay={120}>
           <div className="glass glass-strong rounded-[26px] p-6 sm:p-8 mt-6">
             <TierHeader code="Tier 00" name="Title Partner" perks="Naming · keynote · top logo placement" allocated={1} total={1} icon={<Crown className="h-4 w-4" />} />
-            <TitleSponsorSlot {...TITLE_SPONSOR} />
+            <TitlePartnerFeature {...TITLE_SPONSOR} />
             <div className="mt-9">
               <TierHeader code="Tier 01" name="Gold Sponsors" perks="Prominent logo · category sponsorship" allocated={0} total={3} icon={<Trophy className="h-4 w-4" />} />
               <div className="grid sm:grid-cols-3 gap-4">

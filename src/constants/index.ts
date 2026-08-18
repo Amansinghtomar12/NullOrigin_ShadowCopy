@@ -14,12 +14,28 @@ export const NAV = [
   { id: "faq", label: "FAQ" },
 ];
 
-/** Confirmed partners, highest tier first. */
+/**
+ * Confirmed partners, highest tier first.
+ *
+ * `includes` mirrors what Tier 00 is advertised as covering in the sponsor
+ * tier table — keep the two in step if the package changes. Anything more
+ * specific that INE is providing (prizes, vouchers, lab access, a speaker
+ * name) belongs here too, but add it only once it is actually agreed.
+ */
 export const TITLE_SPONSOR = {
   name: "INE",
   logo: "/ine-logo.svg",
   href: "https://ine.com/",
+  tier: "Title Partner",
   blurb: "Hands-on cybersecurity and networking training — the team behind eJPT, eCPPT and eWPT.",
+  about:
+    "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems — which makes them a natural fit to anchor a competition built on the same skills.",
+  includes: [
+    "Event naming and top billing across the site",
+    "Keynote slot in the opening broadcast",
+    "Primary logo placement on the platform and stream",
+    "Direct line to standout competitors for recruiting",
+  ],
 };
 
 export const SOCIALS = [

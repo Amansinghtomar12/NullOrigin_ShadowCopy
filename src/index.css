@@ -425,12 +425,30 @@ input[type="file"] {
   box-shadow: 4px 4px 0 var(--green);
 }
 
+/* The title partner gets a two-panel layout rather than a logo tile, so it
+   opts out of the centred placeholder geometry. */
+.slot--feature {
+  min-height: 0;
+  padding-block: 0;
+  text-align: left;
+  /* .slot centres its single placeholder child; this variant has two full
+     panels instead, which need to fill the box and sit flush. */
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
 /* Sponsor artwork is real brand vector art — the global pixelated
    rendering would visibly mangle it, so opt this one image back out. */
 .sponsor-logo {
   width: min(320px, 74%);
   height: auto;
   image-rendering: auto;
+}
+
+/* In the slim band under the hero the logo sits inline with text, so it
+   is sized against that line rather than against a panel. */
+.sponsor-logo--strip {
+  width: clamp(120px, 22vw, 168px);
 }
 
 .sheen {
