@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap link for search engines
+Sitemap: https://nullorigin.cyberhx.com/sitemap.xml

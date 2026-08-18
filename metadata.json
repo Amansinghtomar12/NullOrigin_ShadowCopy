@@ -1,0 +1,6 @@
+{
+  "name": "Null Origin CTF",
+  "description": "An interactive cyber security Capture The Flag (CTF) pre-registration and teaser hacking platform featuring retro-terminal interfaces, cryptographic challenges, and interactive puzzles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

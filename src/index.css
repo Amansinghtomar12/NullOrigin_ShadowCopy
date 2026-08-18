@@ -1,0 +1,410 @@
+@import "tailwindcss";
+
+/* ── Tailwind theme overrides (wowi_wowi pixel-arcade palette) ──────── */
+@theme {
+  /* fonts: VT323 = body/mono, Press Start 2P = display/headings */
+  --font-sans: 'VT323', monospace;
+  --font-mono: 'VT323', monospace;
+  --font-display: 'Press Start 2P', monospace;
+
+  /* red accent → wowi red */
+  --color-red-300: #ff9fb0;
+  --color-red-400: #ff6b85;
+  --color-red-500: #ff3355;
+  --color-red-600: #e22045;
+  --color-red-700: #b81636;
+  --color-red-800: #8a1029;
+  --color-red-900: #5c0a1c;
+  --color-red-950: #2e0510;
+
+  /* green accent → wowi green */
+  --color-green-400: #6dff96;
+  --color-green-500: #39ff6a;
+  --color-green-600: #1fdc52;
+
+  /* amber accent → wowi amber */
+  --color-amber-400: #ffc23c;
+  --color-amber-800: #6e4f12;
+  --color-amber-900: #44300b;
+
+  /* zinc → wowi ink / panel / dim scale */
+  --color-zinc-100: #f4f6f5;
+  --color-zinc-300: #cfd3d6;
+  --color-zinc-400: #9aa1a6;
+  --color-zinc-500: #7c8389;
+  --color-zinc-600: #5e6469;
+  --color-zinc-700: #3c3f44;
+  --color-zinc-800: #232631;
+  --color-zinc-900: #15151f;
+  --color-zinc-950: #0a0a12;
+
+  /* emerald (used for live/success dots) → wowi green */
+  --color-emerald-500: #39ff6a;
+}
+
+/* ── Design tokens ─────────────────────────────────────── */
+:root {
+  --bg: #0a0a12;
+  --bg2: #101018;
+  --surface: #15151f;
+  --panel: #15151f;
+  --ink: #0a0a12;
+  --line: #000000;
+  --line-strong: #000000;
+  --text: #f4f6f5;
+  --muted: #7c8389;
+  --faint: #5e6469;
+  --green: #39ff6a;
+  --red: #ff3355;
+  --amber: #ffc23c;
+  --white: #f4f6f5;
+  --dim: #7c8389;
+  --radius: 0px;
+  --radius-sm: 0px;
+}
+
+* { image-rendering: pixelated; }
+
+html {
+  scroll-behavior: smooth;
+  /* Offsets anchor-link jumps (#about, #schedule, etc.) so the fixed
+     navbar never overlaps the target section's top content. */
+  scroll-padding-top: 112px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0),
+    linear-gradient(rgba(57,255,106,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,255,106,.035) 1px, transparent 1px);
+  background-size: 24px 24px, 96px 96px, 96px 96px;
+}
+
+::selection { background: var(--red); color: #000; }
+
+/* Kill backdrop blur (glassmorphism) — pixel-art panels are solid */
+.backdrop-blur, .backdrop-blur-sm, .backdrop-blur-md, .backdrop-blur-lg, .backdrop-blur-xl {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Kill rounded corners everywhere except deliberate circles (rounded-full) for the pixel-art look */
+.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl,
+.rounded-t, .rounded-b, .rounded-l, .rounded-r,
+.rounded-t-lg, .rounded-b-lg, .rounded-t-xl, .rounded-b-xl, .rounded-t-2xl, .rounded-b-2xl {
+  border-radius: 0 !important;
+}
+
+/* ── Layout shell ───────────────────────────────────────── */
+.shell {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ── Section spacing ────────────────────────────────────── */
+.section {
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+/* ── Chunky pixel block util ─────────────────────────────── */
+.block-px {
+  border: 3px solid var(--line);
+  box-shadow: 6px 6px 0 var(--line);
+}
+
+/* ── "Glass" panel → solid pixel panel (no blur in pixel-art) ───────── */
+.glass {
+  background: var(--panel);
+  border: 3px solid var(--line) !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 var(--line);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.glass-strong {
+  background: var(--bg2);
+  border: 3px solid var(--line) !important;
+  box-shadow: 8px 8px 0 var(--red);
+}
+
+.glass-hover {
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.glass-hover:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 var(--line);
+  border-color: var(--green) !important;
+  background: var(--panel);
+}
+
+/* ── Hairline ───────────────────────────────────────────── */
+.hairline {
+  width: 100%;
+  height: 3px;
+  background: var(--line);
+}
+
+/* ── Grid background ────────────────────────────────────── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(57,255,106,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,255,106,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Typography ─────────────────────────────────────────── */
+.h-display {
+  font-family: 'Press Start 2P', monospace;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--white);
+  line-height: 1.5;
+  -webkit-text-stroke: 1.5px #000;
+  text-shadow: 4px 4px 0 var(--red), 8px 8px 0 var(--green);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--dim);
+  background: var(--panel);
+  padding: 10px 14px;
+  border: 3px solid var(--line);
+}
+.eyebrow::before {
+  content: "";
+  width: 4px;
+  height: 14px;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.eyebrow--center {
+  justify-content: center;
+}
+
+.lead {
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: var(--muted);
+  line-height: 1.6;
+  font-family: 'VT323', monospace;
+}
+
+.data-num {
+  font-family: 'Press Start 2P', monospace;
+  font-weight: 400;
+  color: var(--green);
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+/* ── Chip / tag ─────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 0;
+  border: 3px solid var(--line);
+  background: var(--panel);
+  font-size: 14px;
+  color: var(--dim);
+  font-family: 'VT323', monospace;
+  letter-spacing: 0.5px;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.chip:hover {
+  border-color: var(--green);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--line);
+}
+
+/* ── Status badge ───────────────────────────────────────── */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--dim);
+  border: 3px solid var(--line);
+  border-radius: 0;
+  background: var(--panel);
+  padding: 7px 12px;
+}
+
+/* ── Coin counter (hero countdown) ──────────────────────── */
+.coin-counter {
+  display: inline-flex;
+  gap: 24px;
+  padding: 18px 26px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.coin { text-align: center; }
+.coin .n {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 22px;
+  color: var(--green);
+}
+.coin.r .n { color: var(--red); }
+.coin .l {
+  font-size: 13px;
+  color: var(--dim);
+  letter-spacing: 1px;
+  margin-top: 6px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: var(--green);
+  border: 1px solid #000;
+  box-shadow: none;
+  animation: pulse-dot 1s steps(1) infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* ── Buttons (pxbtn) ────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s;
+  text-decoration: none;
+  border: 3px solid var(--line);
+  box-shadow: 4px 4px 0 var(--line);
+}
+.btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.btn-primary {
+  background: var(--red);
+  color: #000;
+  border: 3px solid var(--line);
+  box-shadow: 4px 4px 0 var(--line);
+}
+.btn-primary:hover {
+  background: var(--red);
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.btn-ghost {
+  background: var(--white);
+  color: #000;
+  border: 3px solid var(--line);
+}
+.btn-ghost:hover {
+  background: var(--white);
+  color: #000;
+}
+
+/* ── Sponsor slot ───────────────────────────────────────── */
+.slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  border: 3px dashed var(--green);
+  background: var(--panel);
+  overflow: hidden;
+  padding-block: 28px;
+}
+
+.slot--title {
+  min-height: 160px;
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    rgba(57, 255, 106, 0.08) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: sheen 3s linear infinite;
+}
+
+@keyframes sheen {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+.slot-corner-tr {
+  position: absolute; top: 8px; right: 8px;
+  width: 12px; height: 12px;
+  border-top: 2px solid var(--green);
+  border-right: 2px solid var(--green);
+}
+
+.slot-corner-bl {
+  position: absolute; bottom: 8px; left: 8px;
+  width: 12px; height: 12px;
+  border-bottom: 2px solid var(--green);
+  border-left: 2px solid var(--green);
+}
+
+/* ── Scroll reveal ──────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Floating animation ─────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ── Pulse glow ─────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 4px 4px 0 var(--line); }
+  50%       { box-shadow: 4px 4px 0 var(--green); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 1.2s infinite;
+}
