@@ -57,14 +57,14 @@ export default function App() {
 
         <main id="main" className="stage3d">
         {/* New design sections */}
-        <div className="depth"><About /></div>
-        <div className="depth"><Highlights /></div>
-        <div className="depth"><Sponsors /></div>
-        <div className="depth"><Impact /></div>
-        <div className="depth"><Schedule /></div>
-        <div className="depth"><Prizes /></div>
-        <div className="depth"><Closer /></div>
-        <div className="depth"><FAQ /></div>
+        <About />
+        <Highlights />
+        <Sponsors />
+        <Impact />
+        <Schedule />
+        <Prizes />
+        <Closer />
+        <FAQ />
         </main>
 
         <SiteFooter />

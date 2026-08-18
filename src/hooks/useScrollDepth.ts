@@ -2,25 +2,35 @@ import { useEffect } from "react";
 import { useReducedMotion } from "./useReducedMotion";
 
 /**
- * Drives the scroll-linked 3D transform on every `.depth` element.
+ * Drives the scroll-linked 3D pose of every `.d3` element.
  *
- * Each element gets a normalised progress value (`--p`, 0 at the bottom
- * of the viewport, 1 once it has risen into the reading band) which CSS
- * turns into rotateX / translateZ / opacity. Doing the maths here and the
- * transform in CSS keeps the JS to one number per element per frame.
+ * The pose is keyed to where the element sits relative to the middle of
+ * the viewport, not to whether it has "entered" — so it is a continuous
+ * pivot rather than a one-shot entrance:
  *
- * Only elements currently on screen are measured — an IntersectionObserver
- * maintains that set, so a long page does not cost a full-document sweep
- * on every scroll frame.
+ *   below the middle   →  t = +1   lying back, pushed away
+ *   at the middle      →  t =  0   square on, full size, sharp
+ *   above the middle   →  t = -1   tipped the other way, pushed away
+ *
+ * An entrance animation was the wrong model here. Sections are taller
+ * than the viewport, so a one-shot on the wrapper finished while the
+ * section's empty top padding was crossing the fold and everything was
+ * already flat by the time its content was on screen. Keying to distance
+ * from centre means the thing you are actually reading is always the
+ * thing that is moving.
+ *
+ * Two custom properties are written per element: `--t` (signed, for
+ * direction) and `--a` (absolute, for magnitude). CSS cannot portably
+ * take abs() yet, and computing it here is free.
  */
 export function useScrollDepth() {
   const reduced = useReducedMotion();
 
   useEffect(() => {
     if (reduced) {
-      // Ensure nothing is left mid-transform if the setting flips on.
-      document.querySelectorAll<HTMLElement>(".depth").forEach((el) => {
-        el.style.setProperty("--p", "1");
+      document.querySelectorAll<HTMLElement>(".d3").forEach((el) => {
+        el.style.setProperty("--t", "0");
+        el.style.setProperty("--a", "0");
       });
       return;
     }
@@ -30,14 +40,17 @@ export function useScrollDepth() {
 
     const measure = () => {
       frame = 0;
-      const vh = window.innerHeight;
+      const mid = window.innerHeight / 2;
+      // Full tilt is reached a little beyond the viewport edge, so nothing
+      // is at its extreme pose while still comfortably readable.
+      const reach = window.innerHeight * 0.72;
+
       for (const el of visible) {
         const r = el.getBoundingClientRect();
-        // 0 while the top edge is still at/below the fold, reaching 1 by
-        // the time it has travelled a third of the viewport upward.
-        const raw = (vh - r.top) / (vh * 0.62);
-        const p = Math.max(0, Math.min(1, raw));
-        el.style.setProperty("--p", p.toFixed(3));
+        const centre = r.top + r.height / 2;
+        const t = Math.max(-1, Math.min(1, (centre - mid) / reach));
+        el.style.setProperty("--t", t.toFixed(4));
+        el.style.setProperty("--a", Math.abs(t).toFixed(4));
       }
     };
 
@@ -50,22 +63,22 @@ export function useScrollDepth() {
         for (const e of entries) {
           const el = e.target as HTMLElement;
           if (e.isIntersecting) visible.add(el);
-          else {
-            visible.delete(el);
-            // Past the top of the screen it should stay fully resolved,
-            // not snap back to its entry pose.
-            if (e.boundingClientRect.top < 0) el.style.setProperty("--p", "1");
-          }
+          else visible.delete(el);
         }
         schedule();
       },
-      { rootMargin: "10% 0px 10% 0px" }
+      // Generous margin so an element is already posed correctly before
+      // it becomes visible, rather than snapping on arrival.
+      { rootMargin: "40% 0px 40% 0px" }
     );
 
-    const els = document.querySelectorAll<HTMLElement>(".depth");
-    els.forEach((el) => io.observe(el));
+    const observe = () => {
+      document.querySelectorAll<HTMLElement>(".d3").forEach((el) => io.observe(el));
+    };
 
+    observe();
     measure();
+
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
 

@@ -25,7 +25,7 @@ export function useScrollReveal() {
             }
           });
         },
-        { threshold: 0, rootMargin: "0px 0px -5% 0px" }
+        { threshold: 0, rootMargin: "0px 0px 25% 0px" }
       );
 
       els.forEach((e) => {
@@ -34,7 +34,7 @@ export function useScrollReveal() {
         // observer — this is what stops the page looking "blank" below the
         // fold when the intersection callback is slow to fire.
         const rect = e.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 1.15) {
+        if (rect.top < window.innerHeight * 1.35) {
           e.classList.add("in");
         } else {
           io!.observe(e);
@@ -71,7 +71,7 @@ export function Reveal({
 }) {
   return (
     <div
-      className={`reveal ${className}`}
+      className={`reveal d3 ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

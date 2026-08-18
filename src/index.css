@@ -544,14 +544,14 @@ input[type="file"] {
 }
 
 /* ── Scroll reveal ───────────────────────────────────────── */
+/* Opacity only. The 3D pose below owns `transform`, and it is written
+   every frame from scroll, so a transition on it would lag the scroll. */
 .reveal {
   opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2, .8, .2, 1);
+  transition: opacity 0.5s ease;
 }
 .reveal.in {
   opacity: 1;
-  transform: none;
 }
 
 /* ── Reading progress ────────────────────────────────────── */
@@ -932,33 +932,36 @@ input[type="file"] {
   perspective-origin: 50% 42%;
 }
 
-/* ── Scroll-linked depth ─────────────────────────────────────
-   Sections rise out of Z-depth as they enter the reading band:
-   far away, pitched back and dim at --p 0; flush and sharp at 1. */
-.depth {
-  --p: 0;
-  transform-style: preserve-3d;
+/* ── Scroll-linked 3D pose ──────────────────────────────────
+   Every card and heading pivots continuously as it crosses the screen:
+   lying back and pushed away low down, square on and sharp at the
+   middle, tipped the other way as it leaves the top. Because the pose
+   is keyed to distance from the centre of the viewport, whatever you
+   are reading is always the thing that is moving.
+
+   `perspective()` is part of this element's own transform rather than
+   inherited from an ancestor — an ancestor's perspective is flattened
+   by any `overflow` clip between here and there, and there is one.
+
+   Note the pose is sharpest and largest exactly at the reading
+   position, so the tilt never costs legibility of the text in focus. */
+.d3 {
+  --t: 0;
+  --a: 0;
+  --dir: 1;
   transform:
-    translate3d(0, calc((1 - var(--p)) * 54px), calc((1 - var(--p)) * -340px))
-    rotateX(calc((1 - var(--p)) * 12deg));
-  opacity: calc(0.15 + var(--p) * 0.85);
-  will-change: transform, opacity;
+    perspective(1200px)
+    translateZ(calc(var(--a) * -210px))
+    rotateX(calc(var(--t) * 13deg))
+    rotateY(calc(var(--t) * var(--dir) * 4deg))
+    scale(calc(1 - var(--a) * 0.06));
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
-/* Alternating lean gives the scroll a rhythm rather than one repeated
-   move — odd sections swing in from the left, even from the right. */
-.depth:nth-of-type(odd) {
-  transform:
-    translate3d(calc((1 - var(--p)) * -26px), calc((1 - var(--p)) * 54px), calc((1 - var(--p)) * -340px))
-    rotateX(calc((1 - var(--p)) * 12deg))
-    rotateY(calc((1 - var(--p)) * 5deg));
-}
-.depth:nth-of-type(even) {
-  transform:
-    translate3d(calc((1 - var(--p)) * 26px), calc((1 - var(--p)) * 54px), calc((1 - var(--p)) * -340px))
-    rotateX(calc((1 - var(--p)) * 12deg))
-    rotateY(calc((1 - var(--p)) * -5deg));
-}
+/* Neighbours swing opposite ways, so a grid of cards fans rather than
+   moving as one slab. */
+.d3:nth-child(even) { --dir: -1; }
 
 /* ── Pointer tilt ────────────────────────────────────────────
    Cards rotate toward the cursor and lift on the Z axis. The inner
