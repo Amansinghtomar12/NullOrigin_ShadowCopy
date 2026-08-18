@@ -1,5 +1,7 @@
+import { useRef } from "react";
 import { sound } from "../hooks/utils/audio";
 import SkyParallax from "./SkyParallax";
+import { useParallax } from "../hooks/useParallax";
 
 interface TimeLeft {
   days: string;
@@ -14,6 +16,14 @@ interface HomeHeroProps {
 }
 
 export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
+  // The scene and the content drift against the pointer at different
+  // depths. Content moves least — enough to feel alive, not enough to
+  // make anyone chase a button.
+  const scene = useRef<HTMLDivElement | null>(null);
+  const content = useRef<HTMLDivElement | null>(null);
+  useParallax(scene, { strength: 26 });
+  useParallax(content, { strength: 16, scroll: false });
+
   return (
     <section
       className="relative w-full overflow-hidden text-center border-b-[3px] border-black"
@@ -22,10 +32,11 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
       {/* ── hero scene (sky / moon / skyline / monitors) ── */}
       <SkyParallax />
 
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div ref={scene} className="absolute inset-0 z-0 pointer-events-none">
         {/* moon — hard colour stops instead of a soft gradient so it reads as
             banded pixel art like the rest of the scene rather than a blur */}
         <div
+          data-depth="0.45"
           className="absolute top-[92px] left-1/2 -translate-x-1/2 w-[96px] h-[96px] md:w-[124px] md:h-[124px] rounded-full"
           style={{
             background:
@@ -35,6 +46,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
         {/* pixel skyline */}
         <svg
+          data-depth="0.14"
           className="absolute left-0 right-0 bottom-0 w-full block h-[180px] md:h-[220px]"
           viewBox="0 0 1440 220"
           preserveAspectRatio="none"
@@ -104,10 +116,10 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
       </div>
 
       {/* ── content ── */}
-      <div className="relative z-10 shell">
+      <div ref={content} className="relative z-10 shell">
         {/* Sits over the moon, so it carries its own plate — amber text on
             the amber glow was unreadable. */}
-        <div className="mb-6 flex justify-center">
+        <div data-depth="0.55" className="mb-6 flex justify-center">
           <span className="status !text-[11px] !text-[var(--amber)] !border-[rgba(255,194,60,.45)] !bg-[rgba(255,194,60,.08)]">
             <span className="dot !bg-[var(--amber)] !shadow-[0_0_10px_var(--amber)]" />
             Insert coin
@@ -115,6 +127,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
         </div>
 
         <h1
+          data-depth="0.9"
           className="h-display"
           style={{ fontSize: "clamp(28px,8vw,72px)", lineHeight: "1.1" }}
         >
@@ -123,12 +136,12 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
           ORIGIN
         </h1>
 
-        <p className="lead mx-auto mt-[34px] max-w-[50ch]">
+        <p data-depth="0.65" className="lead mx-auto mt-[34px] max-w-[50ch]">
           Select your domain. Beat the clock. Capture every flag — a 24-hour CTF across six attack
           levels.
         </p>
 
-        <div className="flex gap-3 justify-center mt-[28px] flex-wrap px-4">
+        <div data-depth="0.4" className="flex gap-3 justify-center mt-[28px] flex-wrap px-4">
           <button
             type="button"
             onClick={() => { onRegister(); sound.playClick(); }}
@@ -146,7 +159,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
           </a>
         </div>
 
-        <div className="coin-counter glass inline-flex mt-[36px] mx-4">
+        <div data-depth="0.25" className="coin-counter glass inline-flex mt-[36px] mx-4">
           <div className="coin">
             <div className="n">{timeLeft.days}</div>
             <div className="l">DAYS</div>

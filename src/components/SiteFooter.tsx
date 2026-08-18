@@ -1,4 +1,4 @@
-import { NAV, SOCIALS, PARTNER_EMAIL, ORG_SITE, CERT_PARTNER } from "../constants";
+import { NAV, SOCIALS, PARTNER_EMAIL, ORG_SITE, PARTNERS } from "../constants";
 
 export default function SiteFooter() {
   return (
@@ -79,24 +79,29 @@ export default function SiteFooter() {
           <div className="mt-4 status"><span className="dot" /> Portal secured</div>
         </div>
 
-        <div className="col-span-2 lg:col-span-4 border-t border-[var(--line)] pt-6 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-3">
-          <p className="font-mono text-[9.5px] tracking-[0.2em] uppercase text-[var(--faint)]">
-            {CERT_PARTNER.tier}
-          </p>
-          <a
-            href={CERT_PARTNER.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${CERT_PARTNER.name} — ${CERT_PARTNER.tier} of Null Origin CTF`}
-            className="inline-flex"
-          >
-            <img
-              src={CERT_PARTNER.logo}
-              alt={CERT_PARTNER.name}
-              className="sponsor-logo sponsor-logo--strip hover:opacity-80 transition-opacity"
-              loading="lazy"
-            />
-          </a>
+        <div className="col-span-2 lg:col-span-4 border-t border-[var(--line-soft)] pt-7 flex flex-col sm:flex-row items-center justify-center gap-x-12 gap-y-5 flex-wrap">
+          {PARTNERS.map((p) => (
+            <a
+              key={p.name}
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${p.name} — ${p.tier} of Null Origin CTF`}
+              className="inline-flex flex-col items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-[var(--faint)]">
+                {p.tier}
+              </span>
+              <span className={p.plate ? "sponsor-plate" : undefined}>
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  className="sponsor-logo sponsor-logo--strip"
+                  loading="lazy"
+                />
+              </span>
+            </a>
+          ))}
         </div>
       </div>
 

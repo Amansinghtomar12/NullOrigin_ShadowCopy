@@ -27,6 +27,8 @@ export const CERT_PARTNER = {
   logo: "/ine-logo.svg",
   href: "https://ine.com/",
   tier: "Certification Partner",
+  /** Their logo is the orange-on-dark variant, so it needs no plate. */
+  plate: false,
   blurb: "Hands-on cybersecurity and networking training — the team behind eJPT, eCPPT and eWPT.",
   about:
     "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems.",
@@ -35,6 +37,26 @@ export const CERT_PARTNER = {
     "Featured across the Null Origin site and channels",
   ],
 };
+
+export const PLATFORM_PARTNER = {
+  name: "Unstop",
+  logo: "/unstop-logo.svg",
+  href: "https://unstop.com/",
+  tier: "Registration Partner",
+  /** Unstop's mark is solid navy, so it sits on a light plate to stay
+      legible on the dark background without recolouring their brand. */
+  plate: true,
+  blurb: "Where teams find the competition and sign up to play.",
+  about:
+    "Unstop hosts competitions, hackathons and hiring challenges for students and early-career professionals across India and beyond. Registration for Null Origin runs through their platform, which is also how a large part of our field gets found.",
+  includes: [
+    "Team registration and entry handling",
+    "Listing Null Origin to their competitor community",
+  ],
+};
+
+/** Everyone actually confirmed, in the order they appear on the page. */
+export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER];
 
 export const SOCIALS = [
   {

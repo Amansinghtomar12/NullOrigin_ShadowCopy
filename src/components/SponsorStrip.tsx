@@ -1,45 +1,45 @@
-import { CERT_PARTNER } from "../constants";
+import { PARTNERS } from "../constants";
 import { sound } from "../hooks/utils/audio";
 
 /**
- * Slim partner band that sits immediately under the hero, so our
- * certification partner is visible without scrolling to the Sponsors
- * section.
+ * Slim partner band under the hero, so who backs the event is visible
+ * without scrolling to the Sponsors section.
  */
 export default function SponsorStrip() {
-  const { name, logo, href, tier } = CERT_PARTNER;
-
   return (
     <aside
-      aria-label={`${tier}: ${name}`}
-      className="relative border-b-[3px] border-black bg-[var(--bg2)]"
+      aria-label="Our partners"
+      className="relative border-b-[3px] border-[rgba(255,51,85,.28)] bg-[var(--bg2)]"
     >
       <div className="shell py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-4">
-          <span className="font-display uppercase text-[10px] tracking-[2px] text-[var(--muted)] flex items-center gap-2.5 whitespace-nowrap">
-            <span className="dot" aria-hidden="true" />
-            {tier}
-          </span>
-
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${name} — ${tier} of Null Origin CTF`}
-            className="group inline-flex items-center"
-            onMouseEnter={() => sound.playHover()}
-            onClick={() => sound.playClick()}
-          >
-            <img
-              src={logo}
-              alt={name}
-              className="sponsor-logo sponsor-logo--strip transition-transform group-hover:scale-105"
-            />
-          </a>
+        <div className="flex flex-col sm:flex-row items-center justify-center flex-wrap gap-x-10 gap-y-5">
+          {PARTNERS.map((p) => (
+            <a
+              key={p.name}
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${p.name} — ${p.tier} of Null Origin CTF`}
+              className="group inline-flex flex-col items-center gap-2"
+              onMouseEnter={() => sound.playHover()}
+              onClick={() => sound.playClick()}
+            >
+              <span className="font-mono text-[9px] font-bold tracking-[0.22em] uppercase text-[var(--faint)] group-hover:text-[var(--green)] transition-colors">
+                {p.tier}
+              </span>
+              <span className={p.plate ? "sponsor-plate" : undefined}>
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  className="sponsor-logo sponsor-logo--strip transition-transform group-hover:scale-105"
+                />
+              </span>
+            </a>
+          ))}
 
           <a
             href="#sponsors"
-            className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--muted)] hover:text-[var(--green)] transition-colors whitespace-nowrap"
+            className="font-mono text-[11px] font-bold tracking-[0.16em] uppercase text-[var(--muted)] hover:text-[var(--green)] transition-colors whitespace-nowrap"
             onMouseEnter={() => sound.playHover()}
           >
             See all partners →

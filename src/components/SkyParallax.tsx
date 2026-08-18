@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useReducedMotion } from "../hooks/useReducedMotion";
+import { useMemo, useRef } from "react";
+import { useParallax } from "../hooks/useParallax";
 
 /**
  * Layered night sky behind the hero. Every element is generated here —
@@ -63,58 +63,13 @@ function Cloud({ className, opacity }: { className: string; opacity: number }) {
 }
 
 export default function SkyParallax() {
-  const reduced = useReducedMotion();
   const root = useRef<HTMLDivElement | null>(null);
 
   const farStars = useMemo(() => makeStars(70, 20260710), []);
   const nearStars = useMemo(() => makeStars(26, 99173), []);
 
-  useEffect(() => {
-    if (reduced) return;
-    const el = root.current;
-    if (!el) return;
+  useParallax(root, { strength: 34 });
 
-    const layers: HTMLElement[] = Array.from(el.querySelectorAll("[data-depth]"));
-    let frame = 0;
-    let px = 0;
-    let py = 0;
-
-    const apply = () => {
-      frame = 0;
-      // Only the hero's own scroll range matters; past that the section
-      // is gone and the transform is wasted work.
-      const scrolled = Math.min(window.scrollY, el.offsetHeight || 1);
-      for (const layer of layers) {
-        const depth = Number(layer.dataset.depth || 0);
-        const x = px * depth * 34;
-        const y = py * depth * 22 + scrolled * depth * 0.28;
-        layer.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
-      }
-    };
-
-    const schedule = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(apply);
-    };
-
-    const onPointer = (e: PointerEvent) => {
-      // Normalised to roughly -1..1 from the centre of the viewport.
-      px = (e.clientX / window.innerWidth) * 2 - 1;
-      py = (e.clientY / window.innerHeight) * 2 - 1;
-      schedule();
-    };
-
-    apply();
-    window.addEventListener("pointermove", onPointer, { passive: true });
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("pointermove", onPointer);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, [reduced]);
 
   return (
     <div ref={root} className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">

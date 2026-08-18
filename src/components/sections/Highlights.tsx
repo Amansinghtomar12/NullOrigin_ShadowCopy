@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
+import { SAMPLE_CIPHER, isSampleFlag } from "../../constants/challenge";
 
 const PILLARS = [
   { icon: <Flag className="h-5 w-5" />, title: "Capture The Flag", desc: "A 24-hour Jeopardy-style battle across six domains, from approachable warm-ups to expert-grade exploitation." },
@@ -27,7 +28,7 @@ function SampleChallenge() {
   const [status, setStatus] = useState<"idle" | "correct" | "incorrect">("idle");
   const verify = (e: FormEvent) => {
     e.preventDefault();
-    if (input.trim().toLowerCase() === "flag{nh11_rot13_d3c0d3}") {
+    if (isSampleFlag(input)) {
       setStatus("correct");
       sound.playSuccess();
     } else {
@@ -49,7 +50,7 @@ function SampleChallenge() {
       <div className="p-5 space-y-4">
         <p className="text-[12px] text-[var(--muted)]">Decrypt the transmission to capture the flag.</p>
         <div className="rounded-xl border border-[var(--line)] bg-black/50 p-3.5 font-mono text-[12px] text-emerald-300 break-all select-all tracking-wide">
-          synt{"{aH11_ebg13_q3p0q3}"}
+          {SAMPLE_CIPHER}
         </div>
         <form onSubmit={verify} className="space-y-2.5">
           <input

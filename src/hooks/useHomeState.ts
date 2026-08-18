@@ -1,5 +1,6 @@
 import { useState, useEffect, FormEvent } from "react";
 import { sound } from "./utils/audio";
+import { SAMPLE_FLAG, isSampleFlag } from "../constants/challenge";
 
 export interface Cadet {
   email: string;
@@ -111,7 +112,7 @@ export function useHomeState() {
   const handleTeaserVerify = (e: FormEvent) => {
     e.preventDefault();
     const cleanInput = teaserInput.trim().toLowerCase();
-    if (cleanInput.includes("flag{nh11_rot13_d3c0d3}") || cleanInput === "flag{nh11_rot13_d3c0d3}") {
+    if (isSampleFlag(cleanInput) || cleanInput.includes(SAMPLE_FLAG.toLowerCase())) {
       setTeaserStatus("correct");
       sound.playSuccess();
       setLogs((prev) => [...prev, `[TEASER SOLVED] Flag decrypted successfully! Decrypted message verified.`]);

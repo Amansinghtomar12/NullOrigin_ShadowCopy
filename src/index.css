@@ -99,13 +99,15 @@ body {
 
 ::selection { background: var(--red); color: #0a0a12; }
 
-/* ── Pixel cursors ───────────────────────────────────────────
-   Image cursors in place of the OS pointer: an arrow everywhere, a
-   glove hand on anything clickable. Native keywords stay as the
-   fallback so the site still works if the PNGs fail to load. */
+/* ── Skull cursors ───────────────────────────────────────────
+   Image cursors in place of the OS pointer: a tiny skull everywhere,
+   the same skull with red eyes on anything clickable. The hotspot sits
+   at the skull's top-left corner so pointing stays as precise as a
+   normal arrow. Native keywords stay as the fallback so the site still
+   works if the PNGs fail to load. */
 html,
 body {
-  cursor: url('/cursors/cursor-default.png') 0 0, auto;
+  cursor: url('/cursors/cursor-default.png') 4 0, auto;
 }
 
 a,
@@ -119,12 +121,12 @@ select,
 .btn,
 .chip,
 .cursor-pointer {
-  cursor: url('/cursors/cursor-pointer.png') 9 0, pointer;
+  cursor: url('/cursors/cursor-pointer.png') 4 0, pointer;
 }
 
 button:disabled,
 [aria-disabled="true"] {
-  cursor: url('/cursors/cursor-default.png') 0 0, not-allowed;
+  cursor: url('/cursors/cursor-default.png') 4 0, not-allowed;
 }
 
 /* Text entry keeps the native caret — a glove over a text field makes
@@ -140,7 +142,7 @@ input[type="range"],
 input[type="submit"],
 input[type="button"],
 input[type="file"] {
-  cursor: url('/cursors/cursor-pointer.png') 9 0, pointer;
+  cursor: url('/cursors/cursor-pointer.png') 4 0, pointer;
 }
 
 /* Touch devices have no pointer to replace, and a phantom hotspot
@@ -493,6 +495,24 @@ input[type="file"] {
   width: clamp(118px, 21vw, 164px);
 }
 
+/* Some partners only publish a dark mark. Rather than recolour someone
+   else's brand, it sits on a light plate. */
+.sponsor-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 14px 22px;
+  box-shadow: 0 8px 0 -2px rgba(0, 0, 0, 0.45);
+}
+.sponsor-plate .sponsor-logo {
+  width: min(240px, 100%);
+}
+.sponsor-plate .sponsor-logo--strip {
+  width: clamp(96px, 17vw, 132px);
+}
+
 .sheen {
   position: absolute;
   inset: 0;
@@ -654,4 +674,177 @@ input[type="file"] {
   .dot {
     display: inline-block;
   }
+}
+
+/* ── Opening sequence ────────────────────────────────────────
+   Terminal boot that covers the page on first visit of a session and
+   tears away on ACCESS GRANTED. Rendered only when it should run, so
+   none of this costs anything on later navigations. */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 600px at 50% 40%, rgba(57, 255, 106, 0.07), transparent 70%),
+    #05060a;
+  animation: boot-in 0.25s ease both;
+}
+
+.boot--leaving {
+  animation: boot-out 0.6s cubic-bezier(.7, 0, .3, 1) both;
+}
+
+@keyframes boot-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Tears upward and fades, so the page underneath is revealed rather
+   than cross-faded to. */
+@keyframes boot-out {
+  0%   { opacity: 1; transform: scale(1);    filter: brightness(1); }
+  35%  { opacity: 1; transform: scale(1.02); filter: brightness(1.9); }
+  100% { opacity: 0; transform: scale(1.14) translateY(-7%); filter: brightness(1); }
+}
+
+/* Faint CRT sweep travelling down the screen. */
+.boot__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(57, 255, 106, 0.10) 50%, transparent 100%);
+  background-size: 100% 220px;
+  animation: boot-scan 2.6s linear infinite;
+}
+
+@keyframes boot-scan {
+  from { background-position: 0 -220px; }
+  to   { background-position: 0 100vh; }
+}
+
+.boot__panel {
+  position: relative;
+  width: min(560px, 100%);
+  background: rgba(10, 12, 18, 0.94);
+  border: 3px solid rgba(57, 255, 106, 0.4);
+  border-radius: var(--radius);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.7), 0 0 60px rgba(57, 255, 106, 0.08);
+  overflow: hidden;
+}
+
+.boot__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-bottom: 2px solid rgba(57, 255, 106, 0.22);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.boot__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 10px var(--red);
+}
+
+.boot__log {
+  padding: 20px 18px 22px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.85;
+  color: #b9c2cc;
+  min-height: 210px;
+}
+
+.boot__line {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  animation: boot-line 0.22s ease both;
+  word-break: break-word;
+}
+
+@keyframes boot-line {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.boot__ok {
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.boot__caret {
+  display: inline-block;
+  width: 9px;
+  height: 16px;
+  vertical-align: -3px;
+  background: var(--green);
+  animation: boot-caret 0.9s steps(1) infinite;
+}
+
+@keyframes boot-caret {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+.boot__granted {
+  font-family: 'Bangers', system-ui, cursive;
+  font-size: clamp(26px, 5vw, 40px);
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--green);
+  padding: 4px 18px 22px;
+  text-shadow: 0 0 26px rgba(57, 255, 106, 0.55);
+  animation: boot-granted 0.34s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+
+@keyframes boot-granted {
+  from { opacity: 0; transform: scale(0.86); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.boot__skip {
+  position: absolute;
+  right: clamp(16px, 4vw, 34px);
+  bottom: clamp(16px, 4vw, 34px);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 9px 16px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.boot__skip:hover {
+  color: var(--green);
+  border-color: rgba(57, 255, 106, 0.45);
+}
+.boot__skip kbd {
+  font-family: inherit;
+  font-size: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot { display: none; }
 }

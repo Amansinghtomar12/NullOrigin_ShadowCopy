@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import HomeHero from "./components/HomeHero";
 import SponsorStrip from "./components/SponsorStrip";
 import ScrollProgress from "./components/ScrollProgress";
+import BootIntro from "./components/BootIntro";
 import BackToTop from "./components/BackToTop";
 import HomeSidebar from "./components/HomeSidebar";
 import AmbientLogs from "./components/AmbientLogs";
@@ -31,6 +32,7 @@ export default function App() {
 
   return (
     <div id="top" className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
+      <BootIntro />
       <a href="#main" className="skip-link">Skip to content</a>
       <ScrollProgress />
       <HackerBackground />
