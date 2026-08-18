@@ -16,12 +16,14 @@ const STATS = [
 function Stat({ icon, val, label }: { icon: ReactNode; val: string; label: string }) {
   const { ref, display } = useCountUp(val);
   return (
-    <div className="glass glass-hover rounded-[var(--radius)] p-5 text-center h-full">
-      <div className="text-red-400 flex justify-center mb-3">{icon}</div>
-      <p ref={ref as Ref<HTMLParagraphElement>} className="data-num text-[30px]">
-        {display}
-      </p>
-      <p className="font-mono text-[9.5px] tracking-[0.16em] uppercase text-[var(--faint)] mt-1.5">{label}</p>
+    <div className="tilt3d h-full">
+      <div className="tilt3d__inner glass glass-hover rounded-[var(--radius)] p-5 text-center h-full">
+        <div className="text-red-400 flex justify-center mb-3">{icon}</div>
+        <p ref={ref as Ref<HTMLParagraphElement>} className="data-num text-[30px]">
+          {display}
+        </p>
+        <p className="font-mono text-[9.5px] tracking-[0.16em] uppercase text-[var(--faint)] mt-1.5">{label}</p>
+      </div>
     </div>
   );
 }

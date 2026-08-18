@@ -104,12 +104,14 @@ export default function Sponsors() {
           <div className="glass glass-strong p-6 sm:p-10 mt-10">
             <div className="grid sm:grid-cols-3 gap-5">
               {WHY_SPONSOR.map((w) => (
-                <div key={w.title}>
-                  <div className="grid place-items-center h-11 w-11 rounded-full bg-red-500/10 border-2 border-red-500/25 text-red-400">
-                    {w.icon}
+                <div key={w.title} className="tilt3d">
+                  <div className="tilt3d__inner">
+                    <div className="grid place-items-center h-11 w-11 rounded-full bg-red-500/10 border-2 border-red-500/25 text-red-400">
+                      {w.icon}
+                    </div>
+                    <p className="font-display text-[20px] tracking-wide text-white mt-4">{w.title}</p>
+                    <p className="text-[15px] text-[var(--muted)] leading-relaxed mt-1.5">{w.desc}</p>
                   </div>
-                  <p className="font-display text-[20px] tracking-wide text-white mt-4">{w.title}</p>
-                  <p className="text-[15px] text-[var(--muted)] leading-relaxed mt-1.5">{w.desc}</p>
                 </div>
               ))}
             </div>

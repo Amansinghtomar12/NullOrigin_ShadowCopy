@@ -20,11 +20,15 @@ import SiteFooter from "./components/SiteFooter";
 import RegistrationPage from "./components/RegistrationPage";
 import { useHomeState } from "./hooks/useHomeState";
 import { useScrollReveal } from "./components/ui";
+import { useScrollDepth } from "./hooks/useScrollDepth";
+import { useTilt } from "./hooks/useTilt";
 
 export default function App() {
   const [page, setPage] = useState<"home" | "register">("home");
   const state = useHomeState();
   useScrollReveal();
+  useScrollDepth();
+  useTilt();
 
   if (page === "register") {
     return <RegistrationPage onBack={() => setPage("home")} />;
@@ -51,16 +55,16 @@ export default function App() {
 
 
 
-        <main id="main">
+        <main id="main" className="stage3d">
         {/* New design sections */}
-        <About />
-        <Highlights />
-        <Sponsors />
-        <Impact />
-        <Schedule />
-        <Prizes />
-        <Closer />
-        <FAQ />
+        <div className="depth"><About /></div>
+        <div className="depth"><Highlights /></div>
+        <div className="depth"><Sponsors /></div>
+        <div className="depth"><Impact /></div>
+        <div className="depth"><Schedule /></div>
+        <div className="depth"><Prizes /></div>
+        <div className="depth"><Closer /></div>
+        <div className="depth"><FAQ /></div>
         </main>
 
         <SiteFooter />
