@@ -19,9 +19,10 @@ export default function About() {
               <p className="text-[var(--text)]/90 leading-relaxed">
                 Null Origin is a premier online Capture The Flag competition organised by{" "}
                 <span className="text-red-400 font-semibold">Team CyberXoX</span> and powered by{" "}
-                <span className="text-red-400 font-semibold">CyberHX</span>. Over 24 hours, teams
-                race across six attack domains to exploit vulnerabilities, break ciphers, reverse
-                binaries and recover forensic evidence.
+                <span className="text-red-400 font-semibold">CyberHX</span>. Across two rounds —
+                a 12-hour Qualifier and a 12-hour Grand Finale, 24 hours of competition in
+                total — teams race across six attack domains to exploit vulnerabilities, break
+                ciphers, reverse binaries and recover forensic evidence.
               </p>
               <p className="lead">
                 Designed for everyone from seasoned pentesters to first-time competitors, it is a
@@ -72,7 +73,7 @@ export default function About() {
                 <p>MISSION ··· Infiltrate. Exploit. Capture.</p>
                 <p>DOMAINS ··· Crypto · Web · Rev · OSINT · Forensics · Pwn</p>
                 <p>TEAM ······ 1–4 operators</p>
-                <p>FORMAT ···· Jeopardy · 24 hours · online</p>
+                <p>FORMAT ···· Jeopardy · 2 rounds · 12h + 12h</p>
                 <p>LEVEL ····· Easy → Expert</p>
                 <p className="text-[var(--faint)]">────────────────────────────</p>
                 <p className="text-emerald-400">

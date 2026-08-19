@@ -9,7 +9,7 @@ import { SAMPLE_CIPHER, isSampleFlag } from "../../constants/challenge";
 import { UNSTOP_EVENT_URL } from "../../constants";
 
 const PILLARS = [
-  { icon: <Flag className="h-5 w-5" />, title: "Capture The Flag", desc: "A 24-hour Jeopardy-style battle across six domains, from approachable warm-ups to expert-grade exploitation." },
+  { icon: <Flag className="h-5 w-5" />, title: "Capture The Flag", desc: "Two rounds of Jeopardy-style battle — a 12-hour Qualifier, then a 12-hour Finale for the teams that make the cut — across six domains." },
   { icon: <ShieldCheck className="h-5 w-5" />, title: "Realistic Challenges", desc: "Hand-crafted scenarios modelled on real vulnerabilities — not contrived puzzles — written by active practitioners." },
   { icon: <Network className="h-5 w-5" />, title: "Global Community", desc: "Compete alongside students, professionals and researchers worldwide, with an active Discord before, during and after." },
   { icon: <Sparkles className="h-5 w-5" />, title: "Built To Last", desc: "Run on a custom, security-hardened platform engineered for fair play, integrity and a smooth competitor experience." },

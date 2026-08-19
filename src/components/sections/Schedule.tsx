@@ -18,7 +18,7 @@ const TIMELINE = [
   {
     date: "25 September 2026",
     title: "Null Origin Finals CTF",
-    desc: "The top teams from the qualifier meet on the final board.",
+    desc: "The top teams from the qualifier meet on the final board for the second 12-hour round.",
     icon: <Clock className="h-5 w-5" />,
   },
   {

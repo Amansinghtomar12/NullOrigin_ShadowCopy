@@ -4,6 +4,7 @@ import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 
 const FAQS = [
+  { q: "Is it really 24 hours non-stop?", a: "No — it's 24 hours of competition split into two 12-hour rounds. Round one is the online Qualifier on 18 September. The top teams then advance to the 12-hour Grand Finale on 25–26 September. Nobody plays a full day straight." },
   { q: "Who can participate?", a: "Anyone — students, professionals and hobbyists from anywhere in the world. There are no restrictions." },
   { q: "Is it free to register?", a: "Yes. Null Origin CTF is completely free to enter." },
   { q: "What is the team size?", a: "1 to 4 members per team. Solo participation is also welcome." },

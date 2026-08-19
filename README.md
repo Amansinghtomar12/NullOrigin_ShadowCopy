@@ -4,7 +4,8 @@
 
 ### The official website of the Null Origin Capture-The-Flag competition
 
-**Hack. Exploit. Capture.** — a 24-hour online CTF across six attack domains,
+**Hack. Exploit. Capture.** — 24 hours of online CTF in two 12-hour rounds
+(Qualifier + Grand Finale) across six attack domains,
 organised by **Team CyberXoX** and powered by **CyberHX**.
 
 <br/>

@@ -66,8 +66,8 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
         </h1>
 
         <p data-depth="0.65" className="lead mx-auto mt-8 max-w-[52ch]">
-          Select your domain. Beat the clock. Capture every flag — a 24-hour CTF across six attack
-          levels.
+          Select your domain. Beat the clock. Capture every flag — 24 hours of CTF in two rounds:
+          a 12-hour Qualifier and a 12-hour Finale.
         </p>
 
         <div data-depth="0.4" className="flex gap-3 justify-center mt-9 flex-wrap px-4">
