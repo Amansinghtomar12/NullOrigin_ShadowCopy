@@ -161,7 +161,7 @@ input[type="range"],
 input[type="submit"],
 input[type="button"],
 input[type="file"] {
-  cursor: url('/cursors/cursor-pointer.png') 9 1, pointer;
+  cursor: url('/cursors/reticle-pointer.png') 16 16, pointer;
 }
 
 /* ── Cursor orbit ────────────────────────────────────────────
