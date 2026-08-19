@@ -3,7 +3,11 @@ import { useReducedMotion } from "./useReducedMotion";
 
 /**
  * Gives every `.tilt3d` element real 3D rotation toward the pointer, plus
- * a specular highlight that tracks the cursor across its surface.
+ * a specular highlight that tracks the cursor across its surface. The
+ * same delegated listener also drives the buttons' magnetic pull: while
+ * hovered, a button leans a few pixels toward the cursor and springs
+ * back on leave — the "wants to be pressed" feel, kept subtle enough
+ * that the target never runs away from the click.
  *
  * Delegated from one document-level listener rather than a listener per
  * card: the page has dozens of cards, and dozens of pointermove handlers
@@ -38,17 +42,37 @@ export function useTilt(maxDeg = 8) {
     };
 
     const onMove = (e: PointerEvent) => {
-      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(".tilt3d");
+      const target = e.target as HTMLElement | null;
+
+      const btn = target?.closest<HTMLElement>(".btn");
+      if (btn) {
+        const r = btn.getBoundingClientRect();
+        // Capped small: magnetism should read as eagerness, not evasion.
+        const mx = Math.max(-5, Math.min(5, (e.clientX - (r.left + r.width / 2)) * 0.14));
+        const my = Math.max(-4, Math.min(4, (e.clientY - (r.top + r.height / 2)) * 0.18));
+        btn.style.setProperty("--mgx", `${mx.toFixed(1)}px`);
+        btn.style.setProperty("--mgy", `${my.toFixed(1)}px`);
+      }
+
+      const el = target?.closest<HTMLElement>(".tilt3d");
       if (!el) return;
       pending = { el, x: e.clientX, y: e.clientY };
       if (!frame) frame = requestAnimationFrame(apply);
     };
 
-    // Leaving must settle the card back to flat, or it stays skewed.
+    // Leaving must settle things back to rest, or they stay skewed.
     const onOut = (e: PointerEvent) => {
-      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(".tilt3d");
-      if (!el) return;
+      const target = e.target as HTMLElement | null;
       const to = e.relatedTarget as HTMLElement | null;
+
+      const btn = target?.closest<HTMLElement>(".btn");
+      if (btn && !(to && btn.contains(to))) {
+        btn.style.setProperty("--mgx", "0px");
+        btn.style.setProperty("--mgy", "0px");
+      }
+
+      const el = target?.closest<HTMLElement>(".tilt3d");
+      if (!el) return;
       if (to && el.contains(to)) return;
       el.style.setProperty("--rx", "0deg");
       el.style.setProperty("--ry", "0deg");

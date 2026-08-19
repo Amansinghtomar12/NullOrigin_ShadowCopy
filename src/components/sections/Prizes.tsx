@@ -1,15 +1,39 @@
 import { Reveal, SectionHeading } from "../ui";
 
 const TIERS = [
-  { rank: "1st", prize: "", icon: "🏆", featured: true },
-  { rank: "2nd", prize: "", icon: "🥈", featured: false },
-  { rank: "3rd", prize: "", icon: "🥉", featured: false },
+  {
+    rank: "2nd",
+    icon: "🥈",
+    featured: false,
+    perks: ["Certificate", "Swag"],
+    order: "sm:order-1",
+  },
+  {
+    rank: "1st",
+    icon: "🏆",
+    featured: true,
+    perks: ["INE certificate", "Swag", "Champion title"],
+    order: "sm:order-2",
+  },
+  {
+    rank: "3rd",
+    icon: "🥉",
+    featured: false,
+    perks: ["Certificate", "Swag"],
+    order: "sm:order-3",
+  },
 ];
 
+/**
+ * Podium layout: first place stands centre and taller, flanked by second
+ * and third — the shape everyone already knows from a medal ceremony, so
+ * the hierarchy needs no reading. On phones it collapses to rank order,
+ * champion first.
+ */
 export default function Prizes() {
   return (
     <section id="prizes" className="section">
-      <div className="shell max-w-4xl">
+      <div className="shell">
         <Reveal>
           <SectionHeading
             tag="Rewards"
@@ -17,27 +41,27 @@ export default function Prizes() {
             sub="Yet to be announced, but expect some exciting rewards for the top solvers!"
           />
         </Reveal>
-        <div className="grid sm:grid-cols-3 gap-5 mt-12 items-stretch">
+
+        <div className="grid sm:grid-cols-3 gap-5 mt-14 items-end max-w-3xl mx-auto">
           {TIERS.map((t, i) => (
-            <Reveal key={t.rank} delay={i * 80}>
-              <div
-                className={`glass glass-hover rounded-[var(--radius)] p-7 text-center h-full ${
-                  t.featured ? "sm:-mt-3 sm:pb-9" : ""
-                }`}
-                style={t.featured ? { borderColor: "rgba(245,158,11,0.3)" } : undefined}
-              >
-                <div className="text-4xl mb-3">{t.icon}</div>
-                <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--faint)]">
-                  {t.rank} place
-                </p>
-                <p className="data-num text-[30px] mt-2">{t.prize}</p>
-                <p className="text-[11px] text-[var(--muted)] mt-3">+ Certificate + Swag</p>
+            <Reveal key={t.rank} delay={i * 90} className={t.order}>
+              <div className={`podium glass glass-hover ${t.featured ? "podium--first" : ""}`}>
+                <div className={`podium__medal ${t.featured ? "podium__medal--lg" : ""}`} aria-hidden="true">
+                  {t.icon}
+                </div>
+                <p className="podium__rank">{t.rank} place</p>
+                <ul className="podium__perks">
+                  {t.perks.map((perk) => (
+                    <li key={perk}>{perk}</li>
+                  ))}
+                </ul>
               </div>
             </Reveal>
           ))}
         </div>
-        <Reveal delay={120}>
-          <p className="text-center text-[11.5px] text-[var(--faint)] mt-7">
+
+        <Reveal delay={140}>
+          <p className="text-center text-[13px] text-[var(--faint)] mt-8">
             Additional category prizes and special mentions for top solvers.
           </p>
         </Reveal>

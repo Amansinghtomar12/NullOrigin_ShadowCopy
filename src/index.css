@@ -71,7 +71,7 @@
   --line-strong: #ff3355;
   --text: #f4f6f5;
   --muted: #a2a9b0;
-  --faint: #767d85;
+  --faint: #8b93a0;
   --accent: #ff4d6a;
   --red: #ff3355;
   --amber: #ffc23c;
@@ -431,8 +431,13 @@ input[type="file"] {
   box-shadow: 0 6px 0 #000;
   transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.2s ease;
 }
-.btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 0 #000; }
-.btn:active { transform: translateY(4px);  box-shadow: 0 2px 0 #000; }
+.btn {
+  --mgx: 0px;
+  --mgy: 0px;
+  transform: translate(var(--mgx), var(--mgy));
+}
+.btn:hover  { transform: translate(var(--mgx), calc(var(--mgy) - 2px)); box-shadow: 0 8px 0 #000; }
+.btn:active { transform: translate(var(--mgx), calc(var(--mgy) + 4px)); box-shadow: 0 2px 0 #000; }
 
 .btn-primary {
   background: var(--red);
@@ -1057,8 +1062,8 @@ input[type="file"] {
   inset: auto 0 0 0;
   height: 44%;
   overflow: hidden;
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 34%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 34%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 62%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 62%);
 }
 
 /* Perspective applied on the element itself, with the origin at the
@@ -1072,7 +1077,7 @@ input[type="file"] {
   width: 200%;
   height: 190%;
   background-image:
-    repeating-linear-gradient(to bottom, rgba(255, 51, 85, 0.34) 0 2px, transparent 2px 88px),
+    repeating-linear-gradient(to bottom, rgba(255, 51, 85, 0.16) 0 2px, transparent 2px 88px),
     repeating-linear-gradient(to right, rgba(255, 74, 96, 0.26) 0 2px, transparent 2px 88px);
   transform-origin: 50% 100%;
   will-change: transform;
@@ -1340,4 +1345,220 @@ input[type="file"] {
   .glitchy { animation: none; }
   .coin .n { animation: none; }
   .btn::after { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ELEVATION PASS — audit fixes and section redesigns
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Timeline ────────────────────────────────────────────────
+   Central gradient spine, milestone cards alternating around it on
+   desktop, collapsing to a left rail on small screens. */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 26px;
+  width: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, var(--red) 0%, rgba(255, 51, 85, 0.35) 55%, rgba(255, 51, 85, 0.08) 100%);
+}
+
+.tl-item {
+  position: relative;
+  padding-left: 72px;
+}
+
+.tl-node {
+  position: absolute;
+  left: 26px;
+  top: 4px;
+  translate: -50% 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(30, 8, 16, 0.92);
+  border: 2px solid var(--line-soft);
+  color: var(--accent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.tl-item--active .tl-node {
+  background: var(--red);
+  border-color: #ff7186;
+  color: #fff;
+  box-shadow: 0 0 26px rgba(255, 51, 85, 0.55), 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.tl-card {
+  background: var(--panel);
+  border: 2px solid var(--line-soft);
+  border-radius: 22px;
+  box-shadow: var(--shadow-pop);
+  padding: 18px 22px 20px;
+  transition: transform 0.22s cubic-bezier(.2, .8, .2, 1), border-color 0.22s ease;
+}
+.tl-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.tl-item--active .tl-card {
+  border-color: rgba(255, 51, 85, 0.6);
+}
+
+.tl-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.tl-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin-top: 7px;
+}
+
+.tl-desc {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 6px;
+  max-width: 46ch;
+}
+
+/* Desktop: three-column grid per row — card | node | card — with the
+   card side alternating, so the spine runs straight down the middle. */
+@media (min-width: 820px) {
+  .timeline::before {
+    left: 50%;
+    translate: -50% 0;
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 1fr 72px 1fr;
+    align-items: center;
+    padding-left: 0;
+  }
+  .tl-node {
+    position: static;
+    translate: none;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+  .tl-card {
+    grid-row: 1;
+    max-width: 430px;
+    width: 100%;
+  }
+  .tl-item--left .tl-card {
+    grid-column: 1;
+    justify-self: end;
+    text-align: right;
+  }
+  .tl-item--left .tl-desc {
+    margin-left: auto;
+  }
+  .tl-item--right .tl-card {
+    grid-column: 3;
+    justify-self: start;
+  }
+}
+
+/* ── Prize podium ────────────────────────────────────────────
+   First place stands centre and taller; the champion card carries the
+   amber treatment so the eye lands there first. */
+.podium {
+  padding: 30px 22px 26px;
+  text-align: center;
+  border-radius: var(--radius);
+}
+
+.podium__medal {
+  font-size: 52px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+}
+
+.podium__medal--lg {
+  font-size: 74px;
+  animation: medal-bob 4.5s ease-in-out infinite;
+}
+
+@keyframes medal-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+
+.podium__rank {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 16px;
+}
+
+.podium__perks {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.podium--first {
+  padding-block: 42px 36px;
+  border-color: rgba(255, 194, 60, 0.55);
+  box-shadow: 0 18px 0 -6px rgba(0, 0, 0, 0.55), 0 0 60px rgba(255, 194, 60, 0.12), 0 26px 60px rgba(0, 0, 0, 0.55);
+}
+.podium--first .podium__rank {
+  color: var(--amber);
+}
+.podium--first .podium__perks {
+  color: var(--text);
+}
+.podium--first.glass-hover:hover {
+  border-color: var(--amber);
+}
+
+/* ── Audit fixes ─────────────────────────────────────────────
+   Tap targets: nav and footer links get real height without visual
+   change. The seconds digit goes amber, restoring the at-a-glance
+   distinction the palette merge erased. */
+.nav-link {
+  padding-block: 12px;
+}
+
+.coin.r .n {
+  color: var(--amber);
+  text-shadow: 0 0 22px rgba(255, 194, 60, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .podium__medal--lg { animation: none; }
+  .tl-card, .tl-card:hover { transform: none; }
 }

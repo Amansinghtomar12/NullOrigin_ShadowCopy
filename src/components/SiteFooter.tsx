@@ -43,7 +43,7 @@ export default function SiteFooter() {
               <a
                 key={l.id}
                 href={`#${l.id}`}
-                className="block text-[12px] text-[var(--muted)] hover:text-white transition-colors"
+                className="block py-1.5 text-[13px] text-[var(--muted)] hover:text-white transition-colors"
               >
                 {l.label}
               </a>
@@ -60,7 +60,7 @@ export default function SiteFooter() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-[12px] text-[var(--muted)] hover:text-white transition-colors"
+                className="block py-1.5 text-[13px] text-[var(--muted)] hover:text-white transition-colors"
               >
                 {s.name}
               </a>

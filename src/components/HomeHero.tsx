@@ -58,19 +58,19 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
         <h1
           data-depth="0.9"
           className="h-display title3d glitchy"
-          style={{ fontSize: "clamp(28px,8vw,72px)", lineHeight: "1.1" }}
+          style={{ fontSize: "clamp(46px, 7.4vw, 112px)", lineHeight: "1.04" }}
         >
           NULL
           <br />
           ORIGIN
         </h1>
 
-        <p data-depth="0.65" className="lead mx-auto mt-[34px] max-w-[50ch]">
+        <p data-depth="0.65" className="lead mx-auto mt-8 max-w-[52ch]">
           Select your domain. Beat the clock. Capture every flag — a 24-hour CTF across six attack
           levels.
         </p>
 
-        <div data-depth="0.4" className="flex gap-3 justify-center mt-[28px] flex-wrap px-4">
+        <div data-depth="0.4" className="flex gap-3 justify-center mt-9 flex-wrap px-4">
           <button
             type="button"
             onClick={() => { onRegister(); sound.playClick(); }}
@@ -88,7 +88,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
           </a>
         </div>
 
-        <div data-depth="0.25" className="coin-counter glass inline-flex mt-[36px] mx-4">
+        <div data-depth="0.25" className="coin-counter glass inline-flex mt-11 mx-4">
           <div className="coin">
             <div key={timeLeft.days} className="n">{timeLeft.days}</div>
             <div className="l">DAYS</div>

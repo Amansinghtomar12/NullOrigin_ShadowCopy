@@ -6,59 +6,72 @@ const TIMELINE = [
     date: "Now",
     title: "Registration open",
     desc: "Teams sign up via Unstop and prepare for the competition.",
-    icon: <Users className="h-4 w-4" />,
+    icon: <Users className="h-5 w-5" />,
     active: true,
   },
   {
-    date: " 18 september 2026",
+    date: "18 September 2026",
     title: "CTF qualifier goes live",
     desc: "The platform opens. 12 hours to capture as many flags as possible.",
-    icon: <Zap className="h-4 w-4" />,
+    icon: <Zap className="h-5 w-5" />,
   },
   {
-    date: "25 september 2026",
-    title: "Null Origin Finals CTF ",
-    icon: <Clock className="h-4 w-4" />,
+    date: "25 September 2026",
+    title: "Null Origin Finals CTF",
+    desc: "The top teams from the qualifier meet on the final board.",
+    icon: <Clock className="h-5 w-5" />,
   },
   {
-    date: "26 september 2026",
+    date: "26 September 2026",
     title: "Winners announced",
     desc: "Top teams receive prizes, certificates and recognition.",
-    icon: <Award className="h-4 w-4" />,
+    icon: <Award className="h-5 w-5" />,
   },
 ];
 
+/**
+ * Central-spine timeline: a gradient rail down the middle with milestone
+ * cards alternating left and right of it on desktop, collapsing to a
+ * left rail with stacked cards on small screens. The live milestone gets
+ * a filled, glowing node so "where we are" reads at a glance.
+ *
+ * (The old layout asked for max-w-3xl on the shell, but the unlayered
+ * .shell class out-cascades Tailwind's max-width utility — the same trap
+ * as the navbar's hidden buttons — so everything sat in the left third
+ * of a 1200px container.)
+ */
 export default function Schedule() {
   return (
     <section id="schedule" className="section">
-      <div className="shell max-w-3xl">
-        <Reveal><SectionHeading tag="Schedule" title="Event Timeline" /></Reveal>
-        <div className="mt-12">
+      <div className="shell">
+        <Reveal>
+          <SectionHeading
+            tag="Schedule"
+            title="Event Timeline"
+            sub="From first sign-up to the final scoreboard."
+          />
+        </Reveal>
+
+        <div className="timeline mt-14" role="list">
           {TIMELINE.map((t, i) => (
-            <Reveal key={i} delay={i * 80}>
-              <div className="flex gap-5">
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`grid place-items-center h-11 w-11 rounded-full border ${
-                      t.active
-                        ? "border-red-500 bg-red-500/15 text-red-400 animate-pulse-glow"
-                        : "border-[var(--line)] bg-white/[0.02] text-[var(--muted)]"
-                    }`}
-                  >
-                    {t.icon}
-                  </div>
-                  {i < TIMELINE.length - 1 && (
-                    <div className="w-px flex-1 min-h-[58px] bg-gradient-to-b from-[var(--line-strong)] to-transparent" />
-                  )}
+            <Reveal
+              key={t.title}
+              delay={i * 90}
+              className={`tl-item ${i % 2 ? "tl-item--right" : "tl-item--left"} ${
+                t.active ? "tl-item--active" : ""
+              }`}
+            >
+              <div role="listitem" className="contents">
+                <div className="tl-node" aria-hidden="true">
+                  {t.icon}
                 </div>
-                <div className="pb-9 pt-1.5">
-                  <span className="font-mono text-[9.5px] tracking-[0.2em] uppercase text-red-400">
+                <div className="tl-card">
+                  <p className="tl-date">
+                    {t.active && <span className="dot" aria-hidden="true" />}
                     {t.date}
-                  </span>
-                  <h3 className="font-display font-bold text-[15px] tracking-wide text-white mt-1">
-                    {t.title}
-                  </h3>
-                  <p className="text-[13px] text-[var(--muted)] mt-1">{t.desc}</p>
+                  </p>
+                  <h3 className="tl-title">{t.title}</h3>
+                  <p className="tl-desc">{t.desc}</p>
                 </div>
               </div>
             </Reveal>
