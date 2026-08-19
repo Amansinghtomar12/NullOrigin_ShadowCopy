@@ -84,18 +84,26 @@ export default function NetworkField({ className = "" }: { className?: string })
       // travel. Applied to node coordinates so the link geometry stays
       // consistent and the existing wrap keeps handling the edges.
       const sy = window.scrollY;
-      const drag = (sy - lastScroll) * 0.16;
+      // Clamped: an anchor jump or a flick scroll can move thousands of
+      // pixels in one frame, and an unclamped drag shoved the entire
+      // field off-screen in a single step — the mesh simply vanished
+      // until the nodes drifted back, which is why it was missing near
+      // the foot of the page.
+      const drag = Math.max(-45, Math.min(45, (sy - lastScroll) * 0.16));
       lastScroll = sy;
+
+      // Wrap by modulo rather than by resetting to the far edge. A reset
+      // puts every out-of-bounds node on the same line, so one big jump
+      // collapsed the whole field into a single row; modulo keeps them
+      // spread however far they travel.
+      const spanX = w + 60;
+      const spanY = h + 60;
 
       for (const n of nodes) {
         n.x += n.vx;
         n.y += n.vy - drag;
-        // Wrap rather than bounce: bouncing makes the motion read as
-        // rhythmic and draws the eye to the edges.
-        if (n.x < -30) n.x = w + 30;
-        if (n.x > w + 30) n.x = -30;
-        if (n.y < -30) n.y = h + 30;
-        if (n.y > h + 30) n.y = -30;
+        n.x = (((n.x + 30) % spanX) + spanX) % spanX - 30;
+        n.y = (((n.y + 30) % spanY) + spanY) % spanY - 30;
       }
 
       // links
@@ -109,7 +117,7 @@ export default function NetworkField({ className = "" }: { className?: string })
           const d2 = dx * dx + dy * dy;
           if (d2 > LINK_DIST * LINK_DIST) continue;
           const t = 1 - Math.sqrt(d2) / LINK_DIST;
-          ctx.strokeStyle = `rgba(255, 46, 78, ${(t * 0.42 * ((a.z + bn.z) / 2)).toFixed(3)})`;
+          ctx.strokeStyle = `rgba(255, 46, 78, ${(t * 0.55 * ((a.z + bn.z) / 2)).toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(a.x + cx * a.z, a.y + cy * a.z);
           ctx.lineTo(bn.x + cx * bn.z, bn.y + cy * bn.z);
@@ -120,7 +128,7 @@ export default function NetworkField({ className = "" }: { className?: string })
       // nodes
       for (const n of nodes) {
         const r = 0.8 + n.z * 1.7;
-        ctx.fillStyle = `rgba(255, 92, 116, ${(0.28 + n.z * 0.5).toFixed(3)})`;
+        ctx.fillStyle = `rgba(255, 92, 116, ${(0.36 + n.z * 0.55).toFixed(3)})`;
         ctx.beginPath();
         ctx.arc(n.x + cx * n.z, n.y + cy * n.z, r, 0, Math.PI * 2);
         ctx.fill();
