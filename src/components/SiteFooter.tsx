@@ -54,7 +54,7 @@ export default function SiteFooter() {
         <div>
           <p className="font-mono text-[10.5px] tracking-[0.2em] uppercase text-red-400 mb-3">Community</p>
           <div className="space-y-2.5">
-            {SOCIALS.map((s) => (
+            {SOCIALS.filter((s) => s.href).map((s) => (
               <a
                 key={s.name}
                 href={s.href}

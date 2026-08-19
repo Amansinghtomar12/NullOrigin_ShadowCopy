@@ -52,7 +52,7 @@ export default function Closer() {
               </a>
             </div>
             <div className="flex items-center justify-center gap-3 mt-7">
-              {SOCIALS.map((s) => (
+              {SOCIALS.filter((s) => s.href).map((s) => (
                 <a
                   key={s.name}
                   href={s.href}
