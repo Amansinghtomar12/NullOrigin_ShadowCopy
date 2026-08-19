@@ -52,7 +52,7 @@ competition. Visitors can:
 | **Real 3D scroll** | Every card and heading pivots continuously based on its distance from the middle of the screen. The element you are reading is always the one at zero rotation and full size — depth never costs readability. |
 | **Card tilt** | Cards rotate toward the cursor in 3D with a light sweep across their surface. One delegated listener for the whole page, not one per card. |
 | **Magnetic buttons** | Buttons lean a few pixels toward the cursor while hovered and spring back — capped small so the target never runs from your click. |
-| **Custom cursors** | The standard arrow and hand, redrawn in the event's red with a white keyline. Generated from polygons through a signed-distance field — no libraries. |
+| **Targeting cursor** | The pointer is a thin red crosshair reticle with two broken arc rings counter-rotating around it. Over anything clickable the rig locks on: crosshair and arcs flip amber and swell. The crosshair is a real CSS cursor (zero lag, centre-accurate); only the orbit is a follower element. |
 | **Details everywhere** | Countdown digits pop on every tick, the hero title fires a glitch burst every few seconds, buttons carry a shine sweep, the tab title changes when you switch away… and CTF players should probably open the console. 👀 |
 
 > 🏴 **Warm-up flag:** there is one hidden on this site. One decode. You know which.

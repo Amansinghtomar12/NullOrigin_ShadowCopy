@@ -6,6 +6,7 @@ import SponsorStrip from "./components/SponsorStrip";
 import ScrollProgress from "./components/ScrollProgress";
 import BootIntro from "./components/BootIntro";
 import BackToTop from "./components/BackToTop";
+import CursorRing from "./components/CursorRing";
 import HomeSidebar from "./components/HomeSidebar";
 import AmbientLogs from "./components/AmbientLogs";
 import About from "./components/sections/About";
@@ -33,13 +34,19 @@ export default function App() {
   useOperatorTouches();
 
   if (page === "register") {
-    return <RegistrationPage onBack={() => setPage("home")} />;
+    return (
+      <>
+        <CursorRing />
+        <RegistrationPage onBack={() => setPage("home")} />
+      </>
+    );
   }
 
   return (
     <div id="top" className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
       <BootIntro />
       <a href="#main" className="skip-link">Skip to content</a>
+      <CursorRing />
       <ScrollProgress />
       <CosmicBackground />
       <div className="above-cosmos">

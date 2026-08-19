@@ -114,17 +114,19 @@ body {
 ::selection { background: var(--red); color: #0a0a12; }
 
 /* ── Cursors ─────────────────────────────────────────────────
-   The conventional arrow and pointing hand, restyled: red gradient
-   fill, white keyline so they stay visible on any surface, and a soft
-   dark halo so they survive light ones too. Shape and behaviour are
-   exactly what people expect — only the colour is ours.
+   A targeting reticle: thin red crosshair ring with a centre dot,
+   flipping to amber over anything clickable — the operator acquiring a
+   target. A faint white keyline and soft dark halo keep the thin lines
+   visible on any surface. The rotating arc rings around it are the
+   .cursor-ring element (CursorRing component), not part of the PNG, so
+   they can actually spin.
 
-   Hotspots are the real tip of each shape (arrow point, fingertip), so
-   clicking is as accurate as the native cursor. Native keywords remain
-   after the comma as the fallback if the PNGs ever fail to load. */
+   Hotspot is the exact centre of the crosshair, so clicking is as
+   accurate as a native crosshair cursor. Native keywords remain after
+   the comma as the fallback if the PNGs ever fail to load. */
 html,
 body {
-  cursor: url('/cursors/cursor-default.png') 0 0, auto;
+  cursor: url('/cursors/reticle-default.png') 16 16, crosshair;
 }
 
 a,
@@ -138,12 +140,12 @@ select,
 .btn,
 .chip,
 .cursor-pointer {
-  cursor: url('/cursors/cursor-pointer.png') 9 1, pointer;
+  cursor: url('/cursors/reticle-pointer.png') 16 16, pointer;
 }
 
 button:disabled,
 [aria-disabled="true"] {
-  cursor: url('/cursors/cursor-default.png') 0 0, not-allowed;
+  cursor: url('/cursors/reticle-default.png') 16 16, not-allowed;
 }
 
 /* Text entry keeps the native caret — a glove over a text field makes
@@ -160,6 +162,50 @@ input[type="submit"],
 input[type="button"],
 input[type="file"] {
   cursor: url('/cursors/cursor-pointer.png') 9 1, pointer;
+}
+
+/* ── Cursor orbit ────────────────────────────────────────────
+   The broken arc rings that circle the reticle (CursorRing component).
+   Decoration only: the true cursor is the native PNG above, so this
+   layer can trail on a spring without any input ever feeling laggy. */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+  z-index: 140;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+.cursor-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.cr-spin-a,
+.cr-spin-b {
+  transform-origin: 50% 50%;
+}
+.cr-spin-a { animation: cr-rot 7s linear infinite; }
+.cr-spin-b { animation: cr-rot 11s linear infinite reverse; }
+@keyframes cr-rot {
+  to { transform: rotate(360deg); }
+}
+/* acquiring: over anything clickable the arcs swell and go amber,
+   agreeing with the pointer PNG's own amber state */
+.cursor-ring--lock svg { transform: scale(1.16); }
+.cursor-ring--lock .cr-ink { stroke: rgba(255, 194, 60, 0.75); }
+.cursor-ring--press svg { transform: scale(0.8); }
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-ring { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor-ring { display: none; }
 }
 
 /* Touch devices have no pointer to replace, and a phantom hotspot
