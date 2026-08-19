@@ -1028,9 +1028,14 @@ input[type="file"] {
    ═══════════════════════════════════════════════════════════ */
 
 /* The stage. Every 3D child is measured against this vanishing point. */
+/* No ancestor perspective. Every .d3 element projects through its own
+   perspective() inside its transform, so a shared stage perspective adds
+   nothing visually — but combined with the per-element transforms it
+   made Chromium paint and hit-test elements a dozen pixels away from
+   their measured geometry, which is why links inside posed panels
+   swallowed clicks. */
 .stage3d {
-  perspective: 1400px;
-  perspective-origin: 50% 42%;
+  perspective: none;
 }
 
 /* ── Scroll-linked 3D pose ──────────────────────────────────
@@ -1050,6 +1055,10 @@ input[type="file"] {
   --t: 0;
   --a: 0;
   --dir: 1;
+  /* Positioned so the JS-driven z-index applies: the element nearest the
+     reading line stacks above its tilted neighbours, whose projected
+     planes would otherwise overhang it and intercept clicks. */
+  position: relative;
   transform:
     perspective(1200px)
     translateZ(calc(var(--a) * -300px))

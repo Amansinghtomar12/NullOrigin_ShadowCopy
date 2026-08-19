@@ -72,7 +72,7 @@ export default function App() {
         <Impact />
         <Schedule />
         <Prizes />
-        <Closer />
+        <Closer onRegister={() => setPage("register")} />
         <FAQ />
         </main>
 

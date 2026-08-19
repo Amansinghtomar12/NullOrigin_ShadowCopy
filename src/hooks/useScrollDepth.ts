@@ -49,8 +49,20 @@ export function useScrollDepth() {
         const r = el.getBoundingClientRect();
         const centre = r.top + r.height / 2;
         const t = Math.max(-1, Math.min(1, (centre - mid) / reach));
+        const a = Math.abs(t);
         el.style.setProperty("--t", t.toFixed(4));
-        el.style.setProperty("--a", Math.abs(t).toFixed(4));
+        el.style.setProperty("--a", a.toFixed(4));
+        // A tilted plane projects beyond its layout box, and a section
+        // rotating in from below can invisibly overhang the links at the
+        // foot of the panel above it, eating their clicks. Two defences:
+        // stack by proximity to the reading line, and — because z-index
+        // cannot cross the sections' stacking contexts — make any plane
+        // tipped well away from the reading line transparent to input
+        // entirely. Nobody is clicking inside a panel they are not
+        // reading; by the time they scroll to it, it is interactive
+        // again.
+        el.style.zIndex = String(100 - Math.round(a * 90));
+        el.style.pointerEvents = a > 0.5 ? "none" : "";
       }
     };
 

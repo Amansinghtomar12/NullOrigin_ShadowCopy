@@ -42,6 +42,11 @@ export function useTilt(maxDeg = 8) {
     };
 
     const onMove = (e: PointerEvent) => {
+      // Freeze while a button is held down: if the card keeps tilting
+      // between mousedown and mouseup, the link can slide out from under
+      // the press and the click dies on a parent instead of navigating.
+      if (e.buttons) return;
+
       const target = e.target as HTMLElement | null;
 
       const btn = target?.closest<HTMLElement>(".btn");
