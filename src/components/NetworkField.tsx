@@ -24,7 +24,7 @@ import { useReducedMotion } from "../hooks/useReducedMotion";
 
 const MAX_NODES = 190;
 const LINK_DIST = 150;
-const SPEED = 0.34;
+const SPEED = 0.95;
 
 type Node = { x: number; y: number; vx: number; vy: number; z: number };
 
@@ -84,7 +84,7 @@ export default function NetworkField({ className = "" }: { className?: string })
       // travel. Applied to node coordinates so the link geometry stays
       // consistent and the existing wrap keeps handling the edges.
       const sy = window.scrollY;
-      const drag = (sy - lastScroll) * 0.06;
+      const drag = (sy - lastScroll) * 0.16;
       lastScroll = sy;
 
       for (const n of nodes) {
