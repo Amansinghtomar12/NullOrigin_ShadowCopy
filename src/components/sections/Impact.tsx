@@ -4,7 +4,7 @@ import { Reveal, SectionHeading } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
 
 const STATS = [
-  { icon: <Users className="h-5 w-5" />, val: "500+", label: "Expected players" },
+  { icon: <Users className="h-5 w-5" />, val: "4000+", label: "Expected players" },
   { icon: <Target className="h-5 w-5" />, val: "30+", label: "Challenges" },
   { icon: <Layers className="h-5 w-5" />, val: "6", label: "Attack domains" },
   { icon: <Clock className="h-5 w-5" />, val: "24h", label: "Non-stop" },

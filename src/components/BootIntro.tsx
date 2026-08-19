@@ -130,7 +130,9 @@ export default function BootIntro() {
         sound.playSuccess();
       }, at + 240)
     );
-    timers.current.push(window.setTimeout(finish, at + 1250));
+    // ACCESS GRANTED holds for a couple of beats — long enough to land,
+    // and to let the rings breathe on phones — before the fly-through.
+    timers.current.push(window.setTimeout(finish, at + 2400));
     return () => {
       timers.current.forEach(clearTimeout);
       timers.current = [];

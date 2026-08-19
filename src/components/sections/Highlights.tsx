@@ -1,11 +1,12 @@
 import { FormEvent, useState } from "react";
 import {
-  Flag, ShieldCheck, Network, Sparkles,
+  Flag, ShieldCheck, Network, Sparkles, ArrowUpRight,
   Lock, Code, Binary, Search, Fingerprint, Bug, Cpu, CheckCircle,
 } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 import { SAMPLE_CIPHER, isSampleFlag } from "../../constants/challenge";
+import { UNSTOP_EVENT_URL } from "../../constants";
 
 const PILLARS = [
   { icon: <Flag className="h-5 w-5" />, title: "Capture The Flag", desc: "A 24-hour Jeopardy-style battle across six domains, from approachable warm-ups to expert-grade exploitation." },
@@ -71,8 +72,20 @@ function SampleChallenge() {
           <button type="submit" className="btn btn-ghost w-full !py-2.5">Verify flag</button>
         </form>
         {status === "correct" && (
-          <div className="flex items-center gap-2 text-[13px] text-emerald-400 font-semibold bg-emerald-950/25 border border-emerald-800/40 p-3 rounded-xl">
-            <CheckCircle className="h-4 w-4" /> Flag accepted — nicely done.
+          <div className="space-y-2.5">
+            <div className="flex items-center gap-2 text-[13px] text-emerald-400 font-semibold bg-emerald-950/25 border border-emerald-800/40 p-3 rounded-xl">
+              <CheckCircle className="h-4 w-4" /> Flag accepted — nicely done.
+            </div>
+            {/* The reward for solving: the door to the real competition. */}
+            <a
+              href={UNSTOP_EVENT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary w-full !py-2.5 !text-[15px]"
+              onMouseEnter={() => sound.playHover()}
+            >
+              You're ready — register on Unstop <ArrowUpRight className="h-4 w-4" />
+            </a>
           </div>
         )}
         {status === "incorrect" && (

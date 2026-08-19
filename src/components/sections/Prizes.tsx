@@ -4,21 +4,21 @@ const TIERS = [
   {
     rank: "2nd",
     icon: "🥈",
-    featured: false,
+    variant: "podium--second",
     perks: ["Certificate", "Swag"],
     order: "sm:order-1",
   },
   {
     rank: "1st",
     icon: "🏆",
-    featured: true,
+    variant: "podium--first",
     perks: ["INE certificate", "Swag", "Champion title"],
     order: "sm:order-2",
   },
   {
     rank: "3rd",
     icon: "🥉",
-    featured: false,
+    variant: "podium--third",
     perks: ["Certificate", "Swag"],
     order: "sm:order-3",
   },
@@ -45,8 +45,8 @@ export default function Prizes() {
         <div className="grid sm:grid-cols-3 gap-5 mt-14 items-end max-w-3xl mx-auto">
           {TIERS.map((t, i) => (
             <Reveal key={t.rank} delay={i * 90} className={t.order}>
-              <div className={`podium glass glass-hover ${t.featured ? "podium--first" : ""}`}>
-                <div className={`podium__medal ${t.featured ? "podium__medal--lg" : ""}`} aria-hidden="true">
+              <div className={`podium glass glass-hover ${t.variant}`}>
+                <div className={`podium__medal ${t.variant === "podium--first" ? "podium__medal--lg" : ""}`} aria-hidden="true">
                   {t.icon}
                 </div>
                 <p className="podium__rank">{t.rank} place</p>

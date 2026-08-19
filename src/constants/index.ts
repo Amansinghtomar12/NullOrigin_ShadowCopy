@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 
 export const REGISTER_URL = "https://ctf.cyberhx.com/";
+export const UNSTOP_EVENT_URL =
+  "https://unstop.com/hackathons/null-origin-24-hour-ctf-challenge-cyber-hx-1698744";
 export const PARTNER_EMAIL = "partners@cyberhx.com";
 export const ORG_SITE = "https://cyberhx.com";
 export const EVENT_DATE = new Date("2026-09-18T00:00:00+05:30");
@@ -41,7 +43,7 @@ export const CERT_PARTNER = {
 export const PLATFORM_PARTNER = {
   name: "Unstop",
   logo: "/unstop-logo.svg",
-  href: "https://unstop.com/",
+  href: UNSTOP_EVENT_URL,
   tier: "Powered By",
   /** Unstop's mark is solid navy, so it sits on a light plate to stay
       legible on the dark background without recolouring their brand. */
