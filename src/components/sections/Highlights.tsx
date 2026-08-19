@@ -40,16 +40,16 @@ function SampleChallenge() {
   return (
     <div className="glass rounded-[var(--radius)] h-full overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--line)]">
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-emerald-400/90 flex items-center gap-1.5">
+        <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-emerald-400/90 flex items-center gap-1.5">
           <Cpu className="h-3.5 w-3.5" /> Sample challenge
         </span>
-        <span className="font-mono text-[9px] tracking-[0.16em] px-2 py-0.5 rounded bg-amber-900/25 text-amber-400 border border-amber-800/40">
+        <span className="font-mono text-[10px] tracking-[0.16em] px-2 py-0.5 rounded bg-amber-900/25 text-amber-400 border border-amber-800/40">
           EASY
         </span>
       </div>
       <div className="p-5 space-y-4">
-        <p className="text-[12px] text-[var(--muted)]">Decrypt the transmission to capture the flag.</p>
-        <div className="rounded-xl border border-[var(--line)] bg-[rgba(10,3,7,0.42)] p-3.5 font-mono text-[12px] text-emerald-300 break-all select-all tracking-wide">
+        <p className="text-[14px] text-[var(--muted)]">Decrypt the transmission to capture the flag.</p>
+        <div className="rounded-xl border border-[var(--line)] bg-[rgba(10,3,7,0.42)] p-3.5 font-mono text-[13px] text-emerald-300 break-all select-all tracking-wide">
           {SAMPLE_CIPHER}
         </div>
         <form onSubmit={verify} className="space-y-2.5">
@@ -60,7 +60,7 @@ function SampleChallenge() {
             placeholder="flag{...}"
             autoComplete="off"
             spellCheck={false}
-            className={`w-full rounded-xl bg-[rgba(10,3,7,0.35)] border px-3.5 py-2.5 text-[12px] text-white placeholder-[var(--faint)] font-mono transition-all focus:outline-none ${
+            className={`w-full rounded-xl bg-[rgba(10,3,7,0.35)] border px-3.5 py-2.5 text-[13px] text-white placeholder-[var(--faint)] font-mono transition-all focus:outline-none ${
               status === "incorrect"
                 ? "border-red-700"
                 : status === "correct"
@@ -71,12 +71,12 @@ function SampleChallenge() {
           <button type="submit" className="btn btn-ghost w-full !py-2.5">Verify flag</button>
         </form>
         {status === "correct" && (
-          <div className="flex items-center gap-2 text-[11.5px] text-emerald-400 font-semibold bg-emerald-950/25 border border-emerald-800/40 p-3 rounded-xl">
+          <div className="flex items-center gap-2 text-[13px] text-emerald-400 font-semibold bg-emerald-950/25 border border-emerald-800/40 p-3 rounded-xl">
             <CheckCircle className="h-4 w-4" /> Flag accepted — nicely done.
           </div>
         )}
         {status === "incorrect" && (
-          <div className="flex items-center gap-2 text-[11px] text-red-400 bg-red-950/25 border border-red-900/40 p-2.5 rounded-xl font-mono">
+          <div className="flex items-center gap-2 text-[13px] text-red-400 bg-red-950/25 border border-red-900/40 p-2.5 rounded-xl font-mono">
             ✗ Not quite — hint: ROT13.
           </div>
         )}
@@ -103,8 +103,8 @@ export default function Highlights() {
                 <div className="grid place-items-center h-11 w-11 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400">
                   {p.icon}
                 </div>
-                <h3 className="font-display font-bold text-[15px] tracking-wide text-white mt-4">{p.title}</h3>
-                <p className="text-[13px] text-[var(--muted)] leading-relaxed mt-2">{p.desc}</p>
+                <h3 className="font-display font-bold text-[18px] tracking-wide text-white mt-4">{p.title}</h3>
+                <p className="text-[15px] text-[var(--muted)] leading-relaxed mt-2">{p.desc}</p>
               </div>
             </Reveal>
           ))}
@@ -120,8 +120,8 @@ export default function Highlights() {
                       {d.icon}
                     </div>
                     <div>
-                      <p className="text-[13px] font-semibold text-white tracking-wide">{d.name}</p>
-                      <p className="text-[11.5px] text-[var(--faint)] mt-0.5">{d.desc}</p>
+                      <p className="text-[15px] font-semibold text-white tracking-wide">{d.name}</p>
+                      <p className="text-[13.5px] text-[var(--faint)] mt-0.5">{d.desc}</p>
                     </div>
                   </div>
                 ))}

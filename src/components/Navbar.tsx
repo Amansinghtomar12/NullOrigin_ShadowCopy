@@ -44,10 +44,10 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />
             <span className="flex flex-col leading-none">
-              <span className="font-display font-extrabold text-[13px] tracking-[0.14em] text-white">
+              <span className="font-display font-extrabold text-[14px] tracking-[0.14em] text-white">
                 NULL ORIGIN
               </span>
-              <span className="font-mono text-[9px] tracking-[0.28em] text-[var(--faint)] mt-1">
+              <span className="font-mono text-[10px] tracking-[0.28em] text-[var(--faint)] mt-1">
                 CTF · 2026
               </span>
             </span>
@@ -82,7 +82,7 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
             </button>
             <a
               href="#sponsors"
-              className="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-4 !text-[11px]"
+              className="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-4 !text-[13px]"
               onMouseEnter={() => sound.playHover()}
             >
               Partner with us
@@ -90,7 +90,7 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
             <button
               onClick={onRegister}
               onMouseEnter={() => sound.playHover()}
-              className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-4 !text-[11px] cursor-pointer"
+              className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-4 !text-[13px] cursor-pointer"
             >
               Register <ArrowRight className="h-3.5 w-3.5" />
             </button>
@@ -111,7 +111,7 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="block font-mono text-[12px] tracking-[0.14em] uppercase text-[var(--muted)] hover:text-white py-2"
+                className="block font-mono text-[14px] tracking-[0.14em] uppercase text-[var(--muted)] hover:text-white py-2"
                 onClick={() => setOpen(false)}
               >
                 {s.label}

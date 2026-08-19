@@ -45,20 +45,20 @@ function PartnerFeature({ name, logo, href, tier, plate, blurb, about, includes 
       </a>
 
       <div className="relative flex-1 p-6 sm:p-8">
-        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-[var(--accent)] flex items-center gap-2">
+        <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-[var(--accent)] flex items-center gap-2">
           <span className="dot" aria-hidden="true" /> Confirmed · {tier}
         </p>
         <p className="font-display text-[22px] tracking-wide text-white mt-3 leading-snug">
           {blurb}
         </p>
-        <p className="text-[15px] leading-relaxed text-[var(--muted)] mt-3">{about}</p>
+        <p className="text-[16px] leading-relaxed text-[var(--muted)] mt-3">{about}</p>
 
-        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-red-400 mt-6 mb-3">
+        <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-red-400 mt-6 mb-3">
           What this partnership covers
         </p>
         <ul className="grid sm:grid-cols-2 gap-x-5 gap-y-2">
           {includes.map((item) => (
-            <li key={item} className="flex items-start gap-2.5 text-[15px] text-[var(--muted)]">
+            <li key={item} className="flex items-start gap-2.5 text-[16px] text-[var(--muted)]">
               <Check className="h-4 w-4 mt-[5px] shrink-0 text-[var(--accent)]" />
               <span>{item}</span>
             </li>
@@ -110,7 +110,7 @@ export default function Sponsors() {
                       {w.icon}
                     </div>
                     <p className="font-display text-[20px] tracking-wide text-white mt-4">{w.title}</p>
-                    <p className="text-[15px] text-[var(--muted)] leading-relaxed mt-1.5">{w.desc}</p>
+                    <p className="text-[16px] text-[var(--muted)] leading-relaxed mt-1.5">{w.desc}</p>
                   </div>
                 </div>
               ))}

@@ -35,7 +35,7 @@ export default function Closer() {
                 Register your team <ArrowRight className="h-4 w-4" />
               </a>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-[12px] text-[var(--muted)]">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-[14px] text-[var(--muted)]">
               <a
                 href={`mailto:${PARTNER_EMAIL}`}
                 className="inline-flex items-center gap-2 hover:text-white transition-colors"

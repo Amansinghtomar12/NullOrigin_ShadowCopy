@@ -28,7 +28,7 @@ export default function FAQ() {
                   onClick={() => { setOpen(open === i ? null : i); sound.playClick(); }}
                   aria-expanded={open === i}
                 >
-                  <span className="text-[13.5px] font-semibold text-white">{f.q}</span>
+                  <span className="text-[15.5px] font-semibold text-white">{f.q}</span>
                   {open === i
                     ? <ChevronUp className="h-4 w-4 text-red-500 shrink-0" />
                     : <ChevronDown className="h-4 w-4 text-[var(--faint)] shrink-0" />
@@ -36,7 +36,7 @@ export default function FAQ() {
                 </button>
                 {open === i && (
                   <div className="px-5 pb-5 -mt-1">
-                    <p className="text-[13px] text-[var(--muted)] leading-relaxed border-t border-[var(--line)] pt-4">
+                    <p className="text-[15px] text-[var(--muted)] leading-relaxed border-t border-[var(--line)] pt-4">
                       {f.a}
                     </p>
                   </div>

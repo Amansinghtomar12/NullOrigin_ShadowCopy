@@ -64,7 +64,8 @@ competition. Visitors can:
 - **Zero animation libraries** — every effect (3D scroll, mesh, tilt, intro,
   parallax) is hand-built with canvas, CSS transforms and
   `requestAnimationFrame`
-- **Self-hosted fonts** — Bangers, Mouse Memoirs and Fira Code ship from
+- **Self-hosted fonts** — Bangers for display, Inter for reading text and
+  Fira Code for terminal details, all shipped from
   `/public/fonts`, so no third-party font request and no layout shift
 - **Fast** — measured at **~145 fps on desktop and ~450 fps on mobile** while
   scrolling, with every effect running

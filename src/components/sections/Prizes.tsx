@@ -61,7 +61,7 @@ export default function Prizes() {
         </div>
 
         <Reveal delay={140}>
-          <p className="text-center text-[13px] text-[var(--faint)] mt-8">
+          <p className="text-center text-[14px] text-[var(--faint)] mt-8">
             Additional category prizes and special mentions for top solvers.
           </p>
         </Reveal>

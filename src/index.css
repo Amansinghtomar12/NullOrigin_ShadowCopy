@@ -10,8 +10,11 @@
    ═══════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Bangers = display, Mouse Memoirs = body, Fira Code = code/labels */
-  --font-sans: 'Mouse Memoirs', system-ui, sans-serif;
+  /* Bangers = display, Inter = body/reading, Fira Code = code/labels.
+     Inter carries every sentence meant to be read — a tall x-height,
+     open apertures and generous spacing keep long text comfortable on
+     a dark ground, where condensed display faces fall apart. */
+  --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'Fira Code', ui-monospace, monospace;
   --font-display: 'Bangers', system-ui, cursive;
 
@@ -70,13 +73,13 @@
   --line-soft: rgba(255, 51, 85, 0.35);
   --line-strong: #ff3355;
   --text: #f4f6f5;
-  --muted: #a2a9b0;
-  --faint: #8b93a0;
+  --muted: #b8bfc7;
+  --faint: #99a2ad;
   --accent: #ff4d6a;
   --red: #ff3355;
   --amber: #ffc23c;
   --white: #f4f6f5;
-  --dim: #a2a9b0;
+  --dim: #b8bfc7;
 
   /* Comic panels are generously rounded — this is the single knob
      that most defines the look, so everything reads off it. */
@@ -99,10 +102,13 @@ body {
   /* Just the fallback colour — the fixed .cosmos layer paints the scene. */
   background-color: #0a0812;
   color: var(--text);
-  font-family: 'Mouse Memoirs', system-ui, sans-serif;
-  font-size: 20px;
-  line-height: 1.55;
+  font-family: 'Inter', system-ui, sans-serif;
+  /* 17px/1.7 — the comfortable long-form reading size for Inter on a
+     dark ground. Everything smaller is a deliberate label, not prose. */
+  font-size: 17px;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection { background: var(--red); color: #0a0a12; }
@@ -284,9 +290,9 @@ input[type="file"] {
 }
 
 .lead {
-  font-size: clamp(17px, 1.45vw, 21px);
+  font-size: clamp(18px, 1.5vw, 21px);
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.75;
 }
 
 .eyebrow {
@@ -330,9 +336,10 @@ input[type="file"] {
   border-radius: var(--radius-pill);
   border: 2px solid var(--line-soft);
   background: rgba(255, 51, 85, 0.06);
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--muted);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 .chip:hover {
@@ -345,7 +352,7 @@ input[type="file"] {
   align-items: center;
   gap: 9px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -404,7 +411,7 @@ input[type="file"] {
 .coin.r .n { color: var(--red); text-shadow: 0 0 22px rgba(255, 51, 85, 0.4); }
 .coin .l {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--faint);
   letter-spacing: 0.2em;
@@ -613,7 +620,7 @@ input[type="file"] {
 .nav-link {
   position: relative;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1424,7 +1431,7 @@ input[type="file"] {
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -1440,8 +1447,8 @@ input[type="file"] {
 }
 
 .tl-desc {
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 15.5px;
+  line-height: 1.65;
   color: var(--muted);
   margin-top: 6px;
   max-width: 46ch;
@@ -1524,9 +1531,9 @@ input[type="file"] {
 .podium__perks {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   margin-top: 12px;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--muted);
 }
 
