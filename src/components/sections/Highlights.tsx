@@ -49,7 +49,7 @@ function SampleChallenge() {
       </div>
       <div className="p-5 space-y-4">
         <p className="text-[12px] text-[var(--muted)]">Decrypt the transmission to capture the flag.</p>
-        <div className="rounded-xl border border-[var(--line)] bg-black/50 p-3.5 font-mono text-[12px] text-emerald-300 break-all select-all tracking-wide">
+        <div className="rounded-xl border border-[var(--line)] bg-[rgba(10,3,7,0.42)] p-3.5 font-mono text-[12px] text-emerald-300 break-all select-all tracking-wide">
           {SAMPLE_CIPHER}
         </div>
         <form onSubmit={verify} className="space-y-2.5">
@@ -60,7 +60,7 @@ function SampleChallenge() {
             placeholder="flag{...}"
             autoComplete="off"
             spellCheck={false}
-            className={`w-full rounded-xl bg-black/40 border px-3.5 py-2.5 text-[12px] text-white placeholder-[var(--faint)] font-mono transition-all focus:outline-none ${
+            className={`w-full rounded-xl bg-[rgba(10,3,7,0.35)] border px-3.5 py-2.5 text-[12px] text-white placeholder-[var(--faint)] font-mono transition-all focus:outline-none ${
               status === "incorrect"
                 ? "border-red-700"
                 : status === "correct"

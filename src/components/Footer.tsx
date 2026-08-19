@@ -113,7 +113,7 @@ export default function Footer() {
                     href={href}
                     className="text-[11px] text-zinc-500 hover:text-red-400 transition-colors tracking-wider group flex items-center gap-1.5"
                   >
-                    <span className="w-1 h-1 rounded-full bg-zinc-700 group-hover:bg-red-500 transition-colors" />
+                    <span className="w-1 h-1 rounded-full bg-[rgba(40,12,22,0.55)] group-hover:bg-red-500 transition-colors" />
                     {label}
                   </a>
                 </li>

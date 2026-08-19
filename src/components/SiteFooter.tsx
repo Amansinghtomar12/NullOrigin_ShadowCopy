@@ -2,7 +2,7 @@ import { NAV, SOCIALS, PARTNER_EMAIL, ORG_SITE, PARTNERS } from "../constants";
 
 export default function SiteFooter() {
   return (
-    <footer className="relative border-t border-[var(--line)] bg-black/60 backdrop-blur-xl">
+    <footer className="relative border-t border-[var(--line)] bg-transparent ">
       <div className="hairline" />
       <div className="shell py-12 grid grid-cols-2 lg:grid-cols-4 gap-8">
         <div className="col-span-2 lg:col-span-1 space-y-3">

@@ -20,7 +20,7 @@ export default function HomeHeader({
   const navigate = useNavigate();
 
   return (
-    <header className="relative z-20 w-full px-5 md:px-8 py-3 md:py-4 flex justify-between items-center bg-black/90 backdrop-blur-md border-b border-red-600/25 transition-all duration-300">
+    <header className="relative z-20 w-full px-5 md:px-8 py-3 md:py-4 flex justify-between items-center bg-[rgba(14,4,9,0.5)]  border-b border-red-600/25 transition-all duration-300">
       <div className="flex items-center space-x-3 md:space-x-4">
         <img
           src="/mask.png"
@@ -52,7 +52,7 @@ export default function HomeHeader({
           onClick={onToggleSound}
           onMouseEnter={() => sound.playHover()}
           aria-label={audioEnabled ? "Mute sounds" : "Unmute sounds"}
-          className="p-2.5 border border-zinc-800 rounded-md bg-zinc-900/50 hover:bg-red-950/20 hover:border-red-700/40 transition-all text-zinc-500 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-600/50 focus:ring-offset-1 focus:ring-offset-black cursor-pointer"
+          className="p-2.5 border border-zinc-800 rounded-md bg-[rgba(24,7,14,0.5)]/50 hover:bg-red-950/20 hover:border-red-700/40 transition-all text-zinc-500 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-600/50 focus:ring-offset-1 focus:ring-offset-black cursor-pointer"
         >
           {audioEnabled ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
         </button>
@@ -61,7 +61,7 @@ export default function HomeHeader({
           onClick={onCopyLink}
           onMouseEnter={() => sound.playHover()}
           aria-label="Copy share link"
-          className="flex items-center space-x-2 px-3 md:px-4 py-2 border border-zinc-800 rounded-md bg-zinc-900/50 hover:text-red-400 text-zinc-500 hover:bg-red-950/20 hover:border-red-700/40 transition-all text-[11px] font-bold tracking-widest focus:outline-none focus:ring-2 focus:ring-red-600/50 focus:ring-offset-1 focus:ring-offset-black cursor-pointer"
+          className="flex items-center space-x-2 px-3 md:px-4 py-2 border border-zinc-800 rounded-md bg-[rgba(24,7,14,0.5)]/50 hover:text-red-400 text-zinc-500 hover:bg-red-950/20 hover:border-red-700/40 transition-all text-[11px] font-bold tracking-widest focus:outline-none focus:ring-2 focus:ring-red-600/50 focus:ring-offset-1 focus:ring-offset-black cursor-pointer"
         >
           <Share2 className="h-3.5 w-3.5 flex-shrink-0" />
           <span className="hidden sm:inline">{copiedLink ? "COPIED ✓" : "SHARE"}</span>

@@ -60,7 +60,7 @@ export default function About() {
               <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] uppercase text-emerald-400/90">
                 <Terminal className="h-3.5 w-3.5" /> intel_briefing
               </div>
-              <div className="mt-4 rounded-xl border border-[var(--line)] bg-black/50 p-4 font-mono text-[11.5px] leading-relaxed text-emerald-300/85 space-y-1.5">
+              <div className="mt-4 rounded-xl border border-[var(--line)] bg-[rgba(10,3,7,0.42)] p-4 font-mono text-[11.5px] leading-relaxed text-emerald-300/85 space-y-1.5">
                 <p><span className="text-red-500">root@nullorigin</span>:~$ cat mission.txt</p>
                 <p className="text-[var(--faint)]">────────────────────────────</p>
                 <p>MISSION ··· Infiltrate. Exploit. Capture.</p>

@@ -43,7 +43,7 @@ export default function HackerMask() {
       <div className="absolute inset-0 bg-red-600/5 rounded-full filter blur-3xl scale-75 animate-pulse"></div>
       
       {imgSrc ? (
-        <div className="w-full h-full relative overflow-hidden border border-red-950/40 rounded flex items-center justify-center bg-black/40">
+        <div className="w-full h-full relative overflow-hidden border border-red-950/40 rounded flex items-center justify-center bg-[rgba(10,3,7,0.35)]">
           <img
             src={imgSrc}
             alt="Null Origin CTF Mask"
