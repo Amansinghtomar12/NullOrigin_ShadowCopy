@@ -45,7 +45,7 @@ function PartnerFeature({ name, logo, href, tier, plate, blurb, about, includes 
       </a>
 
       <div className="relative flex-1 p-6 sm:p-8">
-        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-[var(--green)] flex items-center gap-2">
+        <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-[var(--accent)] flex items-center gap-2">
           <span className="dot" aria-hidden="true" /> Confirmed · {tier}
         </p>
         <p className="font-display text-[22px] tracking-wide text-white mt-3 leading-snug">
@@ -59,7 +59,7 @@ function PartnerFeature({ name, logo, href, tier, plate, blurb, about, includes 
         <ul className="grid sm:grid-cols-2 gap-x-5 gap-y-2">
           {includes.map((item) => (
             <li key={item} className="flex items-start gap-2.5 text-[15px] text-[var(--muted)]">
-              <Check className="h-4 w-4 mt-[5px] shrink-0 text-[var(--green)]" />
+              <Check className="h-4 w-4 mt-[5px] shrink-0 text-[var(--accent)]" />
               <span>{item}</span>
             </li>
           ))}

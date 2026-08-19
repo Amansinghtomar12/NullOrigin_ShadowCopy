@@ -14,6 +14,12 @@ import { useReducedMotion } from "../hooks/useReducedMotion";
  * with scroll velocity is exactly what makes this kind of effect
  * dizzying; a gentle constant offset does not.
  *
+ * The pointer is part of the network: it links to every node in reach,
+ * a little brighter than the mesh's own links, and leaves a short comet
+ * trail. The page's world responds to the visitor instead of merely
+ * playing behind them. Both are pointer-only — touch devices never see a
+ * phantom cursor.
+ *
  * Nodes carry a z depth used only for size and brightness, which gives
  * the mesh volume without moving anything toward the camera.
  *
@@ -48,6 +54,11 @@ export default function NetworkField({ className = "" }: { className?: string })
     let cx = 0;
     let cy = 0;
     let lastScroll = window.scrollY;
+    // Pointer in canvas coordinates. Parked far off-screen until the
+    // first real move, so nothing links to a corner nobody touched.
+    let mx = -1e4;
+    let my = -1e4;
+    const trail: { x: number; y: number; life: number }[] = [];
 
     const populate = () => {
       const target = Math.max(34, Math.min(MAX_NODES, Math.round((w * h) / 9000)));
@@ -133,6 +144,38 @@ export default function NetworkField({ className = "" }: { className?: string })
         ctx.arc(n.x + cx * n.z, n.y + cy * n.z, r, 0, Math.PI * 2);
         ctx.fill();
       }
+
+      // The pointer as a live node: brighter links, slightly longer reach
+      // than the mesh gives itself, so approaching a cluster visibly
+      // "wakes" it before the cursor arrives.
+      if (mx > -1e3) {
+        const reach = LINK_DIST * 1.5;
+        for (const n of nodes) {
+          const dx = n.x - mx;
+          const dy = n.y - my;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > reach * reach) continue;
+          const t = 1 - Math.sqrt(d2) / reach;
+          ctx.strokeStyle = `rgba(255, 120, 140, ${(t * 0.7).toFixed(3)})`;
+          ctx.lineWidth = 1 + t * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(mx, my);
+          ctx.lineTo(n.x + cx * n.z, n.y + cy * n.z);
+          ctx.stroke();
+        }
+        ctx.lineWidth = 1;
+
+        // Comet trail: recent pointer positions, shrinking as they age.
+        for (const seg of trail) {
+          seg.life -= 0.045;
+          if (seg.life <= 0) continue;
+          ctx.fillStyle = `rgba(255, 90, 112, ${(seg.life * 0.5).toFixed(3)})`;
+          ctx.beginPath();
+          ctx.arc(seg.x, seg.y, seg.life * 3.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        while (trail.length && trail[0].life <= 0) trail.shift();
+      }
     };
 
     const loop = () => {
@@ -143,6 +186,15 @@ export default function NetworkField({ className = "" }: { className?: string })
     const onPointer = (e: PointerEvent) => {
       px = (e.clientX / window.innerWidth) * 2 - 1;
       py = (e.clientY / window.innerHeight) * 2 - 1;
+      // The canvas is fixed and full-viewport, so client coordinates map
+      // to canvas coordinates directly.
+      mx = e.clientX;
+      my = e.clientY;
+      const last = trail[trail.length - 1];
+      if (!last || Math.hypot(mx - last.x, my - last.y) > 9) {
+        trail.push({ x: mx, y: my, life: 1 });
+        if (trail.length > 26) trail.shift();
+      }
     };
 
     resize();

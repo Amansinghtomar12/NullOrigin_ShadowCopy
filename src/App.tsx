@@ -22,6 +22,7 @@ import { useHomeState } from "./hooks/useHomeState";
 import { useScrollReveal } from "./components/ui";
 import { useScrollDepth } from "./hooks/useScrollDepth";
 import { useTilt } from "./hooks/useTilt";
+import { useOperatorTouches } from "./hooks/useOperatorTouches";
 
 export default function App() {
   const [page, setPage] = useState<"home" | "register">("home");
@@ -29,6 +30,7 @@ export default function App() {
   useScrollReveal();
   useScrollDepth();
   useTilt();
+  useOperatorTouches();
 
   if (page === "register") {
     return <RegistrationPage onBack={() => setPage("home")} />;

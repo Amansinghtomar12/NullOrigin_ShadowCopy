@@ -22,6 +22,7 @@ export default function CosmicBackground() {
       <div className="cosmos__nebula cosmos__nebula--c" />
       <div className="cosmos__grid" />
       <NetworkField />
+      <div className="cosmos__grain" />
       <div className="cosmos__vignette" />
     </div>
   );

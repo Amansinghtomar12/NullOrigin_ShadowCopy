@@ -24,7 +24,7 @@ export default function SponsorStrip() {
               onMouseEnter={() => sound.playHover()}
               onClick={() => sound.playClick()}
             >
-              <span className="font-mono text-[9px] font-bold tracking-[0.22em] uppercase text-[var(--faint)] group-hover:text-[var(--green)] transition-colors">
+              <span className="font-mono text-[9px] font-bold tracking-[0.22em] uppercase text-[var(--faint)] group-hover:text-[var(--accent)] transition-colors">
                 {p.tier}
               </span>
               <span className={`grid h-[54px] place-items-center ${p.plate ? "sponsor-plate" : ""}`}>
@@ -40,7 +40,7 @@ export default function SponsorStrip() {
           <a
             href="#sponsors"
             style={{ marginTop: "26px" }}
-            className="font-mono text-[11px] font-bold tracking-[0.16em] uppercase text-[var(--muted)] hover:text-[var(--green)] transition-colors whitespace-nowrap"
+            className="font-mono text-[11px] font-bold tracking-[0.16em] uppercase text-[var(--muted)] hover:text-[var(--accent)] transition-colors whitespace-nowrap"
             onMouseEnter={() => sound.playHover()}
           >
             See all partners →

@@ -57,7 +57,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
         <h1
           data-depth="0.9"
-          className="h-display title3d"
+          className="h-display title3d glitchy"
           style={{ fontSize: "clamp(28px,8vw,72px)", lineHeight: "1.1" }}
         >
           NULL
@@ -90,19 +90,19 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
         <div data-depth="0.25" className="coin-counter glass inline-flex mt-[36px] mx-4">
           <div className="coin">
-            <div className="n">{timeLeft.days}</div>
+            <div key={timeLeft.days} className="n">{timeLeft.days}</div>
             <div className="l">DAYS</div>
           </div>
           <div className="coin">
-            <div className="n">{timeLeft.hours}</div>
+            <div key={timeLeft.hours} className="n">{timeLeft.hours}</div>
             <div className="l">HRS</div>
           </div>
           <div className="coin">
-            <div className="n">{timeLeft.minutes}</div>
+            <div key={timeLeft.minutes} className="n">{timeLeft.minutes}</div>
             <div className="l">MIN</div>
           </div>
           <div className="coin r">
-            <div className="n">{timeLeft.seconds}</div>
+            <div key={timeLeft.seconds} className="n">{timeLeft.seconds}</div>
             <div className="l">SEC</div>
           </div>
         </div>

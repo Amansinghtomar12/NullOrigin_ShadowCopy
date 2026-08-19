@@ -1251,3 +1251,93 @@ input[type="file"] {
     animation: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   FINAL TOUCHES
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Film grain ──────────────────────────────────────────────
+   Static SVG turbulence at very low opacity. Breaks up gradient
+   banding and gives the whole surface a print-like texture; static
+   because animated grain costs a repaint for something nobody can
+   consciously see. */
+.cosmos__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* ── Countdown tick ──────────────────────────────────────────
+   Each digit remounts when its value changes, so this plays exactly
+   once per tick: the new number drops in with a small overshoot. */
+.coin .n {
+  animation: coin-pop 0.34s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+
+@keyframes coin-pop {
+  from { opacity: 0.2; transform: translateY(-9px) scale(1.18); }
+  to   { opacity: 1;   transform: none; }
+}
+
+/* ── Title glitch ────────────────────────────────────────────
+   A short RGB-split burst every few seconds. Runs on filter, which the
+   heading already owns for its drop shadow, so the burst frames must
+   carry that base shadow too or it blinks off during the burst. The
+   split colours are the palette's own red and amber. */
+.glitchy {
+  animation:
+    title-float 7s ease-in-out infinite,
+    title-glitch 5.2s steps(1) infinite;
+}
+
+@keyframes title-glitch {
+  0%, 90.9%, 94.1%, 100% {
+    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.55));
+  }
+  91% {
+    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.55))
+            drop-shadow(-5px 0 0 rgba(255, 51, 85, 0.85))
+            drop-shadow(5px 0 0 rgba(255, 194, 60, 0.7));
+  }
+  92.2% {
+    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.55))
+            drop-shadow(4px 0 0 rgba(255, 51, 85, 0.8))
+            drop-shadow(-4px 0 0 rgba(255, 255, 255, 0.45));
+  }
+  93.4% {
+    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.55))
+            drop-shadow(-3px 2px 0 rgba(255, 194, 60, 0.6));
+  }
+}
+
+/* ── Button shine ────────────────────────────────────────────
+   A light band sweeps across on hover — once, driven by the
+   transition, not a loop. */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  bottom: -30%;
+  left: -70%;
+  width: 45%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  transform: skewX(-18deg) translateX(0);
+  transition: transform 0.55s ease;
+  pointer-events: none;
+}
+.btn:hover::after {
+  transform: skewX(-18deg) translateX(420%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitchy { animation: none; }
+  .coin .n { animation: none; }
+  .btn::after { display: none; }
+}
