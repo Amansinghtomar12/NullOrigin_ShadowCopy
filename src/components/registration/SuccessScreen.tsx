@@ -1,102 +1,87 @@
+import { useEffect } from "react";
+import { Check } from "lucide-react";
 import { sound } from "../../hooks/utils/audio";
+import CosmicBackground from "../CosmicBackground";
 import { FormData, initialForm } from "./types";
 import { RegistrationHeader, RegistrationFooter } from "./RegLayout";
 
 interface Props { form: FormData; onBack: () => void; onReset: (form: FormData) => void; }
 
 export default function SuccessScreen({ form, onBack, onReset }: Props) {
+  // The submit button sits deep in the form — start the confirmation at
+  // the top so the header and the whole card are in view.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{
-        background: "#0a0a12",
-        color: "#f4f6f5",
-        fontFamily: "'VT323', monospace",
-        backgroundImage: `
-          radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0),
-          linear-gradient(rgba(57,255,106,.035) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(57,255,106,.035) 1px, transparent 1px)
-        `,
-        backgroundSize: "24px 24px, 96px 96px, 96px 96px",
-      }}
-    >
-      <RegistrationHeader onBack={onBack} />
+    <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
+      <CosmicBackground />
+      <div className="above-cosmos flex min-h-screen flex-col">
+        <RegistrationHeader onBack={onBack} />
 
-      <main className="flex-1 flex items-center justify-center px-4 py-16">
-        <div
-          className="max-w-md w-full border-[3px] border-[#000] px-[30px] py-[38px] text-center"
-          style={{ background: "#15151f", boxShadow: "8px 8px 0 #000" }}
-        >
-          {/* Success icon */}
-          <div
-            className="inline-flex items-center justify-center w-[60px] h-[60px] border-[3px] border-[#000] mb-6 mx-auto"
-            style={{ background: "#39ff6a", color: "#000", fontFamily: "'Press Start 2P', monospace", fontSize: "24px" }}
-          >
-            ✓
+        <main className="flex-1 flex items-center justify-center px-4 py-16">
+          <div className="glass-strong rounded-[var(--radius-lg)] max-w-md w-full px-7 sm:px-9 py-10 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border-[3px] border-[var(--amber)] bg-[rgba(255,194,60,0.1)] mb-6 mx-auto">
+              <Check className="h-8 w-8 text-[var(--amber)]" />
+            </div>
+
+            <h1 className="h-display text-[clamp(1.5rem,3.5vw,2rem)] mb-3">
+              Registration confirmed
+            </h1>
+
+            <p className="text-[15px] text-[var(--muted)] leading-relaxed mb-7">
+              Team <span className="text-[var(--amber)] font-semibold">{form.teamName}</span> is
+              registered for Null Origin CTF. Check your inbox for confirmation details.
+            </p>
+
+            <div className="rounded-2xl border-2 border-[var(--line-soft)] bg-[rgba(10,3,7,0.42)] p-5 text-left mb-7">
+              {[
+                { label: "Team", value: form.teamName, accent: true },
+                { label: "Leader", value: form.leaderName },
+                { label: "Email", value: form.leaderEmail },
+                { label: "Country", value: form.country },
+              ].map(({ label, value, accent }) => (
+                <div
+                  key={label}
+                  className="flex items-center justify-between gap-4 py-2 border-b border-[var(--line-soft)] last:border-0"
+                >
+                  <span className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--faint)] shrink-0">
+                    {label}
+                  </span>
+                  <span
+                    className={`text-[14px] truncate text-right ${
+                      accent ? "text-[var(--amber)] font-semibold" : "text-white"
+                    }`}
+                  >
+                    {value}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => { sound.playClick?.(); onReset(initialForm); }}
+                onMouseEnter={() => sound.playHover?.()}
+                className="btn btn-primary w-full cursor-pointer"
+              >
+                Register another team
+              </button>
+              <button
+                type="button"
+                onClick={() => { sound.playClick?.(); onBack(); }}
+                className="w-full cursor-pointer bg-transparent border-0 text-[14px] text-[var(--muted)] hover:text-white transition-colors py-2"
+              >
+                ← Back to site
+              </button>
+            </div>
           </div>
+        </main>
 
-          <h1
-            className="mb-3"
-            style={{ fontFamily: "'Press Start 2P', monospace", fontSize: "16px", color: "#39ff6a", lineHeight: 1.5 }}
-          >
-            REGISTRATION CONFIRMED
-          </h1>
-
-          <p className="text-[18px] text-[#7c8389] mb-6">
-            Team <span className="text-[#39ff6a]">{form.teamName}</span> is registered for Null Origin CTF.
-            Check your inbox for confirmation details.
-          </p>
-
-          {/* Summary box */}
-          <div
-            className="border-[3px] border-[#000] p-4 text-left mb-6"
-            style={{ background: "#101018" }}
-          >
-            {[
-              { label: "TEAM",    value: form.teamName,    accent: true },
-              { label: "LEADER",  value: form.leaderName },
-              { label: "EMAIL",   value: form.leaderEmail },
-              { label: "COUNTRY", value: form.country },
-            ].map(({ label, value, accent }) => (
-              <div key={label} className="flex items-center justify-between gap-4 py-1 border-b border-[#000] last:border-0">
-                <span className="text-[15px] text-[#7c8389] flex-shrink-0">{label}</span>
-                <span className={`text-[15px] truncate text-right ${accent ? "text-[#39ff6a]" : "text-[#f4f6f5]"}`}>
-                  {value}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Actions */}
-          <div className="space-y-3">
-            <button
-              onClick={() => { sound.playClick?.(); onReset(initialForm); }}
-              onMouseEnter={() => sound.playHover?.()}
-              className="w-full cursor-pointer"
-              style={{
-                fontFamily: "'Press Start 2P', monospace",
-                fontSize: "11px",
-                padding: "14px",
-                border: "3px solid #000",
-                background: "#ff3355",
-                color: "#000",
-                boxShadow: "4px 4px 0 #000",
-              }}
-            >
-              REGISTER ANOTHER TEAM →
-            </button>
-            <button
-              onClick={() => { sound.playClick?.(); onBack(); }}
-              className="w-full cursor-pointer text-[15px] text-[#7c8389] hover:text-[#f4f6f5] transition-colors py-2"
-              style={{ background: "transparent", border: "none" }}
-            >
-              ← BACK TO PORTAL
-            </button>
-          </div>
-        </div>
-      </main>
-
-      <RegistrationFooter />
+        <RegistrationFooter />
+      </div>
     </div>
   );
 }

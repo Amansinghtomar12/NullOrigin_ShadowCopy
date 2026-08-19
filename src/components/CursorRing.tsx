@@ -83,13 +83,13 @@ export default function CursorRing() {
     <div ref={el} className="cursor-ring" aria-hidden="true">
       <svg viewBox="0 0 64 64">
         {/* steady faint circle — the base of the instrument */}
-        <circle cx="32" cy="32" r="24" stroke="rgba(255,51,85,0.22)" strokeWidth="1" fill="none" />
+        <circle cx="32" cy="32" r="24" stroke="rgba(255,51,85,0.3)" strokeWidth="1" fill="none" />
         {/* two broken arc rings, counter-rotating */}
         <g className="cr-spin-a">
           <circle
             className="cr-ink"
             cx="32" cy="32" r="27.5"
-            stroke="rgba(255,51,85,0.6)" strokeWidth="1.3" fill="none"
+            stroke="rgba(255,23,68,0.8)" strokeWidth="1.4" fill="none"
             strokeDasharray="56 34 22 61"
           />
         </g>
@@ -97,7 +97,7 @@ export default function CursorRing() {
           <circle
             className="cr-ink"
             cx="32" cy="32" r="20.5"
-            stroke="rgba(255,107,133,0.45)" strokeWidth="1" fill="none"
+            stroke="rgba(255,51,85,0.6)" strokeWidth="1" fill="none"
             strokeDasharray="34 30 16 49"
           />
         </g>

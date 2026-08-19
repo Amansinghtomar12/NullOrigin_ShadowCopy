@@ -1,4 +1,4 @@
-import { FormData, inputClass, inputErrorClass, selectClass, selectErrorClass, errorTextClass, labelClass, sectionHeadingClass } from "./types";
+import { FormData, FIELD_MAX, inputClass, inputErrorClass, selectClass, selectErrorClass, errorTextClass, labelClass, sectionHeadingClass } from "./types";
 import { FieldErrors } from "./validation";
 import { COUNTRIES } from "./countries";
 
@@ -14,25 +14,25 @@ export default function TeamLeaderFields({ form, errors, onChange, onBlur }: Pro
 
   return (
     <>
-      {/* Team Information */}
-      <div className="mb-[30px]">
+      {/* Team information */}
+      <div className="mb-8">
         <div className={sectionHeadingClass}>
-          <span className="inline-block w-1 h-[14px] bg-[#ff3355] flex-shrink-0" />
-          TEAM INFORMATION
+          <span className="inline-block w-1.5 h-3.5 rounded-full bg-[var(--accent)] shrink-0" />
+          Team information
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="flex flex-col gap-2">
             <label htmlFor="teamName" className={labelClass}>
-              TEAM NAME <span className="text-[#ff3355]">*</span>
+              Team name <span className="text-red-400">*</span>
             </label>
             <input
               id="teamName" type="text" required
               value={form.teamName}
               onChange={(e) => onChange("teamName", e.target.value)}
               onBlur={() => onBlur("teamName")}
-              placeholder="TEAM_NAME"
+              placeholder="team_name"
               autoComplete="off"
-              maxLength={50}
+              maxLength={FIELD_MAX.teamName}
               aria-invalid={Boolean(errors.teamName)}
               aria-describedby={errors.teamName ? "teamName-error" : undefined}
               className={cls("teamName")}
@@ -41,7 +41,7 @@ export default function TeamLeaderFields({ form, errors, onChange, onBlur }: Pro
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="country" className={labelClass}>
-              COUNTRY <span className="text-[#ff3355]">*</span>
+              Country <span className="text-red-400">*</span>
             </label>
             <div className="relative">
               <select
@@ -54,15 +54,14 @@ export default function TeamLeaderFields({ form, errors, onChange, onBlur }: Pro
                 aria-describedby={errors.country ? "country-error" : undefined}
                 className={errors.country ? selectErrorClass : selectClass}
               >
-                <option value="" disabled>SELECT COUNTRY</option>
+                <option value="" disabled>Select country</option>
                 {COUNTRIES.map((c) => (
-                  <option key={c} value={c}>{c.toUpperCase()}</option>
+                  <option key={c} value={c}>{c}</option>
                 ))}
               </select>
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute right-[14px] top-1/2 -translate-y-1/2 text-[#39ff6a]"
-                style={{ fontFamily: "'Press Start 2P', monospace", fontSize: "10px" }}
+                className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--accent)] text-[12px]"
               >
                 ▾
               </span>
@@ -72,24 +71,25 @@ export default function TeamLeaderFields({ form, errors, onChange, onBlur }: Pro
         </div>
       </div>
 
-      {/* Team Leader */}
-      <div className="mb-[30px]">
+      {/* Team leader */}
+      <div className="mb-8">
         <div className={sectionHeadingClass}>
-          <span className="inline-block w-1 h-[14px] bg-[#ff3355] flex-shrink-0" />
-          TEAM LEADER
+          <span className="inline-block w-1.5 h-3.5 rounded-full bg-[var(--accent)] shrink-0" />
+          Team leader
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="flex flex-col gap-2">
             <label htmlFor="leaderName" className={labelClass}>
-              FULL NAME <span className="text-[#ff3355]">*</span>
+              Full name <span className="text-red-400">*</span>
             </label>
             <input
               id="leaderName" type="text" required
               value={form.leaderName}
               onChange={(e) => onChange("leaderName", e.target.value)}
               onBlur={() => onBlur("leaderName")}
-              placeholder="LEADER_NAME"
+              placeholder="Leader name"
               autoComplete="name"
+              maxLength={FIELD_MAX.leaderName}
               aria-invalid={Boolean(errors.leaderName)}
               aria-describedby={errors.leaderName ? "leaderName-error" : undefined}
               className={cls("leaderName")}
@@ -98,16 +98,17 @@ export default function TeamLeaderFields({ form, errors, onChange, onBlur }: Pro
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="leaderEmail" className={labelClass}>
-              EMAIL <span className="text-[#ff3355]">*</span>
+              Email <span className="text-red-400">*</span>
             </label>
             <input
               id="leaderEmail" type="email" required
               value={form.leaderEmail}
               onChange={(e) => onChange("leaderEmail", e.target.value)}
               onBlur={() => onBlur("leaderEmail")}
-              placeholder="LEADER@DOMAIN.COM"
+              placeholder="leader@domain.com"
               autoComplete="email"
               inputMode="email"
+              maxLength={FIELD_MAX.leaderEmail}
               aria-invalid={Boolean(errors.leaderEmail)}
               aria-describedby={errors.leaderEmail ? "leaderEmail-error" : undefined}
               className={cls("leaderEmail")}

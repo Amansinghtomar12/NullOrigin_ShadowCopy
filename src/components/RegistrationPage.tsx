@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { sound } from "../hooks/utils/audio";
-import { FormData, initialForm, SubmitStatus, GOOGLE_SCRIPT_URL } from "./registration/types";
-import { FieldErrors, validateForm, validateTeamName, validateCountry, validateLeaderName, validateEmail, validateDiscord, validateCTFtime, firstErrorMessage } from "./registration/validation";
+import CosmicBackground from "./CosmicBackground";
+import { FormData, FIELD_MAX, initialForm, SubmitStatus, GOOGLE_SCRIPT_URL } from "./registration/types";
+import { FieldErrors, validateForm, validateTeamName, validateCountry, validateLeaderName, validateEmail, validateDiscord, validateCTFtime, firstErrorMessage, clean } from "./registration/validation";
 import { RegistrationHeader, RegistrationFooter } from "./registration/RegLayout";
 import SuccessScreen from "./registration/SuccessScreen";
 import RegFormCard from "./registration/RegFormCard";
@@ -33,6 +34,14 @@ export default function RegistrationPage({ onBack }: Props) {
   const [errors, setErrors]                   = useState<FieldErrors>({});
   const [expandedMembers, setExpandedMembers] = useState<number[]>([1]);
   const honeypotRef                            = useRef<HTMLInputElement>(null);
+  // Second bot trap: real people cannot open the page and complete a
+  // twelve-field form inside three seconds.
+  const openedAt                               = useRef(Date.now());
+
+  // Arriving from anywhere on the long home page — always start at the top.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleChange = (field: keyof FormData, value: string) => {
     sound.playKey?.();
@@ -68,8 +77,8 @@ export default function RegistrationPage({ onBack }: Props) {
     e.preventDefault();
     if (status === "loading") return;
 
-    // Silent bot trap — real users never fill this hidden field.
-    if (honeypotRef.current?.value) {
+    // Silent bot traps — a filled honeypot or an impossibly fast submit.
+    if (honeypotRef.current?.value || Date.now() - openedAt.current < 3000) {
       setStatus("error");
       setErrorMsg("Submission blocked.");
       return;
@@ -108,20 +117,16 @@ export default function RegistrationPage({ onBack }: Props) {
     setStatus("loading");
     setErrorMsg("");
 
-    const trimmed: FormData = Object.fromEntries(
-      Object.entries(form).map(([k, v]) => [k, typeof v === "string" ? v.trim() : v])
-    ) as unknown as FormData;
+    // Defense in depth: everything sent is cleaned and hard-capped, even
+    // though the validators already passed it.
+    const payload = Object.fromEntries(
+      (Object.entries(form) as [keyof FormData, string][]).map(([k, v]) => [
+        k,
+        clean(v).slice(0, FIELD_MAX[k]),
+      ])
+    ) as Record<string, string>;
+    payload.timestamp = new Date().toISOString();
 
-    const payload = {
-      ...trimmed,
-      member2Discord: trimmed.member2Discord || "",
-      member2CTFtime: trimmed.member2CTFtime || "",
-      member3Discord: trimmed.member3Discord || "",
-      member3CTFtime: trimmed.member3CTFtime || "",
-      member4Discord: trimmed.member4Discord || "",
-      member4CTFtime: trimmed.member4CTFtime || "",
-      timestamp: new Date().toISOString(),
-    };
     try {
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST", mode: "no-cors",
@@ -142,32 +147,27 @@ export default function RegistrationPage({ onBack }: Props) {
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-col relative overflow-x-hidden"
-      style={{
-        background: "#0a0a12",
-        color: "#f4f6f5",
-        fontFamily: "'VT323', monospace",
-        fontSize: "20px",
-        lineHeight: 1.5,
-      }}
-    >
-      <RegistrationHeader onBack={onBack} />
-      <RegFormCard
-        form={form} status={status} errorMsg={errorMsg} expandedMembers={expandedMembers} errors={errors}
-        onSubmit={handleSubmit} onChange={handleChange} onBlur={handleBlur} onToggleMember={toggleMember}
-      />
-      {/* Honeypot field — hidden from real users, invisible to screen readers, catches bots */}
-      <input
-        ref={honeypotRef}
-        type="text"
-        name="website"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-        style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
-      />
-      <RegistrationFooter />
+    <div className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
+      {/* The same living backdrop as the rest of the site. */}
+      <CosmicBackground />
+      <div className="above-cosmos flex min-h-screen flex-col">
+        <RegistrationHeader onBack={onBack} />
+        <RegFormCard
+          form={form} status={status} errorMsg={errorMsg} expandedMembers={expandedMembers} errors={errors}
+          onSubmit={handleSubmit} onChange={handleChange} onBlur={handleBlur} onToggleMember={toggleMember}
+        />
+        {/* Honeypot field — hidden from real users, invisible to screen readers, catches bots */}
+        <input
+          ref={honeypotRef}
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
+        />
+        <RegistrationFooter />
+      </div>
     </div>
   );
 }

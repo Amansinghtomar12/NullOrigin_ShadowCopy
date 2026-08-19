@@ -31,26 +31,46 @@ export const initialForm: FormData = {
   member4CTFtime: "",
 };
 
+/* Hard caps per field, enforced three times over: as maxLength on the
+   inputs, in the validators, and again on the payload before send. */
+export const FIELD_MAX: Record<keyof FormData, number> = {
+  teamName: 50,
+  country: 60,
+  leaderName: 60,
+  leaderEmail: 254,
+  member1Discord: 40,
+  member1CTFtime: 200,
+  member2Discord: 40,
+  member2CTFtime: 200,
+  member3Discord: 40,
+  member3CTFtime: 200,
+  member4Discord: 40,
+  member4CTFtime: 200,
+};
+
 export type SubmitStatus = "idle" | "loading" | "success" | "error";
 
-/* ── Wowi pixel/retro design tokens ── */
-export const inputClass =
-  "w-full bg-[#000000] text-white border-[3px] border-[#000] px-3.5 py-3 text-[18px] font-['VT323',monospace] tracking-wider uppercase placeholder-[#7c8389] focus:outline-none focus:border-[#39ff6a] transition-colors";
+/* ── Design-system tokens (match src/index.css) ── */
+const inputBase =
+  "w-full rounded-xl bg-[rgba(10,3,7,0.45)] px-4 py-3 text-[15px] text-white " +
+  "placeholder-[var(--faint)] transition-colors focus:outline-none border-2";
 
-export const inputErrorClass =
-  "w-full bg-[#000000] text-white border-[3px] border-[#ff3355] px-3.5 py-3 text-[18px] font-['VT323',monospace] tracking-wider uppercase placeholder-[#7c8389] focus:outline-none focus:border-[#ff3355] transition-colors";
+export const inputClass = `${inputBase} border-[var(--line-soft)] focus:border-[var(--amber)]`;
+
+export const inputErrorClass = `${inputBase} border-red-500 focus:border-red-400`;
 
 export const selectClass =
-  "w-full bg-[#000000] text-white border-[3px] border-[#000] px-3.5 py-3 text-[18px] font-['VT323',monospace] tracking-wider uppercase focus:outline-none focus:border-[#39ff6a] transition-colors appearance-none cursor-pointer pr-10";
+  `${inputBase} border-[var(--line-soft)] focus:border-[var(--amber)] appearance-none cursor-pointer pr-10`;
 
 export const selectErrorClass =
-  "w-full bg-[#000000] text-white border-[3px] border-[#ff3355] px-3.5 py-3 text-[18px] font-['VT323',monospace] tracking-wider uppercase focus:outline-none focus:border-[#ff3355] transition-colors appearance-none cursor-pointer pr-10";
+  `${inputBase} border-red-500 focus:border-red-400 appearance-none cursor-pointer pr-10`;
 
-export const errorTextClass =
-  "text-[13px] text-[#ff3355] mt-0.5 normal-case tracking-normal";
+export const errorTextClass = "text-[13px] text-red-400 mt-1";
 
 export const labelClass =
-  "text-[14px] text-[#7c8389] flex items-center gap-1.5 letter-spacing-[0.5px] select-none mb-1";
+  "font-mono text-[11px] font-bold tracking-[0.18em] uppercase text-[var(--faint)] " +
+  "flex items-center gap-1.5 select-none";
 
 export const sectionHeadingClass =
-  "flex items-center gap-2.5 font-['Press_Start_2P',monospace] text-[11px] text-[#ff3355] pb-2.5 border-b-[3px] border-[#000] mb-4";
+  "flex items-center gap-2.5 font-mono text-[11px] font-bold tracking-[0.22em] uppercase " +
+  "text-[var(--accent)] pb-3 border-b-2 border-[var(--line-soft)] mb-5";
