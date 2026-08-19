@@ -127,8 +127,8 @@ public/
 
 | | |
 |---|---|
-| **INE** — Certification Partner | Certificates for our top-placing teams |
-| **Unstop** — Registration Partner | Where teams find the competition and sign up |
+| **INE** — In collaboration with | Certificates for our top-placing teams |
+| **Unstop** — Powered by | Where teams find the competition and sign up |
 
 Want to back Null Origin? → **partners@cyberhx.com**
 

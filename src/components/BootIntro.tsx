@@ -31,12 +31,15 @@ const SCRAMBLE_MS = 240;
  * character — the decrypt effect. Each character locks in at a staggered
  * moment, so the string appears to be solved rather than typed.
  */
-function Decrypt({ text, delay }: { text: string; delay: number }) {
+function Decrypt({ text, delay, lite }: { text: string; delay: number; lite?: boolean }) {
   const [out, setOut] = useState("");
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced) {
+    // Six of these run at once — one animation loop per log line. Fine on
+    // a desktop GPU, a stutter on phones, so small screens print the line
+    // plainly (each still slides in via the boot-line animation).
+    if (reduced || lite) {
       setOut(text);
       return;
     }
@@ -67,7 +70,7 @@ function Decrypt({ text, delay }: { text: string; delay: number }) {
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [text, delay, reduced]);
+  }, [text, delay, reduced, lite]);
 
   return <span>{out}</span>;
 }
@@ -87,6 +90,25 @@ export default function BootIntro() {
   const [granted, setGranted] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const timers = useRef<number[]>([]);
+
+  // Small screens and touch devices run the lightweight intro.
+  const [lite] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      (window.matchMedia?.("(max-width: 700px)").matches ||
+        window.matchMedia?.("(pointer: coarse)").matches)
+  );
+
+  // While the overlay covers the page, the node mesh behind it pauses —
+  // no point paying for a full-screen canvas animation nobody can see,
+  // least of all on a phone that needs those frames for the intro.
+  useEffect(() => {
+    if (!active) return;
+    document.documentElement.dataset.boot = "1";
+    return () => {
+      delete document.documentElement.dataset.boot;
+    };
+  }, [active]);
 
   const finish = useCallback(() => {
     timers.current.forEach(clearTimeout);
@@ -167,7 +189,7 @@ export default function BootIntro() {
             <p key={l.text} className="boot__line">
               <span className="boot__prompt">›</span>
               <span className="boot__text">
-                <Decrypt text={l.text} delay={0} />
+                <Decrypt text={l.text} delay={0} lite={lite} />
               </span>
               <span className={l.tag === "OK" ? "boot__ok" : "boot__exec"}>[{l.tag}]</span>
             </p>

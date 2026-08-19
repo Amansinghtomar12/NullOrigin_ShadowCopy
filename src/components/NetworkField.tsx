@@ -83,6 +83,11 @@ export default function NetworkField({ className = "" }: { className?: string })
     };
 
     const render = () => {
+      // The boot intro covers the whole viewport; skip the frame's work
+      // while it does (BootIntro sets the flag) so the intro gets every
+      // frame the device can give.
+      if (document.documentElement.dataset.boot) return;
+
       ctx.clearRect(0, 0, w, h);
 
       // The whole mesh leans a little toward the pointer. Eased, and only

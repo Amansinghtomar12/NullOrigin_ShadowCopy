@@ -766,6 +766,7 @@ input[type="file"] {
 .boot--leaving {
   animation: boot-out 0.9s cubic-bezier(.6, 0, .25, 1) both;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 @keyframes boot-in {
@@ -780,39 +781,70 @@ input[type="file"] {
   100% { opacity: 0; transform: scale(2.9) translateZ(520px); filter: brightness(1) blur(9px); }
 }
 
-/* Receding floor grid — the depth cue behind the panel. */
+/* Phones get the same fly-through minus everything that costs frames:
+   no animated filter on a viewport-sized layer (the blur/brightness in
+   boot-out is the single most expensive thing the intro does), and no
+   scanline sweep. The grid and rings are transform-only, so they stay. */
+@media (max-width: 700px), (pointer: coarse) {
+  .boot--leaving { animation-name: boot-out-lite; }
+  .boot__scan { display: none; }
+}
+
+@keyframes boot-out-lite {
+  0%   { opacity: 1; transform: scale(1); }
+  30%  { opacity: 1; transform: scale(0.97); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+
+/* Receding floor grid — the depth cue behind the panel. The pattern
+   scrolls by animating transform on a child, never background-position:
+   a moving background repaints the whole viewport every frame, which is
+   precisely what made the intro stutter on phones. */
 .boot__grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: 0.5;
+  overflow: hidden;
+  transform: perspective(420px) rotateX(66deg) translateY(28%) scale(2.4);
+  transform-origin: 50% 100%;
+  mask-image: linear-gradient(to top, #000 0%, transparent 72%);
+}
+.boot__grid::before {
+  content: "";
+  position: absolute;
+  inset: -56px 0 0 0;
   background-image:
     linear-gradient(rgba(255, 77, 106, 0.16) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 77, 106, 0.16) 1px, transparent 1px);
   background-size: 56px 56px;
-  transform: perspective(420px) rotateX(66deg) translateY(28%) scale(2.4);
-  transform-origin: 50% 100%;
-  mask-image: linear-gradient(to top, #000 0%, transparent 72%);
   animation: boot-grid 2.4s linear infinite;
 }
 
 @keyframes boot-grid {
-  from { background-position: 0 0; }
-  to   { background-position: 0 56px; }
+  from { transform: translateY(0); }
+  to   { transform: translateY(56px); }
 }
 
 .boot__scan {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  overflow: hidden;
+}
+.boot__scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -220px;
+  height: 220px;
   background: linear-gradient(180deg, transparent 0%, rgba(255, 77, 106, 0.10) 50%, transparent 100%);
-  background-size: 100% 220px;
   animation: boot-scan 2.6s linear infinite;
 }
 
 @keyframes boot-scan {
-  from { background-position: 0 -220px; }
-  to   { background-position: 0 100vh; }
+  to { transform: translateY(calc(100vh + 220px)); }
 }
 
 .boot__rings {
@@ -949,8 +981,8 @@ input[type="file"] {
 }
 
 @keyframes boot-granted {
-  0%   { opacity: 0; transform: scale(0.8); letter-spacing: 0.5em; }
-  100% { opacity: 1; transform: scale(1);   letter-spacing: 0.08em; }
+  0%   { opacity: 0; transform: scaleX(1.5) scaleY(0.8); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .boot__skip {
@@ -1655,10 +1687,13 @@ input[type="file"] {
   pointer-events: none;
 }
 
+/* Opacity and transform only. The first cut animated blur() and
+   letter-spacing here, and each was a full re-rasterise/re-layout of the
+   text every frame — the two properties that made phones stutter. */
 @keyframes stamp-in {
-  0%   { opacity: 0; transform: scale(2.6); filter: blur(10px); letter-spacing: 0.5em; }
-  70%  { opacity: 1; filter: blur(0); }
-  100% { opacity: 1; transform: scale(1); letter-spacing: 0.1em; }
+  0%   { opacity: 0; transform: scale(2.6); }
+  70%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 @keyframes stamp-settle {

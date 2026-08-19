@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export const REGISTER_URL = "https://ctf.cyberhx.com/";
 export const PARTNER_EMAIL = "partners@cyberhx.com";
 export const ORG_SITE = "https://cyberhx.com";
-export const EVENT_DATE = new Date("2026-07-10T13:00:00+05:30");
+export const EVENT_DATE = new Date("2026-09-18T00:00:00+05:30");
 
 export const NAV = [
   { id: "about", label: "About" },
@@ -26,7 +26,7 @@ export const CERT_PARTNER = {
   name: "INE",
   logo: "/ine-logo.svg",
   href: "https://ine.com/",
-  tier: "Certification Partner",
+  tier: "In Collaboration With",
   /** Their logo is the orange-on-dark variant, so it needs no plate. */
   plate: false,
   blurb: "Hands-on cybersecurity and networking training — the team behind eJPT, eCPPT and eWPT.",
@@ -42,7 +42,7 @@ export const PLATFORM_PARTNER = {
   name: "Unstop",
   logo: "/unstop-logo.svg",
   href: "https://unstop.com/",
-  tier: "Registration Partner",
+  tier: "Powered By",
   /** Unstop's mark is solid navy, so it sits on a light plate to stay
       legible on the dark background without recolouring their brand. */
   plate: true,
