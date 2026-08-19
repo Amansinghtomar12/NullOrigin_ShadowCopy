@@ -114,7 +114,9 @@ export default function BootIntro() {
     timers.current.forEach(clearTimeout);
     timers.current = [];
     setLeaving(true);
-    window.setTimeout(() => setActive(false), 900);
+    // Matches the slowed exit animations: the door opens unhurried, so
+    // the ring blast is actually seen instead of blinked past.
+    window.setTimeout(() => setActive(false), 1700);
   }, []);
 
   useEffect(() => {
@@ -130,9 +132,7 @@ export default function BootIntro() {
         sound.playSuccess();
       }, at + 240)
     );
-    // ACCESS GRANTED holds for a couple of beats — long enough to land,
-    // and to let the rings breathe on phones — before the fly-through.
-    timers.current.push(window.setTimeout(finish, at + 2400));
+    timers.current.push(window.setTimeout(finish, at + 1250));
     return () => {
       timers.current.forEach(clearTimeout);
       timers.current = [];
