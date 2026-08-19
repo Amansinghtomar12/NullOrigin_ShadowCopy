@@ -31,7 +31,7 @@ function PartnerFeature({ name, logo, href, tier, plate, blurb, about, includes 
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${name} — ${tier} of Null Origin CTF`}
-        className="group relative grid place-items-center shrink-0 px-8 py-10 lg:w-[36%] bg-[var(--ink)] border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-[rgba(57,255,106,.28)]"
+        className="group relative grid place-items-center shrink-0 px-8 py-10 lg:w-[36%] border-b lg:border-b-0 lg:border-r border-[rgba(255,51,85,.22)]"
         onMouseEnter={() => sound.playHover()}
         onClick={() => sound.playClick()}
       >

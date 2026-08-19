@@ -490,22 +490,22 @@ input[type="file"] {
   width: clamp(118px, 21vw, 164px);
 }
 
-/* Some partners only publish a dark mark. Rather than recolour someone
-   else's brand, it sits on a light plate. */
+/* Some partners only publish a dark mark, which is invisible on this
+   background. A white plate behind it worked but punched an opaque box
+   through the backdrop. Rendering the mark as a white silhouette instead
+   keeps the logo legible with nothing behind it — the standard reverse /
+   mono treatment most brand kits ship anyway. */
 .sponsor-plate {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  border-radius: var(--radius-sm);
-  padding: 14px 22px;
-  box-shadow: 0 8px 0 -2px rgba(0, 0, 0, 0.45);
 }
 .sponsor-plate .sponsor-logo {
-  width: min(240px, 100%);
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
 }
-.sponsor-plate .sponsor-logo--strip {
-  width: clamp(96px, 17vw, 132px);
+.sponsor-plate .sponsor-logo:hover {
+  opacity: 1;
 }
 
 .sheen {
@@ -1056,8 +1056,8 @@ input[type="file"] {
   width: 200%;
   height: 190%;
   background-image:
-    repeating-linear-gradient(to bottom, rgba(57, 255, 106, 0.42) 0 2px, transparent 2px 88px),
-    repeating-linear-gradient(to right, rgba(255, 51, 85, 0.34) 0 2px, transparent 2px 88px);
+    repeating-linear-gradient(to bottom, rgba(255, 51, 85, 0.34) 0 2px, transparent 2px 88px),
+    repeating-linear-gradient(to right, rgba(255, 74, 96, 0.26) 0 2px, transparent 2px 88px);
   transform-origin: 50% 100%;
   will-change: transform;
   animation: floor-run 4.5s linear infinite;
@@ -1078,8 +1078,8 @@ input[type="file"] {
   pointer-events: none;
   background: radial-gradient(
     60% 100% at 50% 100%,
-    rgba(57, 255, 106, 0.28),
-    rgba(255, 51, 85, 0.12) 45%,
+    rgba(255, 51, 85, 0.32),
+    rgba(255, 120, 90, 0.14) 45%,
     transparent 72%
   );
   filter: blur(6px);

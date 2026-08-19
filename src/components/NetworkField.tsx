@@ -4,11 +4,15 @@ import { useReducedMotion } from "../hooks/useReducedMotion";
 /**
  * Drifting node network — the red "plexus" backdrop.
  *
- * Nodes wander slowly and a line is drawn between any pair close enough,
- * faded by distance, so the mesh continuously forms and dissolves. The
- * motion is deliberately slow and has no scroll coupling: a backdrop that
- * accelerates when you scroll fights the eye and is what makes this kind
- * of effect feel dizzying.
+ * Nodes wander and a line is drawn between any pair close enough, faded
+ * by distance, so the mesh continuously forms and dissolves.
+ *
+ * Scrolling nudges the whole field a little, which is what makes the
+ * backdrop feel alive rather than a wallpaper — but the nudge is a small
+ * fraction of the scroll distance and is applied to the nodes themselves
+ * rather than by speeding the animation up. A backdrop that accelerates
+ * with scroll velocity is exactly what makes this kind of effect
+ * dizzying; a gentle constant offset does not.
  *
  * Nodes carry a z depth used only for size and brightness, which gives
  * the mesh volume without moving anything toward the camera.
@@ -20,7 +24,7 @@ import { useReducedMotion } from "../hooks/useReducedMotion";
 
 const MAX_NODES = 190;
 const LINK_DIST = 150;
-const SPEED = 0.13;
+const SPEED = 0.34;
 
 type Node = { x: number; y: number; vx: number; vy: number; z: number };
 
@@ -43,6 +47,7 @@ export default function NetworkField({ className = "" }: { className?: string })
     let py = 0;
     let cx = 0;
     let cy = 0;
+    let lastScroll = window.scrollY;
 
     const populate = () => {
       const target = Math.max(34, Math.min(MAX_NODES, Math.round((w * h) / 9000)));
@@ -75,9 +80,16 @@ export default function NetworkField({ className = "" }: { className?: string })
       cx += (px * 16 - cx) * 0.04;
       cy += (py * 12 - cy) * 0.04;
 
+      // Scroll drags the field along at a fraction of the page's own
+      // travel. Applied to node coordinates so the link geometry stays
+      // consistent and the existing wrap keeps handling the edges.
+      const sy = window.scrollY;
+      const drag = (sy - lastScroll) * 0.06;
+      lastScroll = sy;
+
       for (const n of nodes) {
         n.x += n.vx;
-        n.y += n.vy;
+        n.y += n.vy - drag;
         // Wrap rather than bounce: bouncing makes the motion read as
         // rhythmic and draws the eye to the edges.
         if (n.x < -30) n.x = w + 30;
