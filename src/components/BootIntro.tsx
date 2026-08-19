@@ -151,6 +151,10 @@ export default function BootIntro() {
         <span /><span /><span />
       </div>
 
+      <div className="boot__stamp" aria-hidden="true">
+        NULL ORIGIN
+      </div>
+
       <div className="boot__panel">
         <div className="boot__bar">
           <span className="boot__dot" />

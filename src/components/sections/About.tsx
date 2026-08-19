@@ -70,7 +70,7 @@ export default function About() {
                 <p>LEVEL ····· Easy → Expert</p>
                 <p className="text-[var(--faint)]">────────────────────────────</p>
                 <p className="text-emerald-400">
-                  STATUS ···· REGISTRATIONS OPEN <span className="animate-pulse">▌</span>
+                  STATUS ···· REGISTRATIONS OPEN <span className="term-caret" aria-hidden="true" />
                 </p>
               </div>
             </div>

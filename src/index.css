@@ -1562,3 +1562,56 @@ input[type="file"] {
   .podium__medal--lg { animation: none; }
   .tl-card, .tl-card:hover { transform: none; }
 }
+
+/* ── Terminal caret ──────────────────────────────────────────
+   A real terminal caret is a filled block that blinks hard on/off —
+   steps(1), not a fade. Drawn as a box rather than a text glyph so it
+   renders identically in every font. */
+.term-caret {
+  display: inline-block;
+  width: 9px;
+  height: 17px;
+  margin-left: 2px;
+  vertical-align: -3px;
+  background: var(--accent);
+  animation: term-blink 1.06s steps(1) infinite;
+}
+
+@keyframes term-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ── Boot stamp ──────────────────────────────────────────────
+   The event name punches in above the terminal in the first beat of
+   the intro — branding first, machinery second — then settles to a
+   quiet watermark while the log runs. */
+.boot__stamp {
+  position: absolute;
+  top: clamp(30px, 9vh, 90px);
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 6vw, 64px);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  color: var(--red);
+  text-shadow: 0 0 34px rgba(255, 51, 85, 0.5);
+  animation: stamp-in 0.55s cubic-bezier(.2, 1.4, .35, 1) both,
+             stamp-settle 1.2s ease 0.55s both;
+  pointer-events: none;
+}
+
+@keyframes stamp-in {
+  0%   { opacity: 0; transform: scale(2.6); filter: blur(10px); letter-spacing: 0.5em; }
+  70%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); letter-spacing: 0.1em; }
+}
+
+@keyframes stamp-settle {
+  to { opacity: 0.42; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-caret { animation: none; }
+}
