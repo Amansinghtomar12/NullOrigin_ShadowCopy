@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HackerBackground from "./components/HackerBackground";
+import CosmicBackground from "./components/CosmicBackground";
 import Navbar from "./components/Navbar";
 import HomeHero from "./components/HomeHero";
 import SponsorStrip from "./components/SponsorStrip";
@@ -39,8 +39,8 @@ export default function App() {
       <BootIntro />
       <a href="#main" className="skip-link">Skip to content</a>
       <ScrollProgress />
-      <HackerBackground />
-      <div className="relative z-10">
+      <CosmicBackground />
+      <div className="above-cosmos">
         <Navbar
           audioEnabled={state.audioEnabled}
           onToggleSound={state.toggleSound}

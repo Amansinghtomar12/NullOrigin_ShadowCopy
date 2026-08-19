@@ -50,9 +50,9 @@
   --bg: #0a0a12;
   --bg2: #101018;
   --surface: #15151f;
-  --panel: #15151f;
-  --panel-2: #1b1b28;
-  --ink: #07070d;
+  --panel: rgba(17, 19, 33, 0.86);
+  --panel-2: rgba(26, 28, 47, 0.88);
+  --ink: rgba(8, 10, 20, 0.78);
   --line: #ff3355;
   --line-soft: rgba(255, 51, 85, 0.35);
   --line-strong: #ff3355;
@@ -83,18 +83,13 @@ html {
 }
 
 body {
-  background-color: var(--bg);
+  /* Just the fallback colour — the fixed .cosmos layer paints the scene. */
+  background-color: #0a0812;
   color: var(--text);
   font-family: 'Mouse Memoirs', system-ui, sans-serif;
   font-size: 20px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  background-image:
-    radial-gradient(1100px 620px at 50% -8%, rgba(255, 51, 85, 0.10), transparent 70%),
-    radial-gradient(900px 520px at 88% 12%, rgba(57, 255, 106, 0.06), transparent 70%),
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: auto, auto, 26px 26px;
-  background-attachment: fixed, fixed, scroll;
 }
 
 ::selection { background: var(--red); color: #0a0a12; }
@@ -951,10 +946,10 @@ input[type="file"] {
   --dir: 1;
   transform:
     perspective(1200px)
-    translateZ(calc(var(--a) * -210px))
-    rotateX(calc(var(--t) * 13deg))
+    translateZ(calc(var(--a) * -300px))
+    rotateX(calc(var(--t) * 17deg))
     rotateY(calc(var(--t) * var(--dir) * 4deg))
-    scale(calc(1 - var(--a) * 0.06));
+    scale(calc(1 - var(--a) * 0.08));
   transform-origin: 50% 50%;
   will-change: transform;
 }
@@ -1063,14 +1058,14 @@ input[type="file"] {
   background-image:
     repeating-linear-gradient(to bottom, rgba(57, 255, 106, 0.42) 0 2px, transparent 2px 88px),
     repeating-linear-gradient(to right, rgba(255, 51, 85, 0.34) 0 2px, transparent 2px 88px);
-  transform: perspective(240px) rotateX(52deg);
   transform-origin: 50% 100%;
+  will-change: transform;
   animation: floor-run 4.5s linear infinite;
 }
 
 @keyframes floor-run {
-  from { background-position: 0 0; }
-  to   { background-position: 0 88px; }
+  from { transform: perspective(240px) rotateX(52deg) translateY(0); }
+  to   { transform: perspective(240px) rotateX(52deg) translateY(88px); }
 }
 
 .hero-horizon {
@@ -1118,4 +1113,125 @@ input[type="file"] {
 @media (prefers-reduced-motion: reduce) {
   .hero-floor__grid { animation: none; }
   .hero-core { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COSMOS — the fixed world behind the page
+   Replaces the old full-page matrix canvas, which repainted the
+   document black every frame. Fixed rather than scrolling, so the
+   content genuinely travels through it.
+   ═══════════════════════════════════════════════════════════ */
+.cosmos {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Deep graded base — a night sky has colour in it, not just black. */
+.cosmos__base {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #16060c 0%, #10050a 34%, #0b0409 66%, #080308 100%);
+}
+
+/* Slow-drifting colour fields. Large, soft and low-contrast: they lift
+   the page off pure black without competing with content. */
+.cosmos__nebula {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.75;
+  will-change: transform;
+}
+
+.cosmos__nebula--a {
+  top: -18%;
+  left: -12%;
+  width: 68vw;
+  height: 68vw;
+  background: radial-gradient(circle at 50% 50%, rgba(214, 26, 58, 0.42), transparent 66%);
+  animation: neb-a 58s ease-in-out infinite alternate;
+}
+
+.cosmos__nebula--b {
+  top: 24%;
+  right: -18%;
+  width: 62vw;
+  height: 62vw;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 74, 96, 0.26), transparent 66%);
+  animation: neb-b 66s ease-in-out infinite alternate;
+}
+
+.cosmos__nebula--c {
+  bottom: -24%;
+  left: 22%;
+  width: 74vw;
+  height: 74vw;
+  background: radial-gradient(circle at 50% 50%, rgba(120, 12, 40, 0.5), transparent 66%);
+  animation: neb-c 74s ease-in-out infinite alternate;
+}
+
+@keyframes neb-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(9vw, 7vh, 0) scale(1.18); }
+}
+@keyframes neb-b {
+  from { transform: translate3d(0, 0, 0) scale(1.12); }
+  to   { transform: translate3d(-11vw, -6vh, 0) scale(1); }
+}
+@keyframes neb-c {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-7vw, -9vh, 0) scale(1.22); }
+}
+
+/* Ground plane running to a horizon, anchoring the depth. */
+.cosmos__grid {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 46%;
+  overflow: hidden;
+  opacity: 0.3;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 55%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 55%);
+}
+.cosmos__grid::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    repeating-linear-gradient(to bottom, rgba(255, 51, 85, 0.22) 0 2px, transparent 2px 96px),
+    repeating-linear-gradient(to right, rgba(255, 51, 85, 0.16) 0 2px, transparent 2px 96px);
+  transform-origin: 50% 100%;
+  will-change: transform;
+  animation: cosmos-run 14s linear infinite;
+}
+
+@keyframes cosmos-run {
+  from { transform: perspective(260px) rotateX(54deg) translateY(0); }
+  to   { transform: perspective(260px) rotateX(54deg) translateY(96px); }
+}
+
+/* Darkens the edges so content in the middle stays the focus. */
+.cosmos__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 42%, rgba(4, 5, 10, 0.72) 100%);
+}
+
+/* Content rides above the cosmos. */
+.above-cosmos {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmos__nebula,
+  .cosmos__grid::before {
+    animation: none;
+  }
 }

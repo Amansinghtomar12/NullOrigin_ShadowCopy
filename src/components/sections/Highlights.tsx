@@ -115,7 +115,7 @@ export default function Highlights() {
               <p className="eyebrow">Challenge domains</p>
               <div className="grid sm:grid-cols-2 gap-3 mt-5">
                 {DOMAINS.map((d) => (
-                  <div key={d.name} className="flex items-start gap-3 rounded-xl border border-[var(--line)] bg-white/[0.015] p-3.5 transition-colors hover:border-red-700/40">
+                  <div key={d.name} className="d3 flex items-start gap-3 rounded-xl border border-[var(--line)] bg-white/[0.015] p-3.5 transition-colors hover:border-red-700/40">
                     <div className="grid place-items-center h-9 w-9 rounded-lg bg-white/[0.03] text-red-400 shrink-0">
                       {d.icon}
                     </div>

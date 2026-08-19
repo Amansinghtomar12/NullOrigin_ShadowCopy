@@ -72,10 +72,40 @@ export function useScrollDepth() {
       { rootMargin: "40% 0px 40% 0px" }
     );
 
+    /**
+     * Hand-tagging every card was leaving gaps — whole grids sat flat
+     * because they lived inside one block-level Reveal. Instead, adopt
+     * every content panel that is not already posed.
+     *
+     * Elements that already sit inside a `.d3` are skipped: nested 3D
+     * compounds, and a card rotating inside a rotating wrapper reads as
+     * a glitch rather than depth. Fixed chrome (navbar, back-to-top) is
+     * outside these roots and is never adopted — transforming a fixed
+     * element would tear it off its anchor.
+     */
+    const adopt = () => {
+      const roots = document.querySelectorAll<HTMLElement>("main, footer, aside[aria-label]");
+      for (const root of roots) {
+        root.querySelectorAll<HTMLElement>(".glass, .slot, .tilt3d").forEach((el) => {
+          el.classList.add("d3");
+        });
+      }
+
+      // Keep only the innermost pose on any branch. Nested 3D compounds —
+      // a card rotating inside a rotating wrapper reads as a glitch — and
+      // posing the inner item is also the more granular, better-looking
+      // choice: a grid of cards fans individually instead of the whole
+      // panel swinging as one slab.
+      document.querySelectorAll<HTMLElement>(".d3").forEach((el) => {
+        if (el.querySelector(".d3")) el.classList.remove("d3");
+      });
+    };
+
     const observe = () => {
       document.querySelectorAll<HTMLElement>(".d3").forEach((el) => io.observe(el));
     };
 
+    adopt();
     observe();
     measure();
 

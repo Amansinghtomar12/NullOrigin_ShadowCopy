@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { sound } from "../hooks/utils/audio";
-import StarTunnel from "./StarTunnel";
 import { useParallax } from "../hooks/useParallax";
 
 interface TimeLeft {
@@ -26,12 +25,9 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
   return (
     <section
-      className="stage3d relative w-full overflow-hidden text-center border-b-[3px] border-black"
-      style={{ padding: "236px 0 56px", background: "linear-gradient(180deg, #0b1422 0%, #0e1a2c 45%, #142235 75%, #0a0a12 100%)" }}
+      className="stage3d relative w-full overflow-hidden text-center"
+      style={{ padding: "236px 0 56px" }}
     >
-      {/* ── hero scene (sky / moon / skyline / monitors) ── */}
-      <StarTunnel />
-
       <div ref={scene} className="absolute inset-0 z-0 pointer-events-none">
         {/* Neon grid floor receding to the horizon. Two stacked planes —
             a static one for the perspective, and a scrolling one for the
