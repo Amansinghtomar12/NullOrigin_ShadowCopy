@@ -33,9 +33,15 @@ export default function About() {
                   Organised by
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <span className="chip !py-2.5 !px-3.5 text-[var(--text)]">
-                    <Users className="h-4 w-4 text-red-500" /> Team CyberXoX
-                  </span>
+                  <a
+                    href="https://ctftime.org/team/374041"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="chip !py-2.5 !px-3.5 text-[var(--text)] hover:border-red-700/50 transition-colors"
+                  >
+                    <Users className="h-4 w-4 text-red-500" /> Team CyberXoX{" "}
+                    <ArrowUpRight className="h-3 w-3 text-[var(--faint)]" />
+                  </a>
                   <a
                     href={ORG_SITE}
                     target="_blank"
