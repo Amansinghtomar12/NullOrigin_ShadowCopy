@@ -40,6 +40,22 @@ export const CERT_PARTNER = {
   ],
 };
 
+export const PRIZE_PARTNER = {
+  name: "OffSec",
+  logo: "/offsec-logo.svg",
+  href: "https://www.offsec.com/",
+  tier: "Prize Partner",
+  /** White wordmark on the dark ground — no plate needed. */
+  plate: false,
+  blurb: "The team behind Kali Linux, the OSCP and Proving Grounds.",
+  about:
+    "OffSec (Offensive Security) sets the standard for offensive-security training worldwide — the makers of Kali Linux, the OSCP certification and the Proving Grounds practice labs that working pentesters train on.",
+  includes: [
+    "Three 1-year Proving Grounds Practice licences for top finishers",
+    "Featured across the Null Origin site and channels",
+  ],
+};
+
 export const PLATFORM_PARTNER = {
   name: "Unstop",
   logo: "/unstop-logo.svg",
@@ -58,7 +74,7 @@ export const PLATFORM_PARTNER = {
 };
 
 /** Everyone actually confirmed, in the order they appear on the page. */
-export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER];
+export const PARTNERS = [CERT_PARTNER, PRIZE_PARTNER, PLATFORM_PARTNER];
 
 export const SOCIALS = [
   {
