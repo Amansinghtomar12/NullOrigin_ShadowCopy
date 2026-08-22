@@ -128,8 +128,8 @@ public/
 
 | | |
 |---|---|
-| **INE** — In collaboration with | Certificates for our top-placing teams |
-| **OffSec** — In association with | Proving Grounds Practice licences for top finishers |
+| **INE** — In collaboration with | Backing the competition and its winners |
+| **OffSec** — In association with | Backing the prize pool — details under wraps |
 | **Unstop** — Powered by | Where teams find the competition and sign up |
 
 Want to back Null Origin? → **partners@cyberhx.com**

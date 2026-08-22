@@ -19,10 +19,9 @@ export const NAV = [
 /**
  * Confirmed partners.
  *
- * Keep `includes` to what has actually been agreed. INE provides
- * certificates for the top finishers and Null Origin promotes INE in
- * return — that is the whole arrangement, so nothing here should imply
- * naming rights, a speaking slot, or a financial sponsorship.
+ * Keep `includes` to what has actually been agreed — nothing here
+ * should imply naming rights, a speaking slot, or a financial
+ * sponsorship. Prize specifics stay off the site until the reveal.
  */
 export const CERT_PARTNER = {
   name: "INE",
@@ -35,7 +34,7 @@ export const CERT_PARTNER = {
   about:
     "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems.",
   includes: [
-    "Certificates awarded to our top-placing teams",
+    "Contributing to the winners' rewards — details under wraps",
     "Featured across the Null Origin site and channels",
   ],
 };
@@ -51,7 +50,7 @@ export const PRIZE_PARTNER = {
   about:
     "OffSec (Offensive Security) sets the standard for offensive-security training worldwide — the makers of Kali Linux, the OSCP certification and the Proving Grounds practice labs that working pentesters train on.",
   includes: [
-    "Three 1-year Proving Grounds Practice licences for top finishers",
+    "Backing the prize pool — revealed with the winners",
     "Featured across the Null Origin site and channels",
   ],
 };
