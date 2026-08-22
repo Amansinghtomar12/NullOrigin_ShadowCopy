@@ -555,18 +555,21 @@ input[type="file"] {
 
 /* Sponsor artwork is real brand vector art and must stay crisp and
    unrecoloured. */
-/* Every partner gets an identical box; object-fit letterboxes each mark
-   inside it, so different aspect ratios still line up shoulder to
-   shoulder at the same height and width. */
+/* Logos are equalised by HEIGHT, the way logo rows are actually
+   balanced: every mark renders exactly as tall as its neighbours and
+   takes whatever width its own proportions need. A fixed box did the
+   opposite — the widest lockup came out the shortest. */
 .sponsor-logo {
-  width: min(320px, 74%);
-  height: 96px;
+  height: 92px;
+  width: auto;
+  max-width: 92%;
   object-fit: contain;
 }
 
 .sponsor-logo--strip {
-  width: clamp(118px, 21vw, 164px);
   height: 44px;
+  width: auto;
+  max-width: 176px;
   object-fit: contain;
 }
 
