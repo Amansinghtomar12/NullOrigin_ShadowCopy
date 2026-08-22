@@ -1,6 +1,6 @@
-import { FormData, FIELD_MAX, inputClass, inputErrorClass, selectClass, selectErrorClass, errorTextClass, labelClass, sectionHeadingClass } from "./types";
+import { FormData, FIELD_MAX, inputClass, inputErrorClass, errorTextClass, labelClass, sectionHeadingClass } from "./types";
 import { FieldErrors } from "./validation";
-import { COUNTRIES } from "./countries";
+import CountrySelect from "./CountrySelect";
 
 interface Props {
   form: FormData;
@@ -43,29 +43,14 @@ export default function TeamLeaderFields({ form, errors, onChange, onBlur }: Pro
             <label htmlFor="country" className={labelClass}>
               Country <span className="text-red-400">*</span>
             </label>
-            <div className="relative">
-              <select
-                id="country" required
-                value={form.country}
-                onChange={(e) => onChange("country", e.target.value)}
-                onBlur={() => onBlur("country")}
-                autoComplete="country-name"
-                aria-invalid={Boolean(errors.country)}
-                aria-describedby={errors.country ? "country-error" : undefined}
-                className={errors.country ? selectErrorClass : selectClass}
-              >
-                <option value="" disabled>Select country</option>
-                {COUNTRIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--accent)] text-[12px]"
-              >
-                ▾
-              </span>
-            </div>
+            <CountrySelect
+              id="country"
+              value={form.country}
+              error={Boolean(errors.country)}
+              describedBy={errors.country ? "country-error" : undefined}
+              onChange={(v) => onChange("country", v)}
+              onBlur={() => onBlur("country")}
+            />
             {errors.country && <span id="country-error" className={errorTextClass}>{errors.country}</span>}
           </div>
         </div>
