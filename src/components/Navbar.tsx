@@ -43,7 +43,7 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
     >
       <div className="shell">
         <div
-          className={`flex items-center justify-between rounded-2xl px-4 sm:px-5 py-2.5 transition-all duration-300 glass`}
+          className={`flex items-center justify-between rounded-2xl px-4 sm:px-5 py-2.5 transition-all duration-300 glass glass-nav`}
         >
           {/* Logo */}
           <a
@@ -60,10 +60,10 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />
             <span className="flex flex-col leading-none">
-              <span className="font-display font-extrabold text-[14px] tracking-[0.14em] text-white">
+              <span className="font-display font-extrabold text-[15px] tracking-[0.14em] text-white">
                 NULL ORIGIN
               </span>
-              <span className="font-mono text-[10px] tracking-[0.28em] text-[var(--faint)] mt-1">
+              <span className="font-mono text-[11px] tracking-[0.28em] text-[var(--faint)] mt-1">
                 CTF · 2026
               </span>
             </span>
@@ -125,12 +125,12 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
 
         {/* Mobile menu */}
         {open && (
-          <div id="mobile-nav" className="lg:hidden glass rounded-2xl mt-2 p-4 space-y-1">
+          <div id="mobile-nav" className="lg:hidden glass glass-nav rounded-2xl mt-2 p-4 space-y-1">
             {NAV.map((s) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="block font-mono text-[14px] tracking-[0.14em] uppercase text-[var(--muted)] hover:text-white py-2"
+                className="block font-mono text-[15px] tracking-[0.14em] uppercase text-[var(--muted)] hover:text-white py-2"
                 onClick={() => setOpen(false)}
               >
                 {s.label}

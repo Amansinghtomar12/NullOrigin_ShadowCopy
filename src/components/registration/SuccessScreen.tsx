@@ -46,11 +46,11 @@ export default function SuccessScreen({ form, onBack, onReset }: Props) {
                   key={label}
                   className="flex items-center justify-between gap-4 py-2 border-b border-[var(--line-soft)] last:border-0"
                 >
-                  <span className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--faint)] shrink-0">
+                  <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[var(--faint)] shrink-0">
                     {label}
                   </span>
                   <span
-                    className={`text-[14px] truncate text-right ${
+                    className={`text-[15px] truncate text-right ${
                       accent ? "text-[var(--amber)] font-semibold" : "text-white"
                     }`}
                   >
@@ -72,7 +72,7 @@ export default function SuccessScreen({ form, onBack, onReset }: Props) {
               <button
                 type="button"
                 onClick={() => { sound.playClick?.(); onBack(); }}
-                className="w-full cursor-pointer bg-transparent border-0 text-[14px] text-[var(--muted)] hover:text-white transition-colors py-2"
+                className="w-full cursor-pointer bg-transparent border-0 text-[15px] text-[var(--muted)] hover:text-white transition-colors py-2"
               >
                 ← Back to site
               </button>

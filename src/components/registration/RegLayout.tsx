@@ -12,7 +12,7 @@ export function RegistrationHeader({ onBack }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 py-3 sm:py-4">
       <div className="shell">
-        <div className="flex items-center justify-between rounded-2xl px-4 sm:px-5 py-2.5 glass">
+        <div className="flex items-center justify-between rounded-2xl px-4 sm:px-5 py-2.5 glass glass-nav">
           <button
             type="button"
             onClick={() => { sound.playClick?.(); onBack(); }}
@@ -28,10 +28,10 @@ export function RegistrationHeader({ onBack }: HeaderProps) {
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />
             <span className="flex flex-col leading-none">
-              <span className="font-display font-extrabold text-[14px] tracking-[0.14em] text-white">
+              <span className="font-display font-extrabold text-[15px] tracking-[0.14em] text-white">
                 NULL ORIGIN
               </span>
-              <span className="font-mono text-[10px] tracking-[0.28em] text-[var(--faint)] mt-1">
+              <span className="font-mono text-[11px] tracking-[0.28em] text-[var(--faint)] mt-1">
                 CTF · 2026
               </span>
             </span>

@@ -7,8 +7,6 @@ import ScrollProgress from "./components/ScrollProgress";
 import BootIntro from "./components/BootIntro";
 import BackToTop from "./components/BackToTop";
 import CursorRing from "./components/CursorRing";
-import HomeSidebar from "./components/HomeSidebar";
-import AmbientLogs from "./components/AmbientLogs";
 import About from "./components/sections/About";
 import Highlights from "./components/sections/Highlights";
 import Sponsors from "./components/sections/Sponsors";

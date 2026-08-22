@@ -39,15 +39,15 @@ export default function MemberField({ n, required = false, expanded, form, error
               hasError ? "bg-red-500" : "bg-[var(--accent)]"
             }`}
           />
-          <span className="text-[14px] font-semibold text-white tracking-wide">
+          <span className="text-[15px] font-semibold text-white tracking-wide">
             Member {n}
             {!required && (
-              <span className="ml-2 font-normal text-[12px] text-[var(--faint)]">(optional)</span>
+              <span className="ml-2 font-normal text-[13px] text-[var(--faint)]">(optional)</span>
             )}
             {required && <span className="text-red-400 ml-1">*</span>}
           </span>
           {hasError && !expanded && (
-            <span className="text-[12px] text-red-400">— needs attention</span>
+            <span className="text-[13px] text-red-400">— needs attention</span>
           )}
         </span>
         <ChevronDown

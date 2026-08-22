@@ -30,7 +30,7 @@ export default function FAQ() {
                   aria-expanded={open === i}
                   aria-controls={`faq-answer-${i}`}
                 >
-                  <span className="text-[15.5px] font-semibold text-white">{f.q}</span>
+                  <span className="text-[15px] font-semibold text-white">{f.q}</span>
                   <ChevronDown
                     aria-hidden="true"
                     className={`h-4 w-4 shrink-0 transition-transform duration-300 ${

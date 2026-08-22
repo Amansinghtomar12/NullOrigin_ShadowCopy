@@ -382,7 +382,7 @@ input[type="file"] {
   border-radius: var(--radius-pill);
   border: 2px solid var(--line-soft);
   background: rgba(255, 51, 85, 0.06);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--muted);
   letter-spacing: 0.01em;
@@ -937,7 +937,7 @@ input[type="file"] {
 .boot__log {
   padding: 20px 18px 14px;
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.9;
   color: #b9c2cc;
   min-height: 208px;
@@ -1030,7 +1030,7 @@ input[type="file"] {
 }
 .boot__skip kbd {
   font-family: inherit;
-  font-size: 10px;
+  font-size: 11px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   padding: 1px 6px;
@@ -1554,7 +1554,7 @@ input[type="file"] {
 }
 
 .tl-desc {
-  font-size: 15.5px;
+  font-size: 15px;
   line-height: 1.65;
   color: var(--muted);
   margin-top: 6px;
@@ -1851,4 +1851,15 @@ input[type="file"] {
 
 @media (prefers-reduced-motion: reduce) {
   .combo-pop { animation: none; }
+}
+
+/* ── Navbar glass ────────────────────────────────────────────
+   The floating bars (navbar, mobile menu, registration header) sit over
+   scrolling content, so they need to actually occlude it: the base
+   .glass panel at 55% let section text collide with the nav links. Near-
+   opaque ground plus blur keeps the glass look without the collision. */
+.glass-nav {
+  background: linear-gradient(180deg, rgba(26, 8, 15, 0.94), rgba(15, 5, 10, 0.9));
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
 }

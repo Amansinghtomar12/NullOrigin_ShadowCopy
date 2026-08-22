@@ -44,12 +44,12 @@ function SampleChallenge() {
         <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-emerald-400/90 flex items-center gap-1.5">
           <Cpu className="h-3.5 w-3.5" /> Sample challenge
         </span>
-        <span className="font-mono text-[10px] tracking-[0.16em] px-2 py-0.5 rounded bg-amber-900/25 text-amber-400 border border-amber-800/40">
+        <span className="font-mono text-[11px] tracking-[0.16em] px-2 py-0.5 rounded bg-amber-900/25 text-amber-400 border border-amber-800/40">
           EASY
         </span>
       </div>
       <div className="p-5 space-y-4">
-        <p className="text-[14px] text-[var(--muted)]">Decrypt the transmission to capture the flag.</p>
+        <p className="text-[15px] text-[var(--muted)]">Decrypt the transmission to capture the flag.</p>
         <div className="rounded-xl border border-[var(--line)] bg-[rgba(10,3,7,0.42)] p-3.5 font-mono text-[13px] text-emerald-300 break-all select-all tracking-wide">
           {SAMPLE_CIPHER}
         </div>
@@ -134,7 +134,7 @@ export default function Highlights() {
                     </div>
                     <div>
                       <p className="text-[15px] font-semibold text-white tracking-wide">{d.name}</p>
-                      <p className="text-[13.5px] text-[var(--faint)] mt-0.5">{d.desc}</p>
+                      <p className="text-[13px] text-[var(--faint)] mt-0.5">{d.desc}</p>
                     </div>
                   </div>
                 ))}

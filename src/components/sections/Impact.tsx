@@ -22,7 +22,7 @@ function Stat({ icon, val, label }: { icon: ReactNode; val: string; label: strin
         <p ref={ref as Ref<HTMLParagraphElement>} className="data-num text-[30px]">
           {display}
         </p>
-        <p className="font-mono text-[10.5px] tracking-[0.16em] uppercase text-[var(--faint)] mt-1.5">{label}</p>
+        <p className="font-mono text-[11px] tracking-[0.16em] uppercase text-[var(--faint)] mt-1.5">{label}</p>
       </div>
     </div>
   );
@@ -47,7 +47,7 @@ export default function Impact() {
           ))}
         </div>
         <Reveal delay={120}>
-          <p className="text-center text-[14px] text-[var(--muted)] mt-7 max-w-2xl mx-auto">
+          <p className="text-center text-[15px] text-[var(--muted)] mt-7 max-w-2xl mx-auto">
             Audience makeup: penetration testers, security engineers, CTF competitors, university
             students and independent researchers.{" "}
             <span className="text-[var(--faint)]">Projections based on programme scope and community size.</span>

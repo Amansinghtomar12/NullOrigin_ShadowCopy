@@ -90,7 +90,7 @@ export default function RegFormCard({ form, status, errorMsg, expandedMembers, e
           {/* error banner */}
           {status === "error" && (
             <div
-              className="flex items-center gap-2.5 rounded-xl border-2 border-red-500/50 bg-red-950/25 px-4 py-3 mb-5 text-[14px] text-red-400"
+              className="flex items-center gap-2.5 rounded-xl border-2 border-red-500/50 bg-red-950/25 px-4 py-3 mb-5 text-[15px] text-red-400"
               role="alert"
               aria-live="assertive"
             >
@@ -112,7 +112,7 @@ export default function RegFormCard({ form, status, errorMsg, expandedMembers, e
               className="mt-1 h-4 w-4 shrink-0 rounded"
               style={{ accentColor: "var(--red)" }}
             />
-            <span className="text-[14px] text-[var(--muted)] leading-relaxed">
+            <span className="text-[15px] text-[var(--muted)] leading-relaxed">
               I confirm my team will participate ethically and follow the Null Origin
               rules of engagement. <span className="text-red-400">*</span>
             </span>
