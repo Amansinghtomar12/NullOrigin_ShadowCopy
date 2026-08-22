@@ -4,6 +4,31 @@ export function useScrollReveal(dep?: unknown) {
   useEffect(() => {
     let io: IntersectionObserver | null = null;
     let fallbackTimer: number | undefined;
+    let scrollFrame = 0;
+
+    // Belt and braces for fast flings: an IntersectionObserver callback can
+    // lag (or be skipped outright) while the main thread is busy during a
+    // hard scroll right after load, which left sections stuck invisible
+    // until a refresh. This mirrors the observer's own rule directly on the
+    // scroll position, so anything the user has scrolled to is revealed
+    // that same frame. It removes itself once nothing is left to reveal.
+    const revealNear = () => {
+      scrollFrame = 0;
+      const pending = document.querySelectorAll<HTMLElement>(".reveal:not(.in)");
+      if (pending.length === 0) {
+        window.removeEventListener("scroll", onScroll);
+        return;
+      }
+      pending.forEach((e) => {
+        if (e.getBoundingClientRect().top < window.innerHeight * 1.35) {
+          e.classList.add("in");
+          io?.unobserve(e);
+        }
+      });
+    };
+    const onScroll = () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(revealNear);
+    };
 
     // Wait a frame so the DOM has actually painted (fonts/images can shift
     // layout right after mount) before we measure anything.
@@ -41,19 +66,24 @@ export function useScrollReveal(dep?: unknown) {
         }
       });
 
+      window.addEventListener("scroll", onScroll, { passive: true });
+
       // Safety net: if for any reason an element never gets revealed
-      // (observer glitch, layout shift, etc.) force it visible after a
-      // few seconds so users are never stuck looking at a blank page.
+      // (observer glitch, layout shift, etc.) force it visible soon after
+      // so users are never stuck looking at a blank page.
       fallbackTimer = window.setTimeout(() => {
         document.querySelectorAll<HTMLElement>(".reveal:not(.in)").forEach((e) => {
           e.classList.add("in");
         });
         io?.disconnect();
-      }, 2500);
+        window.removeEventListener("scroll", onScroll);
+      }, 1500);
     });
 
     return () => {
       cancelAnimationFrame(raf);
+      if (scrollFrame) cancelAnimationFrame(scrollFrame);
+      window.removeEventListener("scroll", onScroll);
       if (fallbackTimer) window.clearTimeout(fallbackTimer);
       io?.disconnect();
     };
