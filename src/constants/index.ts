@@ -44,7 +44,7 @@ export const PRIZE_PARTNER = {
   name: "OffSec",
   logo: "/offsec-logo.svg",
   href: "https://www.offsec.com/",
-  tier: "Prize Partner",
+  tier: "In Association With",
   /** White wordmark on the dark ground — no plate needed. */
   plate: false,
   blurb: "The team behind Kali Linux, the OSCP and Proving Grounds.",
@@ -73,8 +73,9 @@ export const PLATFORM_PARTNER = {
   ],
 };
 
-/** Everyone actually confirmed, in the order they appear on the page. */
-export const PARTNERS = [CERT_PARTNER, PRIZE_PARTNER, PLATFORM_PARTNER];
+/** Everyone actually confirmed, in the order they appear on the page:
+    INE first, Unstop in the middle, OffSec last. */
+export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER, PRIZE_PARTNER];
 
 export const SOCIALS = [
   {

@@ -555,13 +555,19 @@ input[type="file"] {
 
 /* Sponsor artwork is real brand vector art and must stay crisp and
    unrecoloured. */
+/* Every partner gets an identical box; object-fit letterboxes each mark
+   inside it, so different aspect ratios still line up shoulder to
+   shoulder at the same height and width. */
 .sponsor-logo {
   width: min(320px, 74%);
-  height: auto;
+  height: 96px;
+  object-fit: contain;
 }
 
 .sponsor-logo--strip {
   width: clamp(118px, 21vw, 164px);
+  height: 44px;
+  object-fit: contain;
 }
 
 /* Some partners only publish a dark mark, which is invisible on this
