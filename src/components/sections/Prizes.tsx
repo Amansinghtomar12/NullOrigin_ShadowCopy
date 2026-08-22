@@ -1,23 +1,27 @@
+import { Trophy, Medal, Award } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 
+/* Vector medals instead of emoji: emoji render differently on every
+   platform and can't take the theme's glow, while these strokes stay
+   crisp at any size and inherit each tier's metal colour. */
 const TIERS = [
   {
     rank: "2nd",
-    icon: "🥈",
+    icon: <Medal className="h-[52px] w-[52px] text-[#cfd6de]" strokeWidth={1.5} />,
     variant: "podium--second",
     perks: ["TBA"],
     order: "sm:order-1",
   },
   {
     rank: "1st",
-    icon: "🏆",
+    icon: <Trophy className="h-[74px] w-[74px] text-[var(--amber)]" strokeWidth={1.5} />,
     variant: "podium--first",
     perks: ["TBA"],
     order: "sm:order-2",
   },
   {
     rank: "3rd",
-    icon: "🥉",
+    icon: <Award className="h-[52px] w-[52px] text-[#d99559]" strokeWidth={1.5} />,
     variant: "podium--third",
     perks: ["TBA"],
     order: "sm:order-3",

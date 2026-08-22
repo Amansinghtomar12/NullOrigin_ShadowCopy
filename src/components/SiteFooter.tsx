@@ -8,7 +8,7 @@ export default function SiteFooter() {
         <div className="col-span-2 lg:col-span-1 space-y-3">
           <div className="flex items-center gap-2.5">
             <img
-              src="/mask.png"
+              src="/mask.webp"
               alt=""
               className="h-8 w-8 object-contain drop-shadow-[0_0_8px_rgba(255,51,85,0.4)]"
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}

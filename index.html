@@ -30,12 +30,12 @@
     <!-- Brand icon styling -->
     <link rel="icon" type="image/png" href="/logo.png" />
 
-    <!-- Cartoon-poster theme fonts (Bangers = display, Mouse Memoirs =
-         body, Fira Code = labels) are self-hosted from /public/fonts and
+    <!-- Cartoon-poster theme fonts (Bangers = display, Inter = body,
+         Fira Code = labels) are self-hosted from /public/fonts and
          declared in src/fonts.css, so there is no third-party request on
-         the critical path. -->
+         the critical path. Preload only the two above-the-fold faces. -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/bangers-400-latin.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/mouse-memoirs-400-latin.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400-latin.woff2" crossorigin>
   </head>
   <body>
     <div id="root"></div>

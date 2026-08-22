@@ -20,8 +20,10 @@ export function RegistrationHeader({ onBack }: HeaderProps) {
             className="flex items-center gap-3 group shrink-0 cursor-pointer bg-transparent border-0 p-0 text-left"
           >
             <img
-              src="/mask.png"
+              src="/mask.webp"
               alt="Null Origin"
+              width="36"
+              height="36"
               className="h-9 w-9 object-contain drop-shadow-[0_0_10px_rgba(255,51,85,0.45)] group-hover:scale-110 transition-transform"
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />

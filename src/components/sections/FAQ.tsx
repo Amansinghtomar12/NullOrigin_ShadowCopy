@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 
@@ -28,20 +28,27 @@ export default function FAQ() {
                   className="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer"
                   onClick={() => { setOpen(open === i ? null : i); sound.playClick(); }}
                   aria-expanded={open === i}
+                  aria-controls={`faq-answer-${i}`}
                 >
                   <span className="text-[15.5px] font-semibold text-white">{f.q}</span>
-                  {open === i
-                    ? <ChevronUp className="h-4 w-4 text-red-500 shrink-0" />
-                    : <ChevronDown className="h-4 w-4 text-[var(--faint)] shrink-0" />
-                  }
+                  <ChevronDown
+                    aria-hidden="true"
+                    className={`h-4 w-4 shrink-0 transition-transform duration-300 ${
+                      open === i ? "rotate-180 text-red-500" : "text-[var(--faint)]"
+                    }`}
+                  />
                 </button>
-                {open === i && (
-                  <div className="px-5 pb-5 -mt-1">
-                    <p className="text-[15px] text-[var(--muted)] leading-relaxed border-t border-[var(--line)] pt-4">
+                <div
+                  id={`faq-answer-${i}`}
+                  role="region"
+                  className={`faq-body ${open === i ? "faq-body--open" : ""}`}
+                >
+                  <div>
+                    <p className="px-5 pb-5 text-[15px] text-[var(--muted)] leading-relaxed border-t border-[var(--line)] pt-4">
                       {f.a}
                     </p>
                   </div>
-                )}
+                </div>
               </div>
             </Reveal>
           ))}

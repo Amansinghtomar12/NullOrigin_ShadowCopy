@@ -1772,3 +1772,33 @@ input[type="file"] {
 @media (prefers-reduced-motion: reduce) {
   .term-caret { animation: none; }
 }
+
+/* ── FAQ accordion ───────────────────────────────────────────
+   The answer expands with the grid-rows trick — height animates in
+   compositor-friendly fractions instead of measuring pixel heights.
+   visibility flips with a matching delay so closed answers are out of
+   the accessibility tree and tab order. */
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0s linear 0.3s;
+}
+.faq-body > div {
+  overflow: hidden;
+  min-height: 0;
+}
+.faq-body--open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-body,
+  .faq-body--open {
+    transition: none;
+  }
+}

@@ -88,7 +88,12 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
           </a>
         </div>
 
-        <div data-depth="0.25" className="coin-counter glass inline-flex mt-11 mx-4">
+        <div
+          data-depth="0.25"
+          className="coin-counter glass inline-flex mt-11 mx-4"
+          role="timer"
+          aria-label={`Event starts in ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
+        >
           <div className="coin">
             <div key={timeLeft.days} className="n">{timeLeft.days}</div>
             <div className="l">DAYS</div>

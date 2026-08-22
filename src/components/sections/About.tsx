@@ -50,7 +50,7 @@ export default function About() {
                     className="chip !py-2.5 !px-3.5 text-[var(--text)] hover:border-red-700/50 transition-colors"
                   >
                     <img
-                      src="/mask.png"
+                      src="/mask.webp"
                       alt=""
                       className="h-4 w-4 object-contain"
                       onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}

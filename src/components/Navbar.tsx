@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Volume2, VolumeX, Layers } from "lucide-react";
+import { ArrowRight, Volume2, VolumeX, Menu, X } from "lucide-react";
 import { NAV } from "../constants";
 import { useScrollSpy } from "../hooks/useScrollSpy";
 import { sound } from "../hooks/utils/audio";
@@ -17,9 +17,23 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 36);
-    window.addEventListener("scroll", fn);
+    window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  // The open menu closes on Escape, and focus goes back to the toggle so
+  // keyboard users are not dropped at the top of the document.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        document.getElementById("nav-menu-toggle")?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <header
@@ -38,8 +52,10 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
             onClick={() => sound.playClick()}
           >
             <img
-              src="/mask.png"
+              src="/mask.webp"
               alt="Null Origin"
+              width="36"
+              height="36"
               className="h-9 w-9 object-contain drop-shadow-[0_0_10px_rgba(255,51,85,0.45)] group-hover:scale-110 transition-transform"
               onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
             />
@@ -95,18 +111,21 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
               Register <ArrowRight className="h-3.5 w-3.5" />
             </button>
             <button
-              aria-label="Open menu"
+              id="nav-menu-toggle"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
               className="lg:hidden grid place-items-center h-9 w-9 rounded-xl border border-[var(--line)] text-white cursor-pointer"
               onClick={() => setOpen(!open)}
             >
-              <Layers className="h-4 w-4" />
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
         {open && (
-          <div className="lg:hidden glass rounded-2xl mt-2 p-4 space-y-1">
+          <div id="mobile-nav" className="lg:hidden glass rounded-2xl mt-2 p-4 space-y-1">
             {NAV.map((s) => (
               <a
                 key={s.id}
