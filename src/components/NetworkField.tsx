@@ -60,26 +60,52 @@ export default function NetworkField({ className = "" }: { className?: string })
     let my = -1e4;
     const trail: { x: number; y: number; life: number }[] = [];
 
+    const makeNode = (): Node => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * SPEED,
+      vy: (Math.random() - 0.5) * SPEED,
+      z: 0.35 + Math.random() * 0.65,
+    });
+
+    const targetCount = () =>
+      Math.max(34, Math.min(MAX_NODES, Math.round((w * h) / 9000)));
+
     const populate = () => {
-      const target = Math.max(34, Math.min(MAX_NODES, Math.round((w * h) / 9000)));
-      nodes = Array.from({ length: target }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * SPEED,
-        vy: (Math.random() - 0.5) * SPEED,
-        z: 0.35 + Math.random() * 0.65,
-      }));
+      nodes = Array.from({ length: targetCount() }, makeNode);
     };
 
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = cv.getBoundingClientRect();
+      const pw = w;
+      const ph = h;
       w = Math.max(1, rect.width);
       h = Math.max(1, rect.height);
       cv.width = Math.round(w * dpr);
       cv.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      populate();
+      if (nodes.length === 0) {
+        populate();
+      } else {
+        // Keep the existing mesh across resizes: mobile URL-bar collapse
+        // fires this constantly during scroll, and a full re-roll made the
+        // whole field visibly jump. Rescale what's there and top up or
+        // trim to the new density instead.
+        const sx = w / pw;
+        const sy = h / ph;
+        nodes.forEach((n) => {
+          n.x *= sx;
+          n.y *= sy;
+        });
+        const target = targetCount();
+        if (nodes.length > target) nodes.length = target;
+        while (nodes.length < target) nodes.push(makeNode());
+      }
+      // Assigning canvas width/height wipes the backing store, so repaint:
+      // without this, reduced-motion visitors (no render loop) were left
+      // staring at a blank canvas after the ResizeObserver's initial fire.
+      render();
     };
 
     const render = () => {

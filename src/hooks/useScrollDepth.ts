@@ -31,6 +31,11 @@ export function useScrollDepth(dep?: unknown) {
       document.querySelectorAll<HTMLElement>(".d3").forEach((el) => {
         el.style.setProperty("--t", "0");
         el.style.setProperty("--a", "0");
+        // The active branch writes these inline; without resetting them a
+        // mid-visit switch to reduced motion left far-from-center cards
+        // stuck with pointer-events:none — permanently unclickable links.
+        el.style.pointerEvents = "";
+        el.style.zIndex = "";
       });
       return;
     }
@@ -129,6 +134,10 @@ export function useScrollDepth(dep?: unknown) {
       io.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      document.querySelectorAll<HTMLElement>(".d3").forEach((el) => {
+        el.style.pointerEvents = "";
+        el.style.zIndex = "";
+      });
     };
   }, [reduced, dep]);
 }

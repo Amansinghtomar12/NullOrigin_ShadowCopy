@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import {
   Flag, ShieldCheck, Network, Sparkles, ArrowUpRight,
   Lock, Code, Binary, Search, Fingerprint, Bug, Cpu, CheckCircle,
@@ -27,15 +27,20 @@ const DOMAINS = [
 function SampleChallenge() {
   const [input, setInput] = useState("");
   const [status, setStatus] = useState<"idle" | "correct" | "incorrect">("idle");
+  // Tracked so a wrong-then-right guess inside 2.5s can't have the stale
+  // "incorrect" timeout knock the success state back to idle.
+  const resetTimer = useRef(0);
+  useEffect(() => () => window.clearTimeout(resetTimer.current), []);
   const verify = (e: FormEvent) => {
     e.preventDefault();
+    window.clearTimeout(resetTimer.current);
     if (isSampleFlag(input)) {
       setStatus("correct");
       sound.playSuccess();
     } else {
       setStatus("incorrect");
       sound.playError();
-      setTimeout(() => setStatus("idle"), 2500);
+      resetTimer.current = window.setTimeout(() => setStatus("idle"), 2500);
     }
   };
   return (

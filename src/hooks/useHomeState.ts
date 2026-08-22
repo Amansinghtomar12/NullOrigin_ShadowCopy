@@ -1,6 +1,7 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { sound } from "./utils/audio";
 import { SAMPLE_FLAG, isSampleFlag } from "../constants/challenge";
+import { EVENT_DATE } from "../constants";
 
 export interface Cadet {
   email: string;
@@ -35,15 +36,18 @@ export function useHomeState() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState<"database" | "guide">("database");
 
-  // Countdown timer — fixed target: September 18, 2026, 00:00:00 (local time)
+  // Countdown timer — targets EVENT_DATE (2026-09-18 00:00 IST), the same
+  // instant for every viewer. The previous target was midnight in the
+  // *viewer's* local zone, so clocks around the world counted to different
+  // moments and none matched the real start.
   useEffect(() => {
-    const targetDate = new Date(2026, 8, 18, 0, 0, 0); // month is 0-indexed: 8 = September
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate.getTime() - now;
+    const target = EVENT_DATE.getTime();
+    let interval = 0;
+    const tick = () => {
+      const difference = target - Date.now();
       if (difference <= 0) {
         setTimeLeft({ days: "00", hours: "00", minutes: "00", seconds: "00" });
-        clearInterval(interval);
+        if (interval) clearInterval(interval);
         return;
       }
       const d = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -56,7 +60,11 @@ export function useHomeState() {
         minutes: String(m).padStart(2, "0"),
         seconds: String(s).padStart(2, "0"),
       });
-    }, 1000);
+    };
+    // Immediate first tick — the hero was showing 00:00:00:00 for the
+    // first second while waiting on the interval.
+    tick();
+    interval = window.setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -109,8 +117,14 @@ export function useHomeState() {
     sound.playClick();
   };
 
+  // Tracked so a wrong-then-right guess inside 2.5s can't have the stale
+  // "incorrect" timeout wipe the success state back to idle.
+  const teaserTimer = useRef(0);
+  useEffect(() => () => window.clearTimeout(teaserTimer.current), []);
+
   const handleTeaserVerify = (e: FormEvent) => {
     e.preventDefault();
+    window.clearTimeout(teaserTimer.current);
     const cleanInput = teaserInput.trim().toLowerCase();
     if (isSampleFlag(cleanInput) || cleanInput.includes(SAMPLE_FLAG.toLowerCase())) {
       setTeaserStatus("correct");
@@ -119,29 +133,34 @@ export function useHomeState() {
     } else {
       setTeaserStatus("incorrect");
       sound.playError();
-      setTimeout(() => setTeaserStatus("idle"), 2500);
+      teaserTimer.current = window.setTimeout(() => setTeaserStatus("idle"), 2500);
     }
   };
 
   const handleStatusClick = () => {
     sound.playClick();
-    setStatusClicks((prev) => {
-      const next = prev + 1;
-      if (next >= 5) {
-        setShowAdmin(true);
-        sound.playSuccess();
-        setLogs((prevLogs) => [...prevLogs, `[OVERSEER] Tactical Administrator panel decrypted! Access granted.`]);
-        return 0;
-      }
-      return next;
-    });
+    // Side effects live outside the state updater: updaters must be pure,
+    // and StrictMode double-invokes them — the admin-panel log line and
+    // success sound were firing twice in dev.
+    const next = statusClicks + 1;
+    if (next >= 5) {
+      setStatusClicks(0);
+      setShowAdmin(true);
+      sound.playSuccess();
+      setLogs((prevLogs) => [...prevLogs, `[OVERSEER] Tactical Administrator panel decrypted! Access granted.`]);
+    } else {
+      setStatusClicks(next);
+    }
   };
 
   const downloadCSV = () => {
     sound.playEnter();
+    // Neutralise formula injection: Excel executes cells starting with
+    // = + - @ when the CSV is opened, and these values come from storage.
+    const csvSafe = (s: string) => (/^[=+\-@]/.test(s) ? `'${s}` : s);
     const headers = "Email,Codename,Teaser Decrypted,Registration Dated\n";
     const body = registrations.map(r =>
-      `"${r.email.replace(/"/g, '""')}","${r.codename.replace(/"/g, '""')}","${r.solved ? 'YES' : 'NO'}","${r.timestamp}"`
+      `"${csvSafe(r.email).replace(/"/g, '""')}","${csvSafe(r.codename).replace(/"/g, '""')}","${r.solved ? 'YES' : 'NO'}","${r.timestamp}"`
     ).join("\n");
     const blob = new Blob([headers + body], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -151,6 +170,7 @@ export function useHomeState() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const clearDatabase = () => {

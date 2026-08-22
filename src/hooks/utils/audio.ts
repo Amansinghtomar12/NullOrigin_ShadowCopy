@@ -14,12 +14,13 @@ class SoundSynth {
         window.removeEventListener("click", unlock);
         window.removeEventListener("keydown", unlock);
         window.removeEventListener("touchstart", unlock);
-        window.removeEventListener("mousemove", unlock);
       };
+      // click/keydown/touchstart only: mousemove is not a user-activation
+      // gesture, so it created the AudioContext in a blocked state and then
+      // tore down all the unlock listeners — defeating the whole unlock.
       window.addEventListener("click", unlock);
       window.addEventListener("keydown", unlock);
       window.addEventListener("touchstart", unlock);
-      window.addEventListener("mousemove", unlock);
     }
   }
 

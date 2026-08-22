@@ -79,12 +79,29 @@ export default function BootIntro() {
   const reduced = useReducedMotion();
 
   // Decided before first paint so the overlay never flashes for someone
-  // who should not see it at all.
-  const [active, setActive] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-  );
+  // who should not see it at all. The sessionStorage flag keeps it to one
+  // showing per tab: with real routes, navigating register → home remounts
+  // this component, and the full 3.4s breach replaying on every return
+  // was a scroll-locked toll gate, not an intro.
+  const [active, setActive] = useState(() => {
+    if (typeof window === "undefined") return false;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return false;
+    try {
+      if (window.sessionStorage.getItem("no-boot-seen")) return false;
+    } catch {
+      /* storage blocked — fall through and show the intro */
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (!active) return;
+    try {
+      window.sessionStorage.setItem("no-boot-seen", "1");
+    } catch {
+      /* best effort */
+    }
+  }, [active]);
 
   const [shown, setShown] = useState(0);
   const [granted, setGranted] = useState(false);
@@ -116,8 +133,15 @@ export default function BootIntro() {
     setLeaving(true);
     // Matches the slowed exit animations: the door opens unhurried, so
     // the ring blast is actually seen instead of blinked past.
-    window.setTimeout(() => setActive(false), 1700);
+    timers.current.push(window.setTimeout(() => setActive(false), 1700));
   }, []);
+
+  // Flipping reduce-motion on mid-intro cancels the auto-advance timers;
+  // without this the overlay would sit there, scroll locked, until a
+  // manual skip. Treat the flip as an immediate skip instead.
+  useEffect(() => {
+    if (reduced && active) finish();
+  }, [reduced, active, finish]);
 
   useEffect(() => {
     if (!active || reduced) return;
