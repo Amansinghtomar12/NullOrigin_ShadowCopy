@@ -23,7 +23,7 @@ import { useReducedMotion } from "./useReducedMotion";
  * direction) and `--a` (absolute, for magnitude). CSS cannot portably
  * take abs() yet, and computing it here is free.
  */
-export function useScrollDepth() {
+export function useScrollDepth(dep?: unknown) {
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -130,5 +130,5 @@ export function useScrollDepth() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [reduced]);
+  }, [reduced, dep]);
 }

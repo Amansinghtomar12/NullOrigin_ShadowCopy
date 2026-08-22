@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import CosmicBackground from "./components/CosmicBackground";
 import Navbar from "./components/Navbar";
 import HomeHero from "./components/HomeHero";
@@ -24,12 +25,19 @@ import { useTilt } from "./hooks/useTilt";
 import { useOperatorTouches } from "./hooks/useOperatorTouches";
 
 export default function App() {
-  const [page, setPage] = useState<"home" | "register">("home");
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const state = useHomeState();
+  // Keyed to the pathname: a route swap replaces the page's DOM, and the
+  // element-binding effects (reveal sweep, 3D adoption) must re-run on it.
+  useScrollReveal(pathname);
+  useScrollDepth(pathname);
+  useTilt();
+  useOperatorTouches();
 
-  // Home and Register swap without a router, so screen-reader and keyboard
-  // focus would otherwise be stranded on a button that no longer exists.
-  // On every page switch, land focus on the new page's h1.
+  // Route changes swap the whole page, so screen-reader and keyboard focus
+  // would otherwise be stranded on an element that no longer exists. On
+  // every navigation, land focus on the new page's h1.
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current) {
@@ -38,59 +46,60 @@ export default function App() {
     }
     window.scrollTo(0, 0);
     requestAnimationFrame(() => document.querySelector<HTMLElement>("h1")?.focus());
-  }, [page]);
+  }, [pathname]);
 
-  useScrollReveal();
-  useScrollDepth();
-  useTilt();
-  useOperatorTouches();
-
-  if (page === "register") {
-    return (
-      <>
-        <CursorRing />
-        <RegistrationPage onBack={() => setPage("home")} />
-      </>
-    );
-  }
+  const toRegister = () => navigate("/register");
 
   return (
-    <div id="top" className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
-      <BootIntro />
-      <a href="#main" className="skip-link">Skip to content</a>
-      <CursorRing />
-      <ScrollProgress />
-      <CosmicBackground />
-      <div className="above-cosmos">
-        <Navbar
-          audioEnabled={state.audioEnabled}
-          onToggleSound={state.toggleSound}
-          onRegister={() => setPage("register")}
-        />
+    <Routes>
+      <Route
+        path="/register"
+        element={
+          <>
+            <CursorRing />
+            <RegistrationPage onBack={() => navigate("/")} />
+          </>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <div id="top" className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
+            <BootIntro />
+            <a href="#main" className="skip-link">Skip to content</a>
+            <CursorRing />
+            <ScrollProgress />
+            <CosmicBackground />
+            <div className="above-cosmos">
+              <Navbar
+                audioEnabled={state.audioEnabled}
+                onToggleSound={state.toggleSound}
+                onRegister={toRegister}
+              />
 
-        {/* Hero */}
-        <HomeHero {...state} onRegister={() => setPage("register")} />
+              {/* Hero */}
+              <HomeHero {...state} onRegister={toRegister} />
 
-        {/* Certification partner, surfaced before the fold-and-a-half */}
-        <SponsorStrip />
+              {/* Certification partner, surfaced before the fold-and-a-half */}
+              <SponsorStrip />
 
+              <main id="main" className="stage3d">
+                <About />
+                <Highlights />
+                <Sponsors />
+                <Impact />
+                <Schedule />
+                <Prizes />
+                <Closer onRegister={toRegister} />
+                <FAQ />
+              </main>
 
-
-        <main id="main" className="stage3d">
-        {/* New design sections */}
-        <About />
-        <Highlights />
-        <Sponsors />
-        <Impact />
-        <Schedule />
-        <Prizes />
-        <Closer onRegister={() => setPage("register")} />
-        <FAQ />
-        </main>
-
-        <SiteFooter />
-        <BackToTop />
-      </div>
-    </div>
+              <SiteFooter />
+              <BackToTop />
+            </div>
+          </div>
+        }
+      />
+    </Routes>
   );
 }

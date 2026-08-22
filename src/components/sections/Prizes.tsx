@@ -1,7 +1,18 @@
+import React from "react";
 import { Reveal, SectionHeading } from "../ui";
 import PodiumMedal from "./PodiumMedal";
 
-const TIERS = [
+/* After the event, crown the podium by filling in `team` (and optionally
+   replacing the perks with the actual prizes) — the card then shows the
+   winning team's name above the rank, and nothing else needs touching. */
+const TIERS: {
+  rank: string;
+  icon: React.ReactNode;
+  variant: string;
+  team?: string;
+  perks: string[];
+  order: string;
+}[] = [
   {
     rank: "2nd",
     icon: <PodiumMedal tier="silver" rank={2} size={78} />,
@@ -50,6 +61,11 @@ export default function Prizes() {
                 <div className={`podium__medal ${t.variant === "podium--first" ? "podium__medal--lg" : ""}`} aria-hidden="true">
                   {t.icon}
                 </div>
+                {t.team && (
+                  <p className="font-display text-[22px] tracking-wide text-[var(--amber)] leading-tight">
+                    {t.team}
+                  </p>
+                )}
                 <p className="podium__rank">{t.rank} place</p>
                 <ul className="podium__perks">
                   {t.perks.map((perk) => (

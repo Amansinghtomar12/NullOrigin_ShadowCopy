@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react";
 
-export function useScrollReveal() {
+export function useScrollReveal(dep?: unknown) {
   useEffect(() => {
     let io: IntersectionObserver | null = null;
     let fallbackTimer: number | undefined;
@@ -57,7 +57,9 @@ export function useScrollReveal() {
       if (fallbackTimer) window.clearTimeout(fallbackTimer);
       io?.disconnect();
     };
-  }, []);
+    // dep lets the caller re-run the sweep when a route swap replaces the
+    // page's DOM — fresh .reveal elements would otherwise stay at opacity 0.
+  }, [dep]);
 }
 
 export function Reveal({
