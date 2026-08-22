@@ -75,32 +75,26 @@ function Decrypt({ text, delay, lite }: { text: string; delay: number; lite?: bo
   return <span>{out}</span>;
 }
 
+// Module-level, deliberately NOT sessionStorage: this flag lives only for
+// the current page load, so the intro plays on every fresh load/refresh —
+// but a client-side route trip (register → home) remounts the component
+// without reloading the module, and the full 3.4s scroll-locked breach
+// must not replay as a toll gate on every return.
+let bootedThisLoad = false;
+
 export default function BootIntro() {
   const reduced = useReducedMotion();
 
   // Decided before first paint so the overlay never flashes for someone
-  // who should not see it at all. The sessionStorage flag keeps it to one
-  // showing per tab: with real routes, navigating register → home remounts
-  // this component, and the full 3.4s breach replaying on every return
-  // was a scroll-locked toll gate, not an intro.
+  // who should not see it at all.
   const [active, setActive] = useState(() => {
     if (typeof window === "undefined") return false;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return false;
-    try {
-      if (window.sessionStorage.getItem("no-boot-seen")) return false;
-    } catch {
-      /* storage blocked — fall through and show the intro */
-    }
-    return true;
+    return !bootedThisLoad;
   });
 
   useEffect(() => {
-    if (!active) return;
-    try {
-      window.sessionStorage.setItem("no-boot-seen", "1");
-    } catch {
-      /* best effort */
-    }
+    if (active) bootedThisLoad = true;
   }, [active]);
 
   const [shown, setShown] = useState(0);
