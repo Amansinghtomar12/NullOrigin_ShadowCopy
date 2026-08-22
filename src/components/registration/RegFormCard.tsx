@@ -57,7 +57,7 @@ export default function RegFormCard({ form, status, errorMsg, expandedMembers, e
 
         <div className="mt-9">
           <span className="eyebrow inline-flex">Enrollment</span>
-          <h1 className="h-display text-[clamp(1.8rem,4.5vw,2.8rem)] mt-4">
+          <h1 tabIndex={-1} className="h-display outline-none text-[clamp(1.8rem,4.5vw,2.8rem)] mt-4">
             Team Registration
           </h1>
           <p className="lead mt-3 max-w-[52ch]">

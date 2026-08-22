@@ -57,7 +57,8 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
 
         <h1
           data-depth="0.9"
-          className="h-display title3d glitchy"
+          tabIndex={-1}
+          className="h-display title3d glitchy outline-none"
           style={{ fontSize: "clamp(46px, 7.4vw, 112px)", lineHeight: "1.04" }}
         >
           NULL

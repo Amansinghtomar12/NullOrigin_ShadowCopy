@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CosmicBackground from "./components/CosmicBackground";
 import Navbar from "./components/Navbar";
 import HomeHero from "./components/HomeHero";
@@ -26,6 +26,20 @@ import { useOperatorTouches } from "./hooks/useOperatorTouches";
 export default function App() {
   const [page, setPage] = useState<"home" | "register">("home");
   const state = useHomeState();
+
+  // Home and Register swap without a router, so screen-reader and keyboard
+  // focus would otherwise be stranded on a button that no longer exists.
+  // On every page switch, land focus on the new page's h1.
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => document.querySelector<HTMLElement>("h1")?.focus());
+  }, [page]);
+
   useScrollReveal();
   useScrollDepth();
   useTilt();
