@@ -54,6 +54,12 @@ export default function RegistrationPage({ onBack }: Props) {
       delete next[field];
       return next;
     });
+    // And when that was the last outstanding error, retire the banner too —
+    // it was still shouting the old message after everything was fixed.
+    if (errors[field] && Object.keys(errors).length === 1 && status === "error") {
+      setStatus("idle");
+      setErrorMsg("");
+    }
   };
 
   const handleBlur = (field: keyof FormData) => {
@@ -77,8 +83,8 @@ export default function RegistrationPage({ onBack }: Props) {
     e.preventDefault();
     if (status === "loading") return;
 
-    // Silent bot traps — a filled honeypot or an impossibly fast submit.
-    if (honeypotRef.current?.value || Date.now() - openedAt.current < 3000) {
+    // Bot trap — only the honeypot hard-blocks; a human never fills it.
+    if (honeypotRef.current?.value) {
       setStatus("error");
       setErrorMsg("Submission blocked.");
       return;
@@ -126,6 +132,16 @@ export default function RegistrationPage({ onBack }: Props) {
       ])
     ) as Record<string, string>;
     payload.timestamp = new Date().toISOString();
+
+    // Second bot trap, now transparent to humans: a scripted submit fires
+    // instantly, so anything faster than 3s from page-open simply waits out
+    // the remainder under the normal "Submitting…" spinner instead of
+    // being rejected with a cryptic error (which real users on autofill
+    // were hitting).
+    const elapsed = Date.now() - openedAt.current;
+    if (elapsed < 3000) {
+      await new Promise((r) => setTimeout(r, 3000 - elapsed));
+    }
 
     try {
       await fetch(GOOGLE_SCRIPT_URL, {

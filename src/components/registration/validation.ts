@@ -139,7 +139,13 @@ export function validateForm(form: FormData): FieldErrors {
       if (prev) errors[dKey] = `Same Discord username as member ${prev}.`;
       else seenDiscord.set(dVal, n);
     }
-    const cVal = clean(form[cKey] as string).toLowerCase().replace(/\/+$/, "");
+    // Normalised so "ctftime.org/user/99" and "https://www.ctftime.org/user/99/"
+    // count as the same profile.
+    const cVal = clean(form[cKey] as string)
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/\/+$/, "");
     if (cVal && !cErr) {
       const prev = seenCTFtime.get(cVal);
       if (prev) errors[cKey] = `Same CTFtime profile as member ${prev}.`;
