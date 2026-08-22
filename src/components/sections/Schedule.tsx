@@ -24,7 +24,7 @@ const TIMELINE = [
   {
     date: "26 September 2026",
     title: "Winners announced",
-    desc: "Top teams receive prizes, certificates and recognition.",
+    desc: "The podium is crowned — and the rewards are revealed live.",
     icon: <Award className="h-5 w-5" />,
   },
 ];
