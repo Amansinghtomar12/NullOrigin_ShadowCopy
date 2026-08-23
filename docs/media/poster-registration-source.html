@@ -78,15 +78,16 @@
     letter-spacing: .16em; color: #ff6b85; text-transform: uppercase; margin-top: 18px; }
   .mission .meta b { color: #f4f6f5; }
 
-  .sponsors { position: absolute; left: 72px; right: 72px; bottom: 118px; }
-  .sponsors .lbl { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 14px;
-    letter-spacing: .3em; color: #99a2ad; text-transform: uppercase; text-align: center; }
-  .sponsors .row { display: flex; justify-content: center; align-items: center; gap: 22px; margin-top: 14px; }
+  .sponsors { position: absolute; left: 72px; right: 72px; bottom: 108px;
+    display: flex; justify-content: center; gap: 34px; }
+  .sponsors .col { text-align: center; }
+  .sponsors .tier { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 12.5px;
+    letter-spacing: .24em; color: #99a2ad; text-transform: uppercase; white-space: nowrap; }
   .sponsors .chipL { display: flex; align-items: center; justify-content: center;
-    height: 64px; padding: 0 30px; background: rgba(28,8,16,.7);
+    height: 62px; min-width: 218px; padding: 0 30px; margin-top: 11px; background: rgba(28,8,16,.7);
     border: 2px solid rgba(255,51,85,.35); border-radius: 999px; }
-  .sponsors img { height: 30px; }
-  .sponsors img.tall { height: 36px; }
+  .sponsors img { height: 29px; }
+  .sponsors img.tall { height: 35px; }
 
   .footer { position: absolute; left: 0; right: 0; bottom: 52px; text-align: center;
     font-family: 'Fira Code', monospace; font-weight: 700; font-size: 20px;
@@ -127,11 +128,17 @@
   </div>
 
   <div class="sponsors">
-    <div class="lbl">In collaboration with</div>
-    <div class="row">
+    <div class="col">
+      <div class="tier">In Collaboration With</div>
       <span class="chipL"><img src="file:///home/user/NullOrigin_ShadowCopy/public/ine-logo.svg"></span>
-      <span class="chipL"><img class="tall" src="file:///home/user/NullOrigin_ShadowCopy/public/offsec-logo.svg"></span>
+    </div>
+    <div class="col">
+      <div class="tier">Powered By</div>
       <span class="chipL"><img src="file:///home/user/NullOrigin_ShadowCopy/public/unstop-logo.svg"></span>
+    </div>
+    <div class="col">
+      <div class="tier">In Association With</div>
+      <span class="chipL"><img class="tall" src="file:///home/user/NullOrigin_ShadowCopy/public/offsec-logo.svg"></span>
     </div>
   </div>
 
