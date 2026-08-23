@@ -13,9 +13,9 @@
 
   /* ═══ ATMOSPHERE ═══ */
   .glow-top { position: absolute; width: 1400px; height: 780px; left: -160px; top: -300px;
-    background: radial-gradient(closest-side, rgba(255,51,85,.30), transparent); }
+    background: radial-gradient(closest-side, rgba(255,51,85,.28), transparent); }
   .shaft { position: absolute; width: 260px; height: 900px; left: 410px; top: -200px;
-    background: linear-gradient(180deg, rgba(255,120,140,.10), transparent 75%);
+    background: linear-gradient(180deg, rgba(255,120,140,.09), transparent 75%);
     transform: skewX(-9deg); }
   .floor { position: absolute; left: -20%; right: -20%; bottom: -40px; height: 520px;
     transform: perspective(700px) rotateX(58deg); transform-origin: 50% 100%;
@@ -26,23 +26,31 @@
     -webkit-mask-image: linear-gradient(to top, #000 40%, transparent 96%); }
   svg.mesh { position: absolute; inset: 0; }
 
-  /* giant duotone skull looming behind the title */
-  .skull-bg { position: absolute; left: 50%; top: 46px; width: 760px; height: 600px;
+  /* skull: quieter, pure red duotone, deeper behind the scene */
+  .skull-bg { position: absolute; left: 50%; top: 84px; width: 820px; height: 620px;
     transform: translateX(-50%); overflow: hidden;
-    -webkit-mask-image: radial-gradient(58% 62% at 50% 40%, #000 40%, transparent 82%); }
-  .skull-bg img { width: 760px; object-fit: cover; object-position: top;
-    filter: grayscale(1) brightness(1.35) contrast(1.12) sepia(1) hue-rotate(-42deg) saturate(3.4);
-    opacity: .34; }
+    -webkit-mask-image: radial-gradient(52% 56% at 50% 40%, #000 30%, transparent 78%); }
+  .skull-bg img { width: 820px; object-fit: cover; object-position: top;
+    filter: grayscale(1) brightness(.9) contrast(1.25) sepia(1) hue-rotate(-58deg) saturate(5);
+    opacity: .20; }
 
-  /* texture: scanlines + noise + vignette */
+  /* faint hexdump strips down both edges */
+  .hexdump { position: absolute; top: 120px; bottom: 130px; width: 20px; z-index: 8;
+    font-family: 'Fira Code', monospace; font-weight: 400; font-size: 11px; line-height: 1.9;
+    color: rgba(255,77,106,.20); writing-mode: vertical-rl; letter-spacing: .32em;
+    text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+  .hexdump.l { left: 44px; }
+  .hexdump.r { right: 44px; transform: rotate(180deg); }
+
+  /* texture */
   .scanlines { position: absolute; inset: 0; z-index: 40; pointer-events: none;
-    background: repeating-linear-gradient(180deg, rgba(0,0,0,.16) 0 2px, transparent 2px 5px);
-    opacity: .5; }
-  .noise { position: absolute; inset: 0; z-index: 41; opacity: .05; }
+    background: repeating-linear-gradient(180deg, rgba(0,0,0,.13) 0 2px, transparent 2px 5px);
+    opacity: .45; }
+  .noise { position: absolute; inset: 0; z-index: 41; opacity: .045; }
   .vignette { position: absolute; inset: 0; z-index: 42;
     background: radial-gradient(120% 105% at 50% 42%, transparent 58%, rgba(0,0,0,.55) 100%); }
 
-  /* HUD frame: corner brackets + telemetry microtext */
+  /* HUD frame + telemetry */
   .hud { position: absolute; inset: 26px; z-index: 45; pointer-events: none; }
   .hud .c { position: absolute; width: 66px; height: 66px; border: 4px solid #ff3355; }
   .hud .tl { top: 0; left: 0; border-right: 0; border-bottom: 0; border-top-left-radius: 20px; }
@@ -51,60 +59,84 @@
   .hud .br { bottom: 0; right: 0; border-left: 0; border-top: 0; border-bottom-right-radius: 20px; }
   .hud .edge { position: absolute; inset: 0; border: 1.5px solid rgba(255,51,85,.22); border-radius: 20px; }
   .tele { position: absolute; z-index: 46; font-family: 'Fira Code', monospace; font-weight: 400;
-    font-size: 12px; letter-spacing: .18em; color: rgba(153,162,173,.75); text-transform: uppercase; }
-  .tele.l { top: 44px; left: 116px; }
+    font-size: 12px; letter-spacing: .16em; color: rgba(153,162,173,.78); text-transform: uppercase; }
+  .tele.l { top: 44px; left: 116px; text-align: left; }
   .tele.r { top: 44px; right: 116px; text-align: right; }
-  .tele b { color: rgba(255,77,106,.9); font-weight: 700; }
+  .tele b { color: rgba(255,77,106,.95); font-weight: 700; }
 
   /* ═══ CONTENT ═══ */
-  .wrap { position: relative; z-index: 30; height: 100%; padding: 84px 72px 0; text-align: center; }
-  .presents { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 17px;
-    letter-spacing: .34em; color: #b8bfc7; text-transform: uppercase; }
-  .presents b { color: #ff6b85; }
+  .wrap { position: relative; z-index: 30; height: 100%; padding: 88px 72px 0; text-align: center; }
 
-  .ghost { position: absolute; left: 50%; top: 132px; transform: translateX(-50%);
-    font-family: 'Bangers', cursive; font-size: 430px; line-height: 1; letter-spacing: .02em;
-    color: transparent; -webkit-text-stroke: 3px rgba(255,51,85,.16); z-index: 1; }
+  /* shell prompt instead of a plain "presents" line */
+  .prompt { display: inline-block; font-family: 'Fira Code', monospace; font-weight: 700;
+    font-size: 17px; letter-spacing: .06em; color: #d7dde3; text-transform: none;
+    background: rgba(20,6,12,.8); border: 2px solid rgba(255,51,85,.4); border-radius: 999px;
+    padding: 11px 26px; }
+  .prompt .u { color: #ff4d6a; } .prompt .p { color: #99a2ad; } .prompt .a { color: #ffc23c; }
+  .prompt .caret { display: inline-block; width: 9px; height: 17px; background: #ff3355;
+    vertical-align: -2px; margin-left: 6px; }
 
-  .titleblock { position: relative; margin-top: 34px; z-index: 5; }
+  .ghost { position: absolute; left: 50%; top: 128px; transform: translateX(-50%);
+    font-family: 'Bangers', cursive; font-size: 390px; line-height: 1; letter-spacing: .02em;
+    color: transparent; -webkit-text-stroke: 3px rgba(255,51,85,.14); z-index: 1; }
+
+  .titleblock { position: relative; margin-top: 26px; z-index: 5; }
   .t-line { position: relative; font-family: 'Bangers', cursive; font-weight: 400;
     text-transform: uppercase; letter-spacing: .03em; line-height: .88; }
-  .t1 { font-size: 178px; transform: rotate(-2deg); }
-  .t2 { font-size: 178px; transform: rotate(1.4deg); margin-top: -8px; }
-  /* chromatic aberration: cyan + red ghosts behind the solid fill */
+  .t1 { font-size: 156px; transform: rotate(-1.2deg); }
+  .t2 { font-size: 156px; transform: rotate(0.8deg); margin-top: -8px; }
   .t-line .cy, .t-line .rd, .t-line .main { display: block; }
   .t-line .cy, .t-line .rd { position: absolute; inset: 0; z-index: -1; }
-  .t-line .cy { color: rgba(64,220,255,.55); transform: translate(-6px, 3px); }
-  .t-line .rd { color: rgba(255,30,70,.65); transform: translate(6px, -3px); }
+  .t-line .cy { color: rgba(64,220,255,.45); transform: translate(-4px, 2px); }
+  .t-line .rd { color: rgba(255,30,70,.55); transform: translate(4px, -2px); }
   .t-line .main {
     background: linear-gradient(180deg, #ffb0be 0%, #ff3355 52%, #ffc23c 108%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 10px 0 rgba(0,0,0,.65)) drop-shadow(0 0 44px rgba(255,51,85,.4)); }
+  /* glitch slice bars cutting through the title */
+  .gbar { position: absolute; left: 6%; right: 6%; height: 7px; z-index: 6;
+    background: linear-gradient(90deg, transparent, rgba(64,220,255,.35) 20%, rgba(255,51,85,.5) 60%, transparent);
+    mix-blend-mode: screen; }
+  .gbar.g1 { top: 226px; transform: translateX(-14px); }
+  .gbar.g2 { top: 356px; transform: translateX(18px); height: 5px; }
 
-  .tag { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 23px;
-    letter-spacing: .3em; color: #ffc23c; text-transform: uppercase; margin-top: 20px;
+  .tag { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 22px;
+    letter-spacing: .24em; color: #ffc23c; text-transform: uppercase; margin-top: 18px;
     text-shadow: 0 0 24px rgba(255,194,60,.45); }
+  .tag .sep { color: #ff4d6a; }
 
-  /* six domain chips with drawn icons */
-  .domains { display: flex; justify-content: center; gap: 12px; margin-top: 22px; }
-  .dchip { display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+  /* breach meter */
+  .breach { width: 560px; margin: 14px auto 0; text-align: left; }
+  .breach .bl2 { display: flex; justify-content: space-between; font-family: 'Fira Code', monospace;
+    font-weight: 700; font-size: 13px; letter-spacing: .2em; color: #99a2ad; text-transform: uppercase; }
+  .breach .bl2 b { color: #ff6b85; }
+  .breach .bar { margin-top: 8px; height: 12px; border-radius: 999px; overflow: hidden;
+    background: rgba(255,51,85,.12); border: 1.5px solid rgba(255,51,85,.35); }
+  .breach .fill { width: 78%; height: 100%; border-radius: 999px;
+    background: repeating-linear-gradient(90deg, #ff3355 0 14px, #ff6b85 14px 18px);
+    box-shadow: 0 0 18px rgba(255,51,85,.6); }
+
+  /* hex-numbered domain chips */
+  .domains { display: flex; justify-content: center; gap: 11px; margin-top: 18px; }
+  .dchip { display: flex; align-items: center; gap: 8px; padding: 10px 14px;
     background: rgba(28,8,16,.75); border: 2px solid rgba(255,51,85,.42); border-radius: 999px;
-    font-family: 'Fira Code', monospace; font-weight: 700; font-size: 14.5px;
-    letter-spacing: .12em; color: #e6dfe2; text-transform: uppercase; }
-  .dchip svg { width: 15px; height: 15px; stroke: #ff4d6a; stroke-width: 2.4; fill: none;
+    font-family: 'Fira Code', monospace; font-weight: 700; font-size: 14px;
+    letter-spacing: .08em; color: #e6dfe2; text-transform: uppercase; }
+  .dchip .hx { color: #ff4d6a; font-size: 11.5px; }
+  .dchip svg { width: 14px; height: 14px; stroke: #ffc23c; stroke-width: 2.4; fill: none;
     stroke-linecap: round; stroke-linejoin: round; }
 
-  /* two-round timeline rail */
-  .timeline { position: relative; margin: 30px auto 0; width: 880px; }
+  /* phase timeline */
+  .timeline { position: relative; margin: 26px auto 0; width: 880px; }
   .rail { position: absolute; left: 60px; right: 60px; top: 26px; height: 3px;
     background: linear-gradient(90deg, rgba(255,51,85,.15), rgba(255,51,85,.7), rgba(255,194,60,.7), rgba(255,194,60,.15)); }
   .rounds { display: flex; justify-content: space-between; }
-  .round { width: 400px; text-align: left; background: rgba(20,6,12,.78);
+  .round { width: 400px; text-align: left; background: rgba(20,6,12,.8);
     border: 2.5px solid rgba(255,51,85,.5); border-radius: 22px; padding: 16px 22px 14px;
     box-shadow: 0 12px 0 -6px rgba(0,0,0,.55), 0 18px 40px rgba(0,0,0,.5); position: relative; }
   .round--final { border-color: rgba(255,194,60,.55); }
   .round .rk { position: absolute; top: -15px; left: 20px; font-family: 'Fira Code', monospace;
-    font-weight: 700; font-size: 12.5px; letter-spacing: .22em; text-transform: uppercase;
+    font-weight: 700; font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase;
     background: #ff3355; color: #0a0a12; border-radius: 999px; padding: 5px 13px; }
   .round--final .rk { background: #ffc23c; }
   .round .rn { font-family: 'Bangers', cursive; font-size: 40px; color: #f4f6f5;
@@ -112,60 +144,67 @@
   .round .rd2 { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 15px;
     letter-spacing: .1em; color: #ff8296; text-transform: uppercase; margin-top: 7px; }
   .round--final .rd2 { color: #ffc23c; }
-  .round .rx { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px;
-    color: #b8bfc7; margin-top: 5px; }
+  .round .rx { font-family: 'Fira Code', monospace; font-weight: 400; font-size: 13.5px;
+    color: #b8bfc7; margin-top: 6px; letter-spacing: .04em; }
+  .round .rx b { color: #ff6b85; font-weight: 700; }
 
-  /* ═══ ACCESS PASS + intel column ═══ */
-  .bottom { position: absolute; z-index: 60; left: 0; right: 0; bottom: 216px;
+  /* ═══ ACCESS PASS + intel ═══ */
+  .bottom { position: absolute; z-index: 60; left: 0; right: 0; bottom: 200px;
     display: flex; justify-content: center; align-items: center; gap: 54px; perspective: 1100px; }
-  .pass { position: relative; background: #f4f6f5; border-radius: 26px; padding: 0 0 18px;
+  .pass { position: relative; background: #f4f6f5; border-radius: 26px; padding: 0 0 16px;
     transform: rotateY(-12deg) rotateX(3deg) rotate(-1.5deg);
     box-shadow: 20px 24px 0 -5px rgba(0,0,0,.55), 0 0 70px rgba(255,51,85,.4);
     border: 4px solid #ff3355; overflow: hidden; }
   .pass .band { display: flex; align-items: center; justify-content: space-between;
     background: #ff3355; padding: 12px 18px 10px; }
-  .pass .band .bt { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 14px;
-    letter-spacing: .2em; color: #0a0a12; text-transform: uppercase; }
+  .pass .band .bt { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 13.5px;
+    letter-spacing: .16em; color: #0a0a12; text-transform: uppercase; }
   .pass .slot { width: 52px; height: 9px; border-radius: 999px; background: rgba(10,10,18,.55); }
-  .pass img.qr { display: block; width: 252px; height: 252px; margin: 14px 20px 0; }
-  .pass .scan { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 14.5px;
-    letter-spacing: .18em; color: #0a0a12; text-transform: uppercase; text-align: center; margin-top: 10px; }
+  .pass img.qr { display: block; width: 226px; height: 226px; margin: 14px 20px 0; }
+  .pass .scan { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 13.5px;
+    letter-spacing: .1em; color: #0a0a12; text-align: center; margin-top: 10px; }
   .pass .scan i { font-style: normal; color: #ff3355; }
   .pass .shine { position: absolute; top: -40%; left: -70%; width: 70%; height: 200%;
     background: linear-gradient(105deg, transparent, rgba(255,255,255,.5), transparent);
     transform: rotate(8deg) translateX(210px); }
 
-  .intel { text-align: left; max-width: 420px; }
-  .intel .w { font-family: 'Bangers', cursive; font-size: 62px; line-height: 1.02;
+  .intel { text-align: left; max-width: 430px; }
+  .intel .w { font-family: 'Bangers', cursive; font-size: 54px; line-height: 1.02;
     text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 5px 0 rgba(0,0,0,.55); }
   .intel .w1 { color: #f4f6f5; }
   .intel .w2 { color: #ff3355; text-shadow: 0 5px 0 rgba(0,0,0,.55), 0 0 32px rgba(255,51,85,.5); }
   .intel .w3 { color: #ffc23c; text-shadow: 0 5px 0 rgba(0,0,0,.55), 0 0 32px rgba(255,194,60,.45); }
-  .intel .facts { margin-top: 16px; font-family: 'Fira Code', monospace; font-weight: 700;
-    font-size: 16.5px; letter-spacing: .1em; color: #d7dde3; text-transform: uppercase; line-height: 2.05; }
-  .intel .facts b { color: #ff6b85; }
-  .intel .closes { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px;
-    font-family: 'Fira Code', monospace; font-weight: 700; font-size: 15px; letter-spacing: .14em;
+  .intel .facts { margin-top: 15px; font-family: 'Fira Code', monospace; font-weight: 700;
+    font-size: 15.5px; letter-spacing: .04em; color: #d7dde3; line-height: 1.95; }
+  .intel .facts .k { color: #ff6b85; }
+  .intel .facts .v { color: #f4f6f5; }
+  .intel .facts .redact { display: inline-block; background: #0a0a12; color: #ffc23c;
+    border: 1.5px solid rgba(255,194,60,.5); border-radius: 6px; padding: 1px 10px;
+    letter-spacing: .18em; }
+  .intel .closes { display: inline-flex; align-items: center; gap: 9px; margin-top: 12px;
+    font-family: 'Fira Code', monospace; font-weight: 700; font-size: 14px; letter-spacing: .1em;
     text-transform: uppercase; color: #ffc23c; border: 2px solid rgba(255,194,60,.5);
-    background: rgba(255,194,60,.08); border-radius: 999px; padding: 9px 18px; }
+    background: rgba(255,194,60,.08); border-radius: 999px; padding: 9px 17px; }
   .intel .closes .dot { width: 9px; height: 9px; border-radius: 999px; background: #ffc23c;
     box-shadow: 0 0 12px #ffc23c; }
 
-  /* sponsors + footer */
-  .sponsors { position: absolute; z-index: 30; left: 72px; right: 72px; bottom: 104px;
+  /* sponsors + serial footer */
+  .sponsors { position: absolute; z-index: 30; left: 72px; right: 72px; bottom: 100px;
     display: flex; justify-content: center; gap: 32px; }
   .sponsors .col { text-align: center; }
   .sponsors .tier { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 12px;
     letter-spacing: .22em; color: #99a2ad; text-transform: uppercase; white-space: nowrap; }
   .sponsors .chipL { display: flex; align-items: center; justify-content: center;
-    height: 58px; min-width: 212px; padding: 0 28px; margin-top: 10px; background: rgba(28,8,16,.78);
+    height: 56px; min-width: 210px; padding: 0 28px; margin-top: 10px; background: rgba(28,8,16,.78);
     border: 2px solid rgba(255,51,85,.35); border-radius: 999px; }
-  .sponsors img { height: 27px; }
-  .sponsors img.tall { height: 33px; }
+  .sponsors img { height: 26px; }
+  .sponsors img.tall { height: 32px; }
 
-  .footer { position: absolute; z-index: 30; left: 0; right: 0; bottom: 50px; text-align: center;
-    font-family: 'Fira Code', monospace; font-weight: 700; font-size: 20px;
+  .footer { position: absolute; z-index: 30; left: 0; right: 0; bottom: 48px; text-align: center; }
+  .footer .url { font-family: 'Fira Code', monospace; font-weight: 700; font-size: 20px;
     letter-spacing: .26em; color: #ff4d6a; }
+  .footer .sn { font-family: 'Fira Code', monospace; font-weight: 400; font-size: 11px;
+    letter-spacing: .3em; color: rgba(153,162,173,.5); margin-top: 7px; text-transform: uppercase; }
 </style>
 </head>
 <body>
@@ -174,52 +213,62 @@
   <div class="skull-bg"><img src="file:///home/user/NullOrigin_ShadowCopy/public/mask.png"></div>
   <div class="floor"></div>
   <svg class="mesh" width="1080" height="1350" viewBox="0 0 1080 1350"><g id="meshg"></g></svg>
+  <div class="hexdump l" id="hexL"></div>
+  <div class="hexdump r" id="hexR"></div>
 
   <div class="ghost">2026</div>
 
   <div class="wrap">
-    <div class="presents">Team <b>CyberXoX</b> × <b>CyberHX</b> present</div>
+    <div class="prompt"><span class="u">root@cyberhx</span><span class="p">:~#</span> <span class="a">./null_origin</span> --deploy --arena=global<span class="caret"></span></div>
 
     <div class="titleblock">
       <div class="t-line t1"><span class="cy">Null</span><span class="rd">Null</span><span class="main">Null</span></div>
       <div class="t-line t2"><span class="cy">Origin</span><span class="rd">Origin</span><span class="main">Origin</span></div>
     </div>
 
-    <div class="tag">24-Hour Capture The Flag &middot; Online</div>
+    <div class="tag">Capture The Flag <span class="sep">//</span> 24H Runtime <span class="sep">//</span> Remote</div>
+
+    <div class="breach">
+      <div class="bl2"><span>Breach_Progress</span><b>78% · flags remaining</b></div>
+      <div class="bar"><div class="fill"></div></div>
+    </div>
 
     <div class="domains">
-      <span class="dchip"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Crypto</span>
-      <span class="dchip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>Web</span>
-      <span class="dchip"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Rev</span>
-      <span class="dchip"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>OSINT</span>
-      <span class="dchip"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Forensics</span>
-      <span class="dchip"><svg viewBox="0 0 24 24"><path d="M4 6l6 6-6 6M12 19h9"/></svg>Pwn</span>
+      <span class="dchip"><span class="hx">0x01</span><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Crypto</span>
+      <span class="dchip"><span class="hx">0x02</span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>Web</span>
+      <span class="dchip"><span class="hx">0x03</span><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Rev</span>
+      <span class="dchip"><span class="hx">0x04</span><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>OSINT</span>
+      <span class="dchip"><span class="hx">0x05</span><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Forensics</span>
+      <span class="dchip"><span class="hx">0x06</span><svg viewBox="0 0 24 24"><path d="M4 6l6 6-6 6M12 19h9"/></svg>Pwn</span>
     </div>
 
     <div class="timeline">
       <div class="rail"></div>
       <div class="rounds">
         <div class="round">
-          <span class="rk">Round 01</span>
+          <span class="rk">Phase_01</span>
           <div class="rn">Qualifier</div>
-          <div class="rd2">18 September 2026</div>
-          <div class="rx">12 hours &middot; online &middot; every team competes</div>
+          <div class="rd2">18 Sep 2026</div>
+          <div class="rx">uptime <b>12h</b> · access <b>remote</b> · all nodes admitted</div>
         </div>
         <div class="round round--final">
-          <span class="rk">Round 02</span>
+          <span class="rk">Phase_02</span>
           <div class="rn">Grand Finale</div>
-          <div class="rd2">25&ndash;26 September 2026</div>
-          <div class="rx">12 hours &middot; top teams advance</div>
+          <div class="rd2">25&ndash;26 Sep 2026</div>
+          <div class="rx">uptime <b>12h</b> · clearance <b>elevated</b> · top nodes only</div>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="gbar g1"></div>
+  <div class="gbar g2"></div>
+
   <div class="bottom">
     <div class="pass">
-      <div class="band"><span class="bt">Access Pass</span><span class="slot"></span></div>
+      <div class="band"><span class="bt">Operator Access // Token</span><span class="slot"></span></div>
       <img class="qr" src="unstop-qr.png">
-      <div class="scan">Scan to register <i>&#9612;</i></div>
+      <div class="scan">$ ./register --via=unstop <i>&#9612;</i></div>
       <div class="shine"></div>
     </div>
     <div class="intel">
@@ -227,11 +276,11 @@
       <div class="w w2">Exploit.</div>
       <div class="w w3">Capture.</div>
       <div class="facts">
-        Teams of 1&ndash;4 &middot; <b>Free entry</b><br>
-        30 challenges &middot; Easy &rarr; Expert<br>
-        Prize pool: <b>classified</b>
+        <span class="k">team_size</span> = <span class="v">[1..4]</span> · <span class="k">entry</span> = <span class="v">free</span><br>
+        <span class="k">payloads</span> = <span class="v">30</span> · <span class="k">diff</span> = <span class="v">easy&rarr;expert</span><br>
+        <span class="k">prize_pool</span> = <span class="redact">[REDACTED]</span>
       </div>
-      <div class="closes"><span class="dot"></span>Registration closes 17 Sep</div>
+      <div class="closes"><span class="dot"></span>reg_window closes 17-09-2026</div>
     </div>
   </div>
 
@@ -244,10 +293,13 @@
       <span class="chipL"><img class="tall" src="file:///home/user/NullOrigin_ShadowCopy/public/offsec-logo.svg"></span></div>
   </div>
 
-  <div class="footer">nullorigin.cyberhx.com</div>
+  <div class="footer">
+    <div class="url">nullorigin.cyberhx.com</div>
+    <div class="sn">sn 4E554C4C-2D4F-5249-47494E &middot; sig verified &middot; est. cyberxox</div>
+  </div>
 
   <div class="tele l">n0de00 &middot; <b>104.21.64.12</b><br>tunnel &middot; aes-256-gcm</div>
-  <div class="tele r">status &middot; <b>registrations open</b><br>clearance &middot; operator</div>
+  <div class="tele r">status &middot; <b>registrations_open</b><br>clearance &middot; operator</div>
 
   <div class="scanlines"></div>
   <svg class="noise" width="1080" height="1350"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="7"/></filter><rect width="1080" height="1350" filter="url(#n)"/></svg>
@@ -255,6 +307,7 @@
   <div class="hud"><span class="edge"></span><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span></div>
 
   <script>
+    // node mesh (seeded)
     const g = document.getElementById('meshg');
     const N = 44, pts = [];
     let seed = 11;
@@ -264,10 +317,17 @@
     for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
       const dx = pts[i][0]-pts[j][0], dy = pts[i][1]-pts[j][1];
       if (Math.hypot(dx, dy) < 185)
-        out += `<line x1="${pts[i][0]}" y1="${pts[i][1]}" x2="${pts[j][0]}" y2="${pts[j][1]}" stroke="rgba(255,51,85,0.14)" stroke-width="1.4"/>`;
+        out += `<line x1="${pts[i][0]}" y1="${pts[i][1]}" x2="${pts[j][0]}" y2="${pts[j][1]}" stroke="rgba(255,51,85,0.13)" stroke-width="1.4"/>`;
     }
-    for (const [x, y] of pts) out += `<circle cx="${x}" cy="${y}" r="${2 + rnd()*2}" fill="rgba(255,77,106,0.45)"/>`;
+    for (const [x, y] of pts) out += `<circle cx="${x}" cy="${y}" r="${2 + rnd()*2}" fill="rgba(255,77,106,0.42)"/>`;
     g.innerHTML = out;
+
+    // seeded hexdump strips
+    let s2 = 99;
+    const r2 = () => (s2 = (s2 * 16807) % 2147483647) / 2147483647;
+    const hex = (n) => Array.from({length: n}, () => ((r2() * 256) | 0).toString(16).padStart(2, '0')).join(' ');
+    document.getElementById('hexL').textContent = hex(120);
+    document.getElementById('hexR').textContent = hex(120);
   </script>
 </body>
 </html>
