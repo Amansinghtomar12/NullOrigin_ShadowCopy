@@ -41,7 +41,10 @@ export const CERT_PARTNER = {
 
 export const PRIZE_PARTNER = {
   name: "OffSec",
-  logo: "/offsec-logo.svg",
+  /** The authentic OffSec lockup (with the 'Path to a Secure Future'
+      tagline), luminance-keyed to true transparency for dark grounds.
+      The old offsec-logo.svg was a tagline-less recreation. */
+  logo: "/offsec-logo-full.png",
   href: "https://www.offsec.com/",
   tier: "In Association With",
   /** White wordmark on the dark ground — no plate needed. */
