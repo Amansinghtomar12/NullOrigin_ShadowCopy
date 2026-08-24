@@ -573,6 +573,18 @@ input[type="file"] {
   object-fit: contain;
 }
 
+/* The OffSec lockup carries its tagline as a second line, so at equal
+   box height its wordmark reads noticeably smaller than the single-line
+   INE and Unstop marks. A taller box for that one file brings the three
+   wordmarks back to equal visual weight. */
+.sponsor-logo[src*="offsec-logo-full"] {
+  height: 126px;
+}
+.sponsor-logo--strip[src*="offsec-logo-full"] {
+  height: 62px;
+  max-width: 210px;
+}
+
 /* Some partners only publish a dark mark, which is invisible on this
    background. A white plate behind it worked but punched an opaque box
    through the backdrop. Rendering the mark as a white silhouette instead
