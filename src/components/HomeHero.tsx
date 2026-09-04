@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { EVENT_WHEN } from "../constants";
 import { sound } from "../hooks/utils/audio";
 import { useParallax } from "../hooks/useParallax";
 
@@ -112,6 +113,9 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
             <div className="l">SEC</div>
           </div>
         </div>
+        <p data-depth="0.25" className="coin-when mx-4">
+          Qualifier opens {EVENT_WHEN}
+        </p>
       </div>
     </section>
   );

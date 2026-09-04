@@ -6,6 +6,8 @@ export const UNSTOP_EVENT_URL =
 export const PARTNER_EMAIL = "partners@cyberhx.com";
 export const ORG_SITE = "https://cyberhx.com";
 export const EVENT_DATE = new Date("2026-09-18T10:00:00+05:30");
+/** The same instant, written the way the hero states it. Keep in step with EVENT_DATE. */
+export const EVENT_WHEN = "18 Sep 2026 · 10:00 AM IST";
 
 export const NAV = [
   { id: "about", label: "About" },
