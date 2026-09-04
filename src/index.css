@@ -376,6 +376,11 @@ input[type="file"] {
   text-transform: uppercase;
   color: var(--muted, rgba(255, 255, 255, 0.62));
 }
+/* The date and time stay on one line; a narrow screen breaks before them. */
+.coin-when__at { white-space: nowrap; }
+@media (max-width: 480px) {
+  .coin-when { font-size: 10px; letter-spacing: 0.14em; line-height: 1.7; }
+}
 
 .data-num {
   font-family: 'Bangers', system-ui, cursive;

@@ -114,7 +114,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
           </div>
         </div>
         <p data-depth="0.25" className="coin-when mx-4">
-          Qualifier opens {EVENT_WHEN}
+          Qualifier opens <span className="coin-when__at">{EVENT_WHEN}</span>
         </p>
       </div>
     </section>
