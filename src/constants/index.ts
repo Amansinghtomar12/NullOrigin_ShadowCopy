@@ -5,7 +5,7 @@ export const UNSTOP_EVENT_URL =
   "https://unstop.com/hackathons/null-origin-24-hour-ctf-challenge-cyber-hx-1698744";
 export const PARTNER_EMAIL = "partners@cyberhx.com";
 export const ORG_SITE = "https://cyberhx.com";
-export const EVENT_DATE = new Date("2026-09-18T00:00:00+05:30");
+export const EVENT_DATE = new Date("2026-09-18T10:00:00+05:30");
 
 export const NAV = [
   { id: "about", label: "About" },

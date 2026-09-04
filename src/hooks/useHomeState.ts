@@ -36,7 +36,7 @@ export function useHomeState() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState<"database" | "guide">("database");
 
-  // Countdown timer — targets EVENT_DATE (2026-09-18 00:00 IST), the same
+  // Countdown timer — targets EVENT_DATE (2026-09-18 10:00 IST), the same
   // instant for every viewer. The previous target was midnight in the
   // *viewer's* local zone, so clocks around the world counted to different
   // moments and none matched the real start.

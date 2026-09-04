@@ -12,7 +12,7 @@ const TIMELINE = [
   {
     date: "18 September 2026",
     title: "CTF qualifier goes live",
-    desc: "The platform opens. 12 hours to capture as many flags as possible.",
+    desc: "The platform opens at 10:00 AM IST. 12 hours to capture as many flags as possible, until 10:00 PM IST.",
     icon: <Zap className="h-5 w-5" />,
   },
   {
