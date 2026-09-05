@@ -18,7 +18,6 @@ import Closer from "./components/sections/Closer";
 import FAQ from "./components/sections/FAQ";
 import SiteFooter from "./components/SiteFooter";
 import RegistrationPage from "./components/RegistrationPage";
-import LostPage from "./components/LostPage";
 import { useHomeState } from "./hooks/useHomeState";
 import { useScrollReveal } from "./components/ui";
 import { useScrollDepth } from "./hooks/useScrollDepth";
@@ -62,13 +61,15 @@ export default function App() {
           </>
         }
       />
+      {/* Unknown paths never reach the app: the host answers them with its
+          own 404. This route only exists for a client-side navigation to a
+          path that does not exist, and says the same thing plainly. */}
       <Route
         path="*"
         element={
-          <>
-            <CursorRing />
-            <LostPage path={pathname} onHome={() => navigate("/")} />
-          </>
+          <main style={{ fontFamily: "monospace", padding: "2rem", color: "#ddd", background: "#0b0b0d", minHeight: "100vh" }}>
+            <h1 style={{ fontSize: "1rem", fontWeight: 400 }}>404 Not Found</h1>
+          </main>
         }
       />
       <Route
