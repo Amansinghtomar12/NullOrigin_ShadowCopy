@@ -18,6 +18,7 @@ import Closer from "./components/sections/Closer";
 import FAQ from "./components/sections/FAQ";
 import SiteFooter from "./components/SiteFooter";
 import RegistrationPage from "./components/RegistrationPage";
+import LostPage from "./components/LostPage";
 import { useHomeState } from "./hooks/useHomeState";
 import { useScrollReveal } from "./components/ui";
 import { useScrollDepth } from "./hooks/useScrollDepth";
@@ -63,6 +64,15 @@ export default function App() {
       />
       <Route
         path="*"
+        element={
+          <>
+            <CursorRing />
+            <LostPage path={pathname} onHome={() => navigate("/")} />
+          </>
+        }
+      />
+      <Route
+        path="/"
         element={
           <div id="top" className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden">
             <BootIntro />
