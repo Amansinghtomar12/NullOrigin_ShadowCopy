@@ -585,7 +585,9 @@ input[type="file"] {
 .sponsor-logo--strip {
   height: 44px;
   width: auto;
-  max-width: 176px;
+  /* Wide enough that even the widest single-line lockup (Altered
+     Security) reaches the full 44px like everyone else. */
+  max-width: 240px;
   object-fit: contain;
 }
 
