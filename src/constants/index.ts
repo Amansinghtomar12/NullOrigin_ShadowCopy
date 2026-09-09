@@ -77,6 +77,22 @@ export const PLATFORM_PARTNER = {
   ],
 };
 
+export const CLOUD_PARTNER = {
+  name: "Render",
+  logo: "/render-logo.svg",
+  href: "https://render.com/",
+  tier: "Fueled By",
+  /** White mark and wordmark — no plate needed. */
+  plate: false,
+  blurb: "The cloud for builders — deploy apps, sites and workflows in minutes.",
+  about:
+    "Render is the cloud platform developers reach for when they want to ship — apps, static sites, databases and background workers deployed straight from a repo, no infrastructure wrangling. Every Null Origin participant gets Render credits to build with, and the Best Use of Render track rewards the teams that build on Render Workflows.",
+  includes: [
+    "Cloud credits for every participant",
+    "'Best Use of Render' track — build with Render Workflows to qualify",
+  ],
+};
+
 export const SUPPORT_PARTNER = {
   name: "Altered Security",
   logo: "/alteredsec-logo.png",
@@ -94,8 +110,8 @@ export const SUPPORT_PARTNER = {
 };
 
 /** Everyone actually confirmed, in the order they appear on the page:
-    INE, Unstop, OffSec, Altered Security. */
-export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER, PRIZE_PARTNER, SUPPORT_PARTNER];
+    INE, Unstop, OffSec, Render, Altered Security. */
+export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER, PRIZE_PARTNER, CLOUD_PARTNER, SUPPORT_PARTNER];
 
 export const SOCIALS = [
   {

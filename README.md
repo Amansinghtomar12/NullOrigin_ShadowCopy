@@ -131,6 +131,7 @@ public/
 | **INE** — In collaboration with | Backing the competition and its winners |
 | **OffSec** — In association with | Backing the prize pool — details under wraps |
 | **Unstop** — Powered by | Where teams find the competition and sign up |
+| **Render** — Fueled by | Cloud credits for every participant + the Best Use of Render track |
 | **Altered Security** — Supported by | Backing the winners — details under wraps |
 
 Want to back Null Origin? → **partners@cyberhx.com**
