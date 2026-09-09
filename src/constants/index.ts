@@ -77,9 +77,25 @@ export const PLATFORM_PARTNER = {
   ],
 };
 
+export const SUPPORT_PARTNER = {
+  name: "Altered Security",
+  logo: "/alteredsec-logo.png",
+  href: "https://www.alteredsecurity.com/",
+  tier: "Supported By",
+  /** Official mark is red/blue on transparent — no plate needed. */
+  plate: false,
+  blurb: "Hands-on red-team labs and certifications — home of the CRTP.",
+  about:
+    "Altered Security builds the lab-driven courses and certifications red teamers actually train on — attacking Active Directory, Azure and enterprise Windows at scale. Their CRTP is one of the most recognised first steps into professional red teaming.",
+  includes: [
+    "Backing the winners' rewards — under wraps",
+    "Featured across the Null Origin site and channels",
+  ],
+};
+
 /** Everyone actually confirmed, in the order they appear on the page:
-    INE first, Unstop in the middle, OffSec last. */
-export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER, PRIZE_PARTNER];
+    INE, Unstop, OffSec, Altered Security. */
+export const PARTNERS = [CERT_PARTNER, PLATFORM_PARTNER, PRIZE_PARTNER, SUPPORT_PARTNER];
 
 export const SOCIALS = [
   {
