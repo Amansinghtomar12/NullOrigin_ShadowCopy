@@ -77,7 +77,7 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
             type="button"
             onClick={() => { onRegister(); sound.playClick(); }}
             onMouseEnter={() => sound.playHover()}
-            className="btn btn-primary cursor-pointer"
+            className="btn btn-ghost cursor-pointer"
           >
             Start game
           </button>
