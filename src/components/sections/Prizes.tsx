@@ -75,7 +75,7 @@ export default function Prizes() {
           <SectionHeading
             tag="Rewards"
             title="Prize Pool"
-            sub="Premium cybersecurity training, certifications, hands-on labs, cloud credits and career opportunities from CyberHX and our official partners."
+            sub="A pool worth ₹10 Lakh+ in total — premium cybersecurity training, certifications, hands-on labs, cloud credits and career opportunities from CyberHX and our official partners."
           />
         </Reveal>
 

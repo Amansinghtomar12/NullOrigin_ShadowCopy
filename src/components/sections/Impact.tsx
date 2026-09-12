@@ -9,7 +9,7 @@ const STATS = [
   { icon: <Layers className="h-5 w-5" />, val: "6", label: "Attack domains" },
   { icon: <Clock className="h-5 w-5" />, val: "24h", label: "Across 2 rounds" },
   { icon: <Globe className="h-5 w-5" />, val: "Global", label: "Reach" },
-  { icon: <Trophy className="h-5 w-5" />, val: "₹50K+", label: "Prize pool" },
+  { icon: <Trophy className="h-5 w-5" />, val: "₹10L+", label: "Prize pool worth" },
 ];
 
 /** One stat tile; the figure counts up the first time it scrolls in. */
