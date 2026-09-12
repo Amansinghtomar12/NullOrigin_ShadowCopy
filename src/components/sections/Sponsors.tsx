@@ -4,7 +4,7 @@ import { sound } from "../../hooks/utils/audio";
 import { PARTNER_EMAIL, PARTNERS } from "../../constants";
 
 const WHY_SPONSOR = [
-  { icon: <Target className="h-4 w-4" />, title: "A vetted audience", desc: "Reach hundreds of motivated security practitioners and students in one focused window." },
+  { icon: <Target className="h-4 w-4" />, title: "A vetted audience", desc: "Reach thousands of motivated security practitioners and students in one focused window." },
   { icon: <Users className="h-4 w-4" />, title: "Recruiting pipeline", desc: "Surface top performers and connect with talent that is hard to reach anywhere else." },
   { icon: <Sparkles className="h-4 w-4" />, title: "Brand alongside skill", desc: "Position your brand next to genuine offensive-security excellence, not generic ad space." },
 ];

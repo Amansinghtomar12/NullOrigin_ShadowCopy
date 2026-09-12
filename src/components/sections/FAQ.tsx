@@ -9,7 +9,7 @@ const FAQS = [
   { q: "Is it free to register?", a: "Yes. Null Origin CTF is completely free to enter." },
   { q: "What is the team size?", a: "1 to 4 members per team. Solo participation is also welcome." },
   { q: "Do I need prior CTF experience?", a: "Not at all. Challenges range from Easy to Expert, so it is friendly to newcomers and rewarding for veterans." },
-  { q: "Can organisations sponsor or partner?", a: "Absolutely. Title, Gold and Community tiers are open now — email partners@cyberhx.com and we will share the full brief." },
+  { q: "Can organisations sponsor or partner?", a: "Absolutely. Custom packages and category sponsorships are open now — email partners@cyberhx.com and we will share the full brief." },
   { q: "Where does the competition run?", a: "On a dedicated, security-hardened CTF platform — entirely separate from this showcase page." },
 ];
 
