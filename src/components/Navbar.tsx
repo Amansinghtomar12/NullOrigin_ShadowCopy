@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Volume2, VolumeX, Menu, X } from "lucide-react";
-import { NAV } from "../constants";
+import { NAV, SOCIALS } from "../constants";
 import { useScrollSpy } from "../hooks/useScrollSpy";
 import { sound } from "../hooks/utils/audio";
 
@@ -14,6 +14,9 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const active = useScrollSpy(NAV.map((n) => n.id));
+  // Single source of truth with the footer's social row — when the
+  // invite changes there, this button follows. Hidden if it ever empties.
+  const discord = SOCIALS.find((s) => s.name === "Discord");
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 36);
@@ -86,6 +89,24 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
 
           {/* Right controls */}
           <div className="flex items-center gap-2">
+            {/* The community door, visible on every screen size from the
+                first paint — nobody should have to scroll to find it. */}
+            {discord?.href && (
+              <a
+                href={discord.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Join our Discord server"
+                title="Join our Discord"
+                className="nav-discord grid place-items-center h-9 w-9 rounded-xl cursor-pointer"
+                onMouseEnter={() => sound.playHover()}
+                onClick={() => sound.playClick()}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-[18px] w-[18px]" aria-hidden="true">
+                  <path d={discord.svg} />
+                </svg>
+              </a>
+            )}
             <button
               aria-label={audioEnabled ? "Mute sound" : "Unmute sound"}
               onClick={() => {
@@ -136,6 +157,20 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
                 {s.label}
               </a>
             ))}
+            {discord?.href && (
+              <a
+                href={discord.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-discord nav-discord--wide flex items-center justify-center gap-2.5 rounded-xl py-3 mt-1 text-[14px] font-semibold"
+                onClick={() => setOpen(false)}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-[18px] w-[18px]" aria-hidden="true">
+                  <path d={discord.svg} />
+                </svg>
+                Join the Discord
+              </a>
+            )}
             <div className="flex gap-2 pt-2">
               <a
                 href="#sponsors"
