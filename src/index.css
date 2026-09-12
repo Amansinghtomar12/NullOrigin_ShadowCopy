@@ -548,6 +548,15 @@ input[type="file"] {
 }
 .btn-ghost:hover { background: #fff; }
 
+/* Discord's blurple in the comic-pill language — the hero's second
+   button, and deliberately the only cool colour on the poster so the
+   community door pops against all the red. */
+.btn-discord {
+  background: #5865f2;
+  color: #fff;
+}
+.btn-discord:hover { background: #6d78ff; }
+
 .btn-outline {
   background: transparent;
   color: var(--text);

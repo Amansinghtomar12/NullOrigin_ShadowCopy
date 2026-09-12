@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { EVENT_WHEN } from "../constants";
+import { EVENT_WHEN, SOCIALS } from "../constants";
 import { sound } from "../hooks/utils/audio";
 import { useParallax } from "../hooks/useParallax";
 
@@ -81,13 +81,31 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
           >
             Start game
           </button>
-          <a
-            href="#about"
-            onMouseEnter={() => sound.playHover()}
-            className="btn btn-ghost"
-          >
-            View intro
-          </a>
+          {/* The second-most-valuable click on the page goes to the
+              community, not to a scroll the visitor will do anyway.
+              Falls back to the old intro link if the invite empties. */}
+          {(() => {
+            const discord = SOCIALS.find((s) => s.name === "Discord");
+            return discord?.href ? (
+              <a
+                href={discord.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => sound.playHover()}
+                onClick={() => sound.playClick()}
+                className="btn btn-discord"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-[19px] w-[19px]" aria-hidden="true">
+                  <path d={discord.svg} />
+                </svg>
+                Join Discord
+              </a>
+            ) : (
+              <a href="#about" onMouseEnter={() => sound.playHover()} className="btn btn-ghost">
+                View intro
+              </a>
+            );
+          })()}
         </div>
 
         <div
