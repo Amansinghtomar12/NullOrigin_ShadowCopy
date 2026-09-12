@@ -88,7 +88,7 @@ export default function Sponsors() {
           <SectionHeading
             tag="Partnership"
             title="Sponsors & Partners"
-            sub="The people backing this edition of Null Origin."
+            sub="The people backing this edition of Null Origin — and what each of them is putting behind the players."
           />
         </Reveal>
 

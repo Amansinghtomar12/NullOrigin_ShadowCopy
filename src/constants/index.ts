@@ -37,7 +37,7 @@ export const CERT_PARTNER = {
   about:
     "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems.",
   includes: [
-    "INE Learning Path + Certificate for every podium team",
+    "INE Learning Path + Certificate in any one domain for all three podium teams",
     "Featured across the Null Origin site and channels",
   ],
 };
@@ -56,7 +56,7 @@ export const PRIZE_PARTNER = {
   about:
     "OffSec (Offensive Security) sets the standard for offensive-security training worldwide — the makers of Kali Linux, the OSCP certification and the Proving Grounds practice labs that working pentesters train on.",
   includes: [
-    "1-year Proving Grounds Practice access for every podium team",
+    "A full year of Proving Grounds Practice lab access for all three podium teams",
     "Featured across the Null Origin site and channels",
   ],
 };
@@ -106,7 +106,7 @@ export const SUPPORT_PARTNER = {
   about:
     "Altered Security builds the lab-driven courses and certifications red teamers actually train on — attacking Active Directory, Azure and enterprise Windows at scale. Their CRTP is one of the most recognised first steps into professional red teaming.",
   includes: [
-    "A CRTP voucher for the champions",
+    "A CRTP voucher — course, lab access and exam — for the champions",
     "Featured across the Null Origin site and channels",
   ],
 };
