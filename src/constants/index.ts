@@ -23,7 +23,8 @@ export const NAV = [
  *
  * Keep `includes` to what has actually been agreed — nothing here
  * should imply naming rights, a speaking slot, or a financial
- * sponsorship. Prize specifics stay off the site until the reveal.
+ * sponsorship. Prize specifics are public now; the full breakdown
+ * lives on the Prize Pool podium.
  */
 export const CERT_PARTNER = {
   name: "INE",
@@ -36,7 +37,7 @@ export const CERT_PARTNER = {
   about:
     "INE builds hands-on training for security and networking practitioners, from fundamentals through advanced offensive tradecraft. Their browser-based labs and certification tracks are how a large share of this field actually learns to break and defend real systems.",
   includes: [
-    "Contributing to the winners' rewards — details under wraps",
+    "INE Learning Path + Certificate for every podium team",
     "Featured across the Null Origin site and channels",
   ],
 };
@@ -55,7 +56,7 @@ export const PRIZE_PARTNER = {
   about:
     "OffSec (Offensive Security) sets the standard for offensive-security training worldwide — the makers of Kali Linux, the OSCP certification and the Proving Grounds practice labs that working pentesters train on.",
   includes: [
-    "Backing the prize pool — revealed with the winners",
+    "1-year Proving Grounds Practice access for every podium team",
     "Featured across the Null Origin site and channels",
   ],
 };
@@ -89,6 +90,7 @@ export const CLOUD_PARTNER = {
     "Render is the cloud platform developers reach for when they want to ship — apps, static sites, databases and background workers deployed straight from a repo, no infrastructure wrangling. Every Null Origin participant gets Render credits to build with, and the Best Use of Render track rewards the teams that build on Render Workflows.",
   includes: [
     "Cloud credits for every participant",
+    "$500 / $300 / $100 in credits for the Finale podium",
     "'Best Use of Render' track — build with Render Workflows to qualify",
   ],
 };
@@ -104,7 +106,7 @@ export const SUPPORT_PARTNER = {
   about:
     "Altered Security builds the lab-driven courses and certifications red teamers actually train on — attacking Active Directory, Azure and enterprise Windows at scale. Their CRTP is one of the most recognised first steps into professional red teaming.",
   includes: [
-    "Backing the winners' rewards — under wraps",
+    "A CRTP voucher for the champions",
     "Featured across the Null Origin site and channels",
   ],
 };

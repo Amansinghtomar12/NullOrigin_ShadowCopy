@@ -128,11 +128,11 @@ public/
 
 | | |
 |---|---|
-| **INE** — In collaboration with | Backing the competition and its winners |
-| **OffSec** — In association with | Backing the prize pool — details under wraps |
+| **INE** — In collaboration with | Learning Path + Certificate for every podium team |
+| **OffSec** — In association with | 1-year Proving Grounds Practice access for the podium |
 | **Unstop** — Powered by | Where teams find the competition and sign up |
-| **Render** — Fueled by | Cloud credits for every participant + the Best Use of Render track |
-| **Altered Security** — Supported by | Backing the winners — details under wraps |
+| **Render** — Fueled by | Cloud credits for every participant + $500/$300/$100 for the Finale podium |
+| **Altered Security** — Supported by | A CRTP voucher for the champions |
 
 Want to back Null Origin? → **partners@cyberhx.com**
 
