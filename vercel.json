@@ -1,13 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "redirects": [
     {
       "source": "/register",
-      "destination": "/index.html"
+      "destination": "https://ctf.cyberhx.com/",
+      "permanent": false
     },
     {
       "source": "/register/",
-      "destination": "/index.html"
+      "destination": "https://ctf.cyberhx.com/",
+      "permanent": false
     }
   ],
   "headers": [

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import CosmicBackground from "./components/CosmicBackground";
 import Navbar from "./components/Navbar";
 import HomeHero from "./components/HomeHero";
@@ -17,15 +17,30 @@ import Prizes from "./components/sections/Prizes";
 import Closer from "./components/sections/Closer";
 import FAQ from "./components/sections/FAQ";
 import SiteFooter from "./components/SiteFooter";
-import RegistrationPage from "./components/RegistrationPage";
+import { REGISTER_URL } from "./constants";
 import { useHomeState } from "./hooks/useHomeState";
 import { useScrollReveal } from "./components/ui";
 import { useScrollDepth } from "./hooks/useScrollDepth";
 import { useTilt } from "./hooks/useTilt";
 import { useOperatorTouches } from "./hooks/useOperatorTouches";
 
+/** Registration lives on the CTF platform now. The host redirects
+    /register at the edge; this route is only the fallback for an in-app
+    navigation to the old path, and it forwards there too. */
+function RegisterRedirect() {
+  useEffect(() => {
+    window.location.replace(REGISTER_URL);
+  }, []);
+  return (
+    <main style={{ fontFamily: "monospace", padding: "2rem", color: "#ddd", background: "#0b0b0d", minHeight: "100vh" }}>
+      <h1 style={{ fontSize: "1rem", fontWeight: 400 }}>
+        Taking you to <a href={REGISTER_URL} style={{ color: "#ff3355" }}>ctf.cyberhx.com</a>…
+      </h1>
+    </main>
+  );
+}
+
 export default function App() {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const state = useHomeState();
   // Keyed to the pathname: a route swap replaces the page's DOM, and the
@@ -48,19 +63,9 @@ export default function App() {
     requestAnimationFrame(() => document.querySelector<HTMLElement>("h1")?.focus());
   }, [pathname]);
 
-  const toRegister = () => navigate("/register");
-
   return (
     <Routes>
-      <Route
-        path="/register"
-        element={
-          <>
-            <CursorRing />
-            <RegistrationPage onBack={() => navigate("/")} />
-          </>
-        }
-      />
+      <Route path="/register" element={<RegisterRedirect />} />
       {/* Unknown paths never reach the app: the host answers them with its
           own 404. This route only exists for a client-side navigation to a
           path that does not exist, and says the same thing plainly. */}
@@ -85,11 +90,10 @@ export default function App() {
               <Navbar
                 audioEnabled={state.audioEnabled}
                 onToggleSound={state.toggleSound}
-                onRegister={toRegister}
               />
 
               {/* Hero */}
-              <HomeHero {...state} onRegister={toRegister} />
+              <HomeHero {...state} />
 
               {/* Certification partner, surfaced before the fold-and-a-half */}
               <SponsorStrip />
@@ -101,7 +105,7 @@ export default function App() {
                 <Impact />
                 <Schedule />
                 <Prizes />
-                <Closer onRegister={toRegister} />
+                <Closer />
                 <FAQ />
               </main>
 

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { EVENT_WHEN, SOCIALS } from "../constants";
+import { EVENT_WHEN, REGISTER_URL, SOCIALS } from "../constants";
 import { sound } from "../hooks/utils/audio";
 import { useParallax } from "../hooks/useParallax";
 
@@ -12,10 +12,9 @@ interface TimeLeft {
 
 interface HomeHeroProps {
   timeLeft: TimeLeft;
-  onRegister: () => void;
 }
 
-export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
+export default function HomeHero({ timeLeft }: HomeHeroProps) {
   // The scene and the content drift against the pointer at different
   // depths. Content moves least — enough to feel alive, not enough to
   // make anyone chase a button.
@@ -73,14 +72,16 @@ export default function HomeHero({ timeLeft, onRegister }: HomeHeroProps) {
         </p>
 
         <div data-depth="0.4" className="flex gap-3 justify-center mt-9 flex-wrap px-4">
-          <button
-            type="button"
-            onClick={() => { onRegister(); sound.playClick(); }}
+          <a
+            href={REGISTER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => sound.playClick()}
             onMouseEnter={() => sound.playHover()}
-            className="btn btn-ghost cursor-pointer"
+            className="btn btn-ghost"
           >
             Start game
-          </button>
+          </a>
           {/* The second-most-valuable click on the page goes to the
               community, not to a scroll the visitor will do anyway.
               Falls back to the old intro link if the invite empties. */}

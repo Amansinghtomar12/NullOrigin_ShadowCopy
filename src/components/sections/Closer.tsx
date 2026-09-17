@@ -1,9 +1,9 @@
 import { Globe, Handshake, Mail, ArrowRight } from "lucide-react";
 import { Reveal } from "../ui";
 import { sound } from "../../hooks/utils/audio";
-import { PARTNER_EMAIL, ORG_SITE, SOCIALS } from "../../constants";
+import { PARTNER_EMAIL, ORG_SITE, REGISTER_URL, SOCIALS } from "../../constants";
 
-export default function Closer({ onRegister }: { onRegister: () => void }) {
+export default function Closer() {
   return (
     <section id="contact" className="section">
       <div className="shell">
@@ -25,14 +25,16 @@ export default function Closer({ onRegister }: { onRegister: () => void }) {
               >
                 <Handshake className="h-4 w-4" /> Become a sponsor
               </a>
-              <button
-                type="button"
-                onClick={() => { onRegister(); sound.playClick(); }}
-                className="btn btn-ghost cursor-pointer"
+              <a
+                href={REGISTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => sound.playClick()}
+                className="btn btn-ghost"
                 onMouseEnter={() => sound.playHover()}
               >
                 Register your team <ArrowRight className="h-4 w-4" />
-              </button>
+              </a>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-[15px] text-[var(--muted)]">
               <a

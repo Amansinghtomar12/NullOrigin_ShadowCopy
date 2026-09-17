@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Volume2, VolumeX, Menu, X } from "lucide-react";
-import { NAV, SOCIALS } from "../constants";
+import { NAV, REGISTER_URL, SOCIALS } from "../constants";
 import { useScrollSpy } from "../hooks/useScrollSpy";
 import { sound } from "../hooks/utils/audio";
 
 interface NavbarProps {
   audioEnabled: boolean;
   onToggleSound: () => void;
-  onRegister: () => void;
 }
 
-export default function Navbar({ audioEnabled, onToggleSound, onRegister }: NavbarProps) {
+export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const active = useScrollSpy(NAV.map((n) => n.id));
@@ -124,13 +123,16 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
             >
               Partner with us
             </a>
-            <button
-              onClick={onRegister}
+            <a
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-4 !text-[13px] cursor-pointer"
+              className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-4 !text-[13px]"
             >
               Register <ArrowRight className="h-3.5 w-3.5" />
-            </button>
+            </a>
             <button
               id="nav-menu-toggle"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -179,12 +181,15 @@ export default function Navbar({ audioEnabled, onToggleSound, onRegister }: Navb
               >
                 Partner
               </a>
-              <button
-                onClick={() => { setOpen(false); onRegister(); }}
-                className="btn btn-primary flex-1 !py-2.5 cursor-pointer"
+              <a
+                href={REGISTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="btn btn-primary flex-1 !py-2.5"
               >
                 Register
-              </button>
+              </a>
             </div>
           </div>
         )}
