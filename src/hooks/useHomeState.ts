@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, FormEvent } from "react";
 import { sound } from "./utils/audio";
 import { SAMPLE_FLAG, isSampleFlag } from "../constants/challenge";
-import { EVENT_DATE } from "../constants";
+import { EVENT_DATE, FINALE_END, FINALE_START } from "../constants";
+import { useFinale } from "./useFinale";
 
 export interface Cadet {
   email: string;
@@ -36,12 +37,16 @@ export function useHomeState() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState<"database" | "guide">("database");
 
-  // Countdown timer — targets EVENT_DATE (2026-09-18 10:00 IST), the same
-  // instant for every viewer. The previous target was midnight in the
-  // *viewer's* local zone, so clocks around the world counted to different
-  // moments and none matched the real start.
+  // Countdown timer — a fixed instant, the same for every viewer. The
+  // previous target was midnight in the *viewer's* local zone, so clocks
+  // around the world counted to different moments and none matched the
+  // real start. During the finale window it counts to the finale's start,
+  // then to its close; otherwise to the Qualifier, as it always did.
+  const finale = useFinale();
   useEffect(() => {
-    const target = EVENT_DATE.getTime();
+    const target = (
+      finale === "soon" ? FINALE_START : finale === "live" ? FINALE_END : EVENT_DATE
+    ).getTime();
     let interval = 0;
     const tick = () => {
       const difference = target - Date.now();
@@ -66,7 +71,7 @@ export function useHomeState() {
     tick();
     interval = window.setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [finale]);
 
   // Load registrations from localStorage
   useEffect(() => {

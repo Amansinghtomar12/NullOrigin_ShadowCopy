@@ -1930,3 +1930,253 @@ input[type="file"] {
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   GRAND FINALE DRESSING — temporary
+   Everything here hangs off html[data-finale] (set by useFinale while
+   the finale is ahead or live) or off elements that only render then.
+   When the finale window closes the attribute goes, the elements
+   unmount, and the page is back in its everyday red — nothing to undo.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Ribbon above the navbar ─────────────────────────────── */
+.finale-ribbon {
+  display: grid;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  /* Sits flush with the top edge: cancels the header's top padding. */
+  margin-top: -12px;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #7a4a00, #ffc23c 30%, #ffe08a 50%, #ffc23c 70%, #7a4a00);
+  border-bottom: 2px solid #000;
+  transition: grid-template-rows 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              margin 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-width 0.3s ease;
+}
+@media (min-width: 640px) {
+  .finale-ribbon { margin-top: -16px; }
+}
+/* Folded, the nav sits exactly where it does without a ribbon. */
+.finale-ribbon--folded {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  margin-bottom: 0;
+  border-bottom-width: 0;
+}
+/* The collapsing grid item carries no padding: padding counts toward
+   the item's minimum size, and a 0fr track would stop at it and leave
+   a sliver of ribbon showing. */
+.finale-ribbon__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+.finale-ribbon__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1a0f00;
+  text-align: center;
+  white-space: nowrap;
+}
+.finale-ribbon__link:hover .finale-ribbon__cta { text-decoration: underline; }
+.finale-ribbon__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  background: #1a0f00;
+  color: #ffd76a;
+}
+.finale-ribbon__live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d4002a;
+  box-shadow: 0 0 0 0 rgba(212, 0, 42, 0.6);
+  animation: finale-live 1.6s ease-out infinite;
+  flex-shrink: 0;
+}
+@keyframes finale-live {
+  0%   { box-shadow: 0 0 0 0 rgba(212, 0, 42, 0.6); }
+  100% { box-shadow: 0 0 0 9px rgba(212, 0, 42, 0); }
+}
+/* Long date on wide screens, short one below 640px (the live line is
+   the longer of the two and no longer fits there), and the decorative
+   stars go on the narrowest phones so the Enter pill is never clipped. */
+.finale-ribbon__short { display: none; }
+@media (max-width: 639px) {
+  .finale-ribbon__more { display: none; }
+  .finale-ribbon__short { display: inline; }
+}
+@media (max-width: 560px) {
+  .finale-ribbon__link { gap: 7px; letter-spacing: 0.1em; padding-inline: 10px; }
+}
+@media (max-width: 380px) {
+  .finale-ribbon__star { display: none; }
+  .finale-ribbon__link { gap: 6px; letter-spacing: 0.05em; padding-inline: 8px; }
+}
+
+/* ── Hero lockup under the title ─────────────────────────── */
+.finale-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 18px);
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.4vw, 40px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffd76a;
+  text-shadow: 0 0 24px rgba(255, 194, 60, 0.55), 0 3px 0 rgba(0, 0, 0, 0.6);
+}
+.finale-mark__rule {
+  width: clamp(28px, 8vw, 90px);
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, transparent, #ffc23c);
+  box-shadow: 0 0 12px rgba(255, 194, 60, 0.6);
+}
+.finale-mark__rule:last-child {
+  background: linear-gradient(90deg, #ffc23c, transparent);
+}
+
+/* ── Gold button ─────────────────────────────────────────── */
+.btn-gold {
+  background: linear-gradient(180deg, #ffe08a, #ffc23c 55%, #f0a800);
+  color: #1a0f00;
+}
+.btn-gold:hover { background: linear-gradient(180deg, #fff0b8, #ffd057 55%, #ffb300); }
+
+/* ── Rising embers ───────────────────────────────────────── */
+.finale-embers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.finale-embers span {
+  position: absolute;
+  bottom: -12px;
+  border-radius: 50%;
+  background: #ffd76a;
+  box-shadow: 0 0 8px 2px rgba(255, 194, 60, 0.7);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-name: ember-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes ember-rise {
+  0%   { opacity: 0;    transform: translate3d(0, 0, 0); }
+  12%  { opacity: 0.95; }
+  60%  { opacity: 0.7;  transform: translate3d(14px, -55vh, 0); }
+  100% { opacity: 0;    transform: translate3d(-10px, -95vh, 0); }
+}
+@media (max-width: 700px), (pointer: coarse) {
+  .finale-embers span:nth-child(n + 9) { display: none; }
+}
+
+/* ── Prizes: what is at stake ────────────────────────────── */
+.finale-stakes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 28px auto 0;
+  padding: 10px 18px;
+  border: 2px solid rgba(255, 194, 60, 0.5);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 194, 60, 0.08);
+  color: #ffd76a;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Boot intro subline ──────────────────────────────────── */
+.boot__stamp-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.42em;
+  letter-spacing: 0.32em;
+  color: #ffd76a;
+  text-shadow: 0 0 24px rgba(255, 194, 60, 0.6);
+}
+
+/* ── Existing pieces, re-gilded ──────────────────────────── */
+:root[data-finale] .glass-nav {
+  border-color: rgba(255, 194, 60, 0.55);
+}
+:root[data-finale] .coin-counter {
+  border-color: rgba(255, 194, 60, 0.6);
+  box-shadow: var(--shadow-card), 0 0 48px rgba(255, 194, 60, 0.14);
+}
+:root[data-finale] .coin .n {
+  color: #ffd76a;
+  text-shadow: 0 0 22px rgba(255, 194, 60, 0.45);
+}
+:root[data-finale] .coin.r .n {
+  color: var(--red);
+  text-shadow: 0 0 22px rgba(255, 51, 85, 0.45);
+}
+:root[data-finale] .coin-when { color: #ffd76a; }
+/* Same strength as the everyday core, shifted to gold. */
+:root[data-finale] .hero-core {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 215, 106, 0.58) 16%,
+    rgba(255, 170, 40, 0.26) 34%,
+    rgba(255, 51, 85, 0.06) 56%,
+    transparent 72%
+  );
+}
+/* The finale pill is longer than "Insert coin", so its middle sits
+   right under the core's bright centre: give it a dark plate. A
+   background-image, because the pill's Tailwind background is an
+   !important utility that an unlayered rule cannot override. */
+:root[data-finale] .hero-pill {
+  background-image: linear-gradient(rgba(24, 10, 2, 0.82), rgba(24, 10, 2, 0.82));
+}
+:root[data-finale] .hero-horizon {
+  background: radial-gradient(
+    60% 100% at 50% 100%,
+    rgba(255, 194, 60, 0.3),
+    rgba(255, 51, 85, 0.16) 45%,
+    transparent 72%
+  );
+}
+
+/* Timeline: the finale is the gold node; what is behind it is done. */
+:root[data-finale] .tl-item--active .tl-node {
+  background: linear-gradient(180deg, #ffe08a, #ffc23c);
+  border-color: #fff0b8;
+  color: #1a0f00;
+  box-shadow: 0 0 28px rgba(255, 194, 60, 0.6), 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+:root[data-finale] .tl-item--active .tl-card {
+  border-color: rgba(255, 194, 60, 0.7);
+}
+:root[data-finale] .tl-item--active .tl-date { color: #ffd76a; }
+.tl-item--done .tl-node {
+  background: rgba(30, 8, 16, 0.92);
+  color: var(--faint);
+}
+.tl-item--done .tl-card { opacity: 0.72; }
+
+@media (prefers-reduced-motion: reduce) {
+  .finale-embers { display: none; }
+  .finale-ribbon { transition: none; }
+  .finale-ribbon__live { animation: none; }
+}

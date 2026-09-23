@@ -1,5 +1,7 @@
 import React from "react";
+import { Trophy } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
+import { useFinale } from "../../hooks/useFinale";
 import PodiumMedal from "./PodiumMedal";
 
 /* After the event, crown the podium by filling in `team` — the card then
@@ -68,6 +70,7 @@ const TIERS: {
  * champion first.
  */
 export default function Prizes() {
+  const finale = useFinale();
   return (
     <section id="prizes" className="section">
       <div className="shell">
@@ -79,7 +82,16 @@ export default function Prizes() {
           />
         </Reveal>
 
-        <div className="grid sm:grid-cols-3 gap-5 mt-14 items-end max-w-3xl mx-auto">
+        {finale && (
+          <p className="finale-stakes">
+            <Trophy className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {finale === "live"
+              ? "Being decided right now — the board closes at 10:00 PM IST."
+              : "Decided on 25 September — 12 hours, one board, three podium spots."}
+          </p>
+        )}
+
+        <div className={`grid sm:grid-cols-3 gap-5 items-end max-w-3xl mx-auto ${finale ? "mt-10" : "mt-14"}`}>
           {TIERS.map((t, i) => (
             <Reveal key={t.rank} delay={i * 90} className={t.order}>
               <div className={`podium glass glass-hover ${t.variant}`}>

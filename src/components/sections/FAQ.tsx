@@ -2,9 +2,16 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
+import { useFinale } from "../../hooks/useFinale";
+
+/* Asked the week of the finale, and only then. */
+const FINALE_FAQ = {
+  q: "Who plays the Grand Finale?",
+  a: "The top-ranked teams from the 18 September Qualifier. Finalists compete on ctf.cyberhx.com from 10:00 AM to 10:00 PM IST on 25 September, and the results are announced on 27 September at 12:00 PM IST.",
+};
 
 const FAQS = [
-  { q: "Is it really 24 hours non-stop?", a: "No — it's 24 hours of competition split into two 12-hour rounds. Round one is the online Qualifier on 18 September. The top teams then advance to the 12-hour Grand Finale on 25–26 September. Nobody plays a full day straight." },
+  { q: "Is it really 24 hours non-stop?", a: "No — it's 24 hours of competition split into two 12-hour rounds. Round one is the online Qualifier on 18 September. The top teams then advance to the 12-hour Grand Finale on 25 September, 10:00 AM to 10:00 PM IST. Nobody plays a full day straight." },
   { q: "Who can participate?", a: "Anyone — students, professionals and hobbyists from anywhere in the world. There are no restrictions." },
   { q: "Is it free to register?", a: "Yes. Null Origin CTF is completely free to enter." },
   { q: "What is the team size?", a: "1 to 4 members per team. Solo participation is also welcome." },
@@ -14,6 +21,8 @@ const FAQS = [
 ];
 
 export default function FAQ() {
+  const finale = useFinale();
+  const faqs = finale ? [FINALE_FAQ, ...FAQS] : FAQS;
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -21,8 +30,10 @@ export default function FAQ() {
       <div className="shell max-w-3xl">
         <Reveal><SectionHeading tag="Support" title="Frequently Asked" /></Reveal>
         <div className="mt-12 space-y-3">
-          {FAQS.map((f, i) => (
-            <Reveal key={i} delay={i * 50}>
+          {/* Keyed by question so the finale entry can come and go without
+              the others remounting (a remount would drop the reveal). */}
+          {faqs.map((f, i) => (
+            <Reveal key={f.q} delay={i * 50}>
               <div className="glass rounded-[var(--radius-sm)] overflow-hidden">
                 <button
                   className="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer"

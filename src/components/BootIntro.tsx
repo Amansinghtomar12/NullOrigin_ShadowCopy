@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { sound } from "../hooks/utils/audio";
+import { useFinale } from "../hooks/useFinale";
 
 /**
  * Opening sequence: a live breach that decrypts itself line by line,
@@ -21,6 +22,17 @@ const LINES = [
   { text: "mounting 30 challenge nodes", tag: "OK" },
   { text: "arming six attack domains", tag: "OK" },
   { text: "operator credentials verified", tag: "OK" },
+];
+
+/* The finale week's breach. Same length as LINES — the timings and the
+   meter are paced off the line count. */
+const finaleLines = (live: boolean) => [
+  { text: "./nullorigin --breach --stage=finale", tag: "EXEC" },
+  { text: "resolving nullorigin.cyberhx.com", tag: "OK" },
+  { text: "tunnel negotiated · AES-256-GCM", tag: "OK" },
+  { text: "qualifier board sealed", tag: "OK" },
+  { text: live ? "final board live" : "final board armed", tag: "OK" },
+  { text: "finalist credentials verified", tag: "OK" },
 ];
 
 const LINE_MS = 300;
@@ -84,6 +96,8 @@ let bootedThisLoad = false;
 
 export default function BootIntro() {
   const reduced = useReducedMotion();
+  const finale = useFinale();
+  const lines = finale ? finaleLines(finale === "live") : LINES;
 
   // Decided before first paint so the overlay never flashes for someone
   // who should not see it at all.
@@ -195,6 +209,7 @@ export default function BootIntro() {
 
       <div className="boot__stamp" aria-hidden="true">
         NULL ORIGIN
+        {finale && <span className="boot__stamp-sub">Grand Finale</span>}
       </div>
 
       <div className="boot__panel">
@@ -205,7 +220,7 @@ export default function BootIntro() {
         </div>
 
         <div className="boot__log">
-          {LINES.slice(0, shown).map((l) => (
+          {lines.slice(0, shown).map((l) => (
             <p key={l.text} className="boot__line">
               <span className="boot__prompt">›</span>
               <span className="boot__text">

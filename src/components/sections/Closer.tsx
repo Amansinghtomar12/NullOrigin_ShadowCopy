@@ -2,8 +2,10 @@ import { Globe, Handshake, Mail, ArrowRight } from "lucide-react";
 import { Reveal } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 import { PARTNER_EMAIL, ORG_SITE, REGISTER_URL, SOCIALS } from "../../constants";
+import { useFinale } from "../../hooks/useFinale";
 
 export default function Closer() {
+  const finale = useFinale();
   return (
     <section id="contact" className="section">
       <div className="shell">
@@ -33,7 +35,7 @@ export default function Closer() {
                 className="btn btn-ghost"
                 onMouseEnter={() => sound.playHover()}
               >
-                Register your team <ArrowRight className="h-4 w-4" />
+                {finale ? "Enter the Finale" : "Register your team"} <ArrowRight className="h-4 w-4" />
               </a>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-[15px] text-[var(--muted)]">

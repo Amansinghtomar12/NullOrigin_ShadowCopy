@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Volume2, VolumeX, Menu, X } from "lucide-react";
-import { NAV, REGISTER_URL, SOCIALS } from "../constants";
+import { ArrowRight, Volume2, VolumeX, Menu, X, Trophy } from "lucide-react";
+import { FINALE_CLOSES, FINALE_WHEN, NAV, REGISTER_URL, SOCIALS } from "../constants";
 import { useScrollSpy } from "../hooks/useScrollSpy";
+import { useFinale } from "../hooks/useFinale";
 import { sound } from "../hooks/utils/audio";
 
 interface NavbarProps {
@@ -16,6 +17,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
   // Single source of truth with the footer's social row — when the
   // invite changes there, this button follows. Hidden if it ever empties.
   const discord = SOCIALS.find((s) => s.name === "Discord");
+  const finale = useFinale();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 36);
@@ -43,6 +45,46 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
         scrolled ? "py-2" : "py-3 sm:py-4"
       }`}
     >
+      {/* Finale ribbon: the event of the week, on every screen, as a
+          doorway to the platform. Folds away once the page scrolls, so
+          it never eats reading space. */}
+      {finale && (
+        <div className={`finale-ribbon ${scrolled ? "finale-ribbon--folded" : ""}`} inert={scrolled}>
+          <div className="finale-ribbon__clip">
+            <a
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="finale-ribbon__link"
+              onMouseEnter={() => sound.playHover()}
+              onClick={() => sound.playClick()}
+            >
+              {finale === "live" ? (
+                <>
+                  <span className="finale-ribbon__live" aria-hidden="true" />
+                  <span>
+                    Grand Finale is live
+                    <span className="finale-ribbon__more"> · board closes {FINALE_CLOSES}</span>
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span aria-hidden="true" className="finale-ribbon__star">★</span>
+                  <span>
+                    Grand Finale
+                    <span className="finale-ribbon__more"> · {FINALE_WHEN}</span>
+                    <span className="finale-ribbon__short"> · 25 Sep, 10 AM IST</span>
+                  </span>
+                  <span aria-hidden="true" className="finale-ribbon__star">★</span>
+                </>
+              )}
+              <span className="finale-ribbon__cta">
+                Enter <ArrowRight className="h-3 w-3" aria-hidden="true" />
+              </span>
+            </a>
+          </div>
+        </div>
+      )}
       <div className="shell">
         <div
           className={`flex items-center justify-between rounded-2xl px-4 sm:px-5 py-2.5 transition-all duration-300 glass glass-nav`}
@@ -129,9 +171,17 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-4 !text-[13px]"
+              className={`hidden sm:inline-flex btn ${finale ? "btn-gold" : "btn-primary"} !py-2.5 !px-4 !text-[13px]`}
             >
-              Register <ArrowRight className="h-3.5 w-3.5" />
+              {finale ? (
+                <>
+                  <Trophy className="h-3.5 w-3.5" /> Enter finale
+                </>
+              ) : (
+                <>
+                  Register <ArrowRight className="h-3.5 w-3.5" />
+                </>
+              )}
             </a>
             <button
               id="nav-menu-toggle"
@@ -186,9 +236,9 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="btn btn-primary flex-1 !py-2.5"
+                className={`btn ${finale ? "btn-gold" : "btn-primary"} flex-1 !py-2.5`}
               >
-                Register
+                {finale ? "Enter finale" : "Register"}
               </a>
             </div>
           </div>

@@ -1,7 +1,10 @@
 import { useRef } from "react";
-import { EVENT_WHEN, REGISTER_URL, SOCIALS } from "../constants";
+import { Trophy } from "lucide-react";
+import { EVENT_WHEN, FINALE_CLOSES, FINALE_WHEN, REGISTER_URL, SOCIALS } from "../constants";
 import { sound } from "../hooks/utils/audio";
 import { useParallax } from "../hooks/useParallax";
+import { useFinale } from "../hooks/useFinale";
+import FinaleEmbers from "./FinaleEmbers";
 
 interface TimeLeft {
   days: string;
@@ -22,6 +25,7 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
   const content = useRef<HTMLDivElement | null>(null);
   useParallax(scene, { strength: 26 });
   useParallax(content, { strength: 16, scroll: false });
+  const finale = useFinale();
 
   return (
     <section
@@ -42,6 +46,8 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
 
         {/* The core: the vanishing point the tunnel streams out of. */}
         <div className="hero-core" data-depth="0.5" />
+
+        {finale && <FinaleEmbers />}
       </div>
 
       {/* ── content ── */}
@@ -49,9 +55,19 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
         {/* Sits over the moon, so it carries its own plate — amber text on
             the amber glow was unreadable. */}
         <div data-depth="0.55" className="mb-6 flex justify-center">
-          <span className="status !text-[11px] !text-[var(--amber)] !border-[rgba(255,194,60,.45)] !bg-[rgba(255,194,60,.08)]">
-            <span className="dot !bg-[var(--amber)] !shadow-[0_0_10px_var(--amber)]" />
-            Insert coin
+          <span className="status hero-pill !text-[11px] !text-[var(--amber)] !border-[rgba(255,194,60,.45)] !bg-[rgba(255,194,60,.08)]">
+            {finale === "soon" ? (
+              <Trophy className="h-3.5 w-3.5" aria-hidden="true" />
+            ) : (
+              <span
+                className={`dot ${
+                  finale === "live"
+                    ? "!bg-[var(--red)] !shadow-[0_0_10px_var(--red)]"
+                    : "!bg-[var(--amber)] !shadow-[0_0_10px_var(--amber)]"
+                }`}
+              />
+            )}
+            {finale === "soon" ? "Round 02 · Grand Finale" : finale === "live" ? "Grand Finale · Live now" : "Insert coin"}
           </span>
         </div>
 
@@ -66,9 +82,31 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
           ORIGIN
         </h1>
 
-        <p data-depth="0.65" className="lead mx-auto mt-8 max-w-[52ch]">
-          Select your domain. Beat the clock. Capture every flag — 24 hours of CTF in two rounds:
-          a 12-hour Qualifier and a 12-hour Finale.
+        {finale && (
+          <p data-depth="0.8" className="finale-mark" aria-hidden="true">
+            <span className="finale-mark__rule" />
+            Grand Finale
+            <span className="finale-mark__rule" />
+          </p>
+        )}
+
+        <p data-depth="0.65" className={`lead mx-auto max-w-[52ch] ${finale ? "mt-6" : "mt-8"}`}>
+          {finale === "soon" ? (
+            <>
+              The Qualifier is in the books. The top teams return for the 12-hour Grand Finale —
+              one board, one day, three podium spots.
+            </>
+          ) : finale === "live" ? (
+            <>
+              The Grand Finale is live — 12 hours on one board, with the podium and the prize pool
+              on the line. Finalists, the arena is open.
+            </>
+          ) : (
+            <>
+              Select your domain. Beat the clock. Capture every flag — 24 hours of CTF in two rounds:
+              a 12-hour Qualifier and a 12-hour Finale.
+            </>
+          )}
         </p>
 
         <div data-depth="0.4" className="flex gap-3 justify-center mt-9 flex-wrap px-4">
@@ -80,7 +118,13 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
             onMouseEnter={() => sound.playHover()}
             className="btn btn-ghost"
           >
-            Start game
+            {finale ? (
+              <>
+                <Trophy className="h-[18px] w-[18px]" aria-hidden="true" /> Enter the Finale
+              </>
+            ) : (
+              "Start game"
+            )}
           </a>
           {/* The second-most-valuable click on the page goes to the
               community, not to a scroll the visitor will do anyway.
@@ -113,7 +157,9 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
           data-depth="0.25"
           className="coin-counter glass inline-flex mt-11 mx-4"
           role="timer"
-          aria-label={`Event starts in ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
+          aria-label={`${
+            finale === "soon" ? "Grand Finale starts" : finale === "live" ? "Grand Finale ends" : "Event starts"
+          } in ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
         >
           <div className="coin">
             <div key={timeLeft.days} className="n">{timeLeft.days}</div>
@@ -133,7 +179,13 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
           </div>
         </div>
         <p data-depth="0.25" className="coin-when mx-4">
-          Qualifier opens <span className="coin-when__at">{EVENT_WHEN}</span>
+          {finale === "soon" ? (
+            <>Grand Finale starts <span className="coin-when__at">{FINALE_WHEN}</span></>
+          ) : finale === "live" ? (
+            <>Live now · Board closes <span className="coin-when__at">{FINALE_CLOSES}</span></>
+          ) : (
+            <>Qualifier opens <span className="coin-when__at">{EVENT_WHEN}</span></>
+          )}
         </p>
       </div>
     </section>

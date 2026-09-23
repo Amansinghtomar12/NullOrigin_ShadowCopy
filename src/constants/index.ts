@@ -9,6 +9,16 @@ export const EVENT_DATE = new Date("2026-09-18T10:00:00+05:30");
 /** The same instant, written the way the hero states it. Keep in step with EVENT_DATE. */
 export const EVENT_WHEN = "18 Sep 2026 · 10:00 AM IST";
 
+/* Round 2 — the Grand Finale. The same window Unstop and CTFtime list
+   (25 Sep, 04:30–16:30 UTC). The site dresses for the finale from the
+   close of the Qualifier until FINALE_END, then takes the dressing off
+   on its own. */
+export const QUALIFIER_END = new Date("2026-09-18T22:00:00+05:30");
+export const FINALE_START = new Date("2026-09-25T10:00:00+05:30");
+export const FINALE_END = new Date("2026-09-25T22:00:00+05:30");
+export const FINALE_WHEN = "25 Sep 2026 · 10:00 AM IST";
+export const FINALE_CLOSES = "25 Sep 2026 · 10:00 PM IST";
+
 export const NAV = [
   { id: "about", label: "About" },
   { id: "highlights", label: "Highlights" },

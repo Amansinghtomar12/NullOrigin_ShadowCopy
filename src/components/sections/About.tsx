@@ -1,8 +1,10 @@
 import { Users, ArrowUpRight, Terminal } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { ORG_SITE } from "../../constants";
+import { useFinale } from "../../hooks/useFinale";
 
 export default function About() {
+  const finale = useFinale();
   return (
     <section id="about" className="section">
       <div className="shell">
@@ -76,8 +78,17 @@ export default function About() {
                 <p>FORMAT ···· Jeopardy · 2 rounds · 12h + 12h</p>
                 <p>LEVEL ····· Easy → Expert</p>
                 <p className="text-[var(--faint)]">────────────────────────────</p>
-                <p className="text-emerald-400">
-                  STATUS ···· REGISTRATIONS OPEN <span className="term-caret" aria-hidden="true" />
+                {finale && (
+                  <p className="text-[var(--amber)]">ROUND ····· 02 · Grand Finale</p>
+                )}
+                <p className={finale ? "text-[var(--amber)]" : "text-emerald-400"}>
+                  STATUS ····{" "}
+                  {finale === "soon"
+                    ? "QUALIFIER COMPLETE · FINALE 25 SEP"
+                    : finale === "live"
+                      ? "GRAND FINALE LIVE"
+                      : "REGISTRATIONS OPEN"}{" "}
+                  <span className="term-caret" aria-hidden="true" />
                 </p>
               </div>
             </div>

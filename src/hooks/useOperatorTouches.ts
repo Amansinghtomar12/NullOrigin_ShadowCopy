@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { pageTitle } from "./useFinale";
 
 /**
  * Small touches aimed at the actual audience of this site.
@@ -33,17 +34,18 @@ export function useOperatorTouches() {
     );
   }, []);
 
+  // The visible title is asked for fresh each time rather than captured
+  // once: it changes with the finale phase while the page is open.
   useEffect(() => {
-    const original = document.title;
     const onVisibility = () => {
       document.title = document.hidden
         ? "⟨ connection idle — NULL ORIGIN ⟩"
-        : original;
+        : pageTitle();
     };
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       document.removeEventListener("visibilitychange", onVisibility);
-      document.title = original;
+      document.title = pageTitle();
     };
   }, []);
 }
