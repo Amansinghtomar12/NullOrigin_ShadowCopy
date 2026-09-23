@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { sound } from "../hooks/utils/audio";
-import { useFinale } from "../hooks/useFinale";
+import { EventStage, useEventStage } from "../hooks/useEventStage";
 
 /**
  * Opening sequence: a live breach that decrypts itself line by line,
@@ -24,16 +24,38 @@ const LINES = [
   { text: "operator credentials verified", tag: "OK" },
 ];
 
-/* The finale week's breach. Same length as LINES — the timings and the
-   meter are paced off the line count. */
-const finaleLines = (live: boolean) => [
-  { text: "./nullorigin --breach --stage=finale", tag: "EXEC" },
-  { text: "resolving nullorigin.cyberhx.com", tag: "OK" },
-  { text: "tunnel negotiated · AES-256-GCM", tag: "OK" },
-  { text: "qualifier board sealed", tag: "OK" },
-  { text: live ? "final board live" : "final board armed", tag: "OK" },
-  { text: "finalist credentials verified", tag: "OK" },
-];
+/* The breach for each stage after the Qualifier. Same length as LINES —
+   the timings and the meter are paced off the line count. */
+function stageLines(stage: EventStage) {
+  if (stage === "soon" || stage === "live") {
+    return [
+      { text: "./nullorigin --breach --stage=finale", tag: "EXEC" },
+      { text: "resolving nullorigin.cyberhx.com", tag: "OK" },
+      { text: "tunnel negotiated · AES-256-GCM", tag: "OK" },
+      { text: "qualifier board sealed", tag: "OK" },
+      { text: stage === "live" ? "final board live" : "final board armed", tag: "OK" },
+      { text: "finalist credentials verified", tag: "OK" },
+    ];
+  }
+  if (stage === "results" || stage === "winners") {
+    return [
+      { text: "./nullorigin --breach --stage=results", tag: "EXEC" },
+      { text: "resolving nullorigin.cyberhx.com", tag: "OK" },
+      { text: "tunnel negotiated · AES-256-GCM", tag: "OK" },
+      { text: "final board sealed", tag: "OK" },
+      { text: stage === "winners" ? "podium decrypted" : "scores under verification", tag: "OK" },
+      { text: "operator credentials verified", tag: "OK" },
+    ];
+  }
+  return LINES;
+}
+
+const STAMP_SUB: Partial<Record<Exclude<EventStage, null>, string>> = {
+  soon: "Grand Finale",
+  live: "Grand Finale",
+  results: "Results · 27 Sep",
+  winners: "Champions",
+};
 
 const LINE_MS = 300;
 const SCRAMBLE_MS = 240;
@@ -96,8 +118,8 @@ let bootedThisLoad = false;
 
 export default function BootIntro() {
   const reduced = useReducedMotion();
-  const finale = useFinale();
-  const lines = finale ? finaleLines(finale === "live") : LINES;
+  const stage = useEventStage();
+  const lines = stageLines(stage);
 
   // Decided before first paint so the overlay never flashes for someone
   // who should not see it at all.
@@ -209,7 +231,7 @@ export default function BootIntro() {
 
       <div className="boot__stamp" aria-hidden="true">
         NULL ORIGIN
-        {finale && <span className="boot__stamp-sub">Grand Finale</span>}
+        {stage && <span className="boot__stamp-sub">{STAMP_SUB[stage]}</span>}
       </div>
 
       <div className="boot__panel">

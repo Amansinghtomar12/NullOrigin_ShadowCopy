@@ -2,10 +2,11 @@ import { Globe, Handshake, Mail, ArrowRight } from "lucide-react";
 import { Reveal } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 import { PARTNER_EMAIL, ORG_SITE, REGISTER_URL, SOCIALS } from "../../constants";
-import { useFinale } from "../../hooks/useFinale";
+import { isFinaleStage, useEventStage } from "../../hooks/useEventStage";
 
 export default function Closer() {
-  const finale = useFinale();
+  const stage = useEventStage();
+  const after = stage === "results" || stage === "winners";
   return (
     <section id="contact" className="section">
       <div className="shell">
@@ -28,14 +29,15 @@ export default function Closer() {
                 <Handshake className="h-4 w-4" /> Become a sponsor
               </a>
               <a
-                href={REGISTER_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={after ? "#prizes" : REGISTER_URL}
+                target={after ? undefined : "_blank"}
+                rel={after ? undefined : "noopener noreferrer"}
                 onClick={() => sound.playClick()}
                 className="btn btn-ghost"
                 onMouseEnter={() => sound.playHover()}
               >
-                {finale ? "Enter the Finale" : "Register your team"} <ArrowRight className="h-4 w-4" />
+                {after ? "See the podium" : isFinaleStage(stage) ? "Enter the Finale" : "Register your team"}{" "}
+                <ArrowRight className="h-4 w-4" />
               </a>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-[15px] text-[var(--muted)]">

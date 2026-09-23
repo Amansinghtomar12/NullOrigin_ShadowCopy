@@ -1,10 +1,11 @@
 import { Users, ArrowUpRight, Terminal } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { ORG_SITE } from "../../constants";
-import { useFinale } from "../../hooks/useFinale";
+import { hasWinners, isFinaleStage, useEventStage } from "../../hooks/useEventStage";
 
 export default function About() {
-  const finale = useFinale();
+  const stage = useEventStage();
+  const finale = isFinaleStage(stage);
   return (
     <section id="about" className="section">
       <div className="shell">
@@ -83,11 +84,17 @@ export default function About() {
                 )}
                 <p className={finale ? "text-[var(--amber)]" : "text-emerald-400"}>
                   STATUS ····{" "}
-                  {finale === "soon"
+                  {stage === "soon"
                     ? "QUALIFIER COMPLETE · FINALE 25 SEP"
-                    : finale === "live"
+                    : stage === "live"
                       ? "GRAND FINALE LIVE"
-                      : "REGISTRATIONS OPEN"}{" "}
+                      : stage === "results"
+                        ? "FINALE COMPLETE · RESULTS 27 SEP"
+                        : stage === "winners"
+                          ? hasWinners()
+                            ? "CHAMPIONS CROWNED"
+                            : "RESULTS ANNOUNCED"
+                          : "REGISTRATIONS OPEN"}{" "}
                   <span className="term-caret" aria-hidden="true" />
                 </p>
               </div>

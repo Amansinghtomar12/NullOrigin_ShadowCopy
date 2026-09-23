@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { pageTitle } from "./useFinale";
+import { pageTitle } from "./useEventStage";
 
 /**
  * Small touches aimed at the actual audience of this site.

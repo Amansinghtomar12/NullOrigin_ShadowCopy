@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ArrowRight, Volume2, VolumeX, Menu, X, Trophy } from "lucide-react";
 import { FINALE_CLOSES, FINALE_WHEN, NAV, REGISTER_URL, SOCIALS } from "../constants";
 import { useScrollSpy } from "../hooks/useScrollSpy";
-import { useFinale } from "../hooks/useFinale";
+import { isFinaleStage, useEventStage } from "../hooks/useEventStage";
 import { sound } from "../hooks/utils/audio";
 
 interface NavbarProps {
@@ -17,7 +17,11 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
   // Single source of truth with the footer's social row — when the
   // invite changes there, this button follows. Hidden if it ever empties.
   const discord = SOCIALS.find((s) => s.name === "Discord");
-  const finale = useFinale();
+  const stage = useEventStage();
+  const finale = isFinaleStage(stage) ? stage : null;
+  // Once the finale is over the button stops pointing at the platform
+  // and takes visitors to the podium instead.
+  const after = stage === "results" || stage === "winners";
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 36);
@@ -73,7 +77,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                   <span>
                     Grand Finale
                     <span className="finale-ribbon__more"> · {FINALE_WHEN}</span>
-                    <span className="finale-ribbon__short"> · 25 Sep, 10 AM IST</span>
+                    <span className="finale-ribbon__short"> · 25 Sep · 10:00 AM IST</span>
                   </span>
                   <span aria-hidden="true" className="finale-ribbon__star">★</span>
                 </>
@@ -166,16 +170,20 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
               Partner with us
             </a>
             <a
-              href={REGISTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={after ? "#prizes" : REGISTER_URL}
+              target={after ? undefined : "_blank"}
+              rel={after ? undefined : "noopener noreferrer"}
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
               className={`hidden sm:inline-flex btn ${finale ? "btn-gold" : "btn-primary"} !py-2.5 !px-4 !text-[13px]`}
             >
-              {finale ? (
+              {after ? (
                 <>
-                  <Trophy className="h-3.5 w-3.5" /> Enter finale
+                  <Trophy className="h-3.5 w-3.5" /> Podium
+                </>
+              ) : finale ? (
+                <>
+                  <Trophy className="h-3.5 w-3.5" /> Enter Finale
                 </>
               ) : (
                 <>
@@ -232,13 +240,13 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                 Partner
               </a>
               <a
-                href={REGISTER_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={after ? "#prizes" : REGISTER_URL}
+                target={after ? undefined : "_blank"}
+                rel={after ? undefined : "noopener noreferrer"}
                 onClick={() => setOpen(false)}
                 className={`btn ${finale ? "btn-gold" : "btn-primary"} flex-1 !py-2.5`}
               >
-                {finale ? "Enter finale" : "Register"}
+                {after ? "Podium" : finale ? "Enter Finale" : "Register"}
               </a>
             </div>
           </div>

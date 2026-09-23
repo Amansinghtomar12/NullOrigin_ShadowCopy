@@ -1,17 +1,17 @@
 import React from "react";
 import { Trophy } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
-import { useFinale } from "../../hooks/useFinale";
+import { WINNERS } from "../../constants";
+import { hasWinners, useEventStage } from "../../hooks/useEventStage";
 import PodiumMedal from "./PodiumMedal";
 
-/* After the event, crown the podium by filling in `team` — the card then
-   shows the winning team's name above the rank, and nothing else needs
-   touching. These prizes go to the Grand Finale's final standings. */
+/* These prizes go to the Grand Finale's final standings. From the
+   results announcement on, each card carries its team's name above the
+   rank — the names come from WINNERS in src/constants. */
 const TIERS: {
   rank: string;
   icon: React.ReactNode;
   variant: string;
-  team?: string;
   perks: string[];
   order: string;
 }[] = [
@@ -70,7 +70,21 @@ const TIERS: {
  * champion first.
  */
 export default function Prizes() {
-  const finale = useFinale();
+  const stage = useEventStage();
+  const crowned = stage === "winners" && hasWinners();
+  const teamFor: Record<string, string> = { "1st": WINNERS.first, "2nd": WINNERS.second, "3rd": WINNERS.third };
+  const stakes =
+    stage === "soon"
+      ? "Decided on 25 September — 12 hours, one board, three podium spots."
+      : stage === "live"
+        ? "Being decided right now — the board closes at 10:00 PM IST."
+        : stage === "results"
+          ? "The podium is revealed on 27 September at 12:00 PM IST."
+          : stage === "winners"
+            ? crowned
+              ? "Congratulations to the champions of Null Origin 2026."
+              : "Winners announced 27 September — their names go on these cards shortly."
+            : null;
   return (
     <section id="prizes" className="section">
       <div className="shell">
@@ -82,25 +96,23 @@ export default function Prizes() {
           />
         </Reveal>
 
-        {finale && (
+        {stakes && (
           <p className="finale-stakes">
             <Trophy className="h-4 w-4 shrink-0" aria-hidden="true" />
-            {finale === "live"
-              ? "Being decided right now — the board closes at 10:00 PM IST."
-              : "Decided on 25 September — 12 hours, one board, three podium spots."}
+            {stakes}
           </p>
         )}
 
-        <div className={`grid sm:grid-cols-3 gap-5 items-end max-w-3xl mx-auto ${finale ? "mt-10" : "mt-14"}`}>
+        <div className={`grid sm:grid-cols-3 gap-5 items-end max-w-3xl mx-auto ${stakes ? "mt-10" : "mt-14"}`}>
           {TIERS.map((t, i) => (
             <Reveal key={t.rank} delay={i * 90} className={t.order}>
               <div className={`podium glass glass-hover ${t.variant}`}>
                 <div className={`podium__medal ${t.variant === "podium--first" ? "podium__medal--lg" : ""}`} aria-hidden="true">
                   {t.icon}
                 </div>
-                {t.team && (
-                  <p className="font-display text-[22px] tracking-wide text-[var(--amber)] leading-tight">
-                    {t.team}
+                {crowned && teamFor[t.rank] && (
+                  <p className="font-display text-[22px] tracking-wide text-[var(--amber)] leading-tight break-words">
+                    {teamFor[t.rank]}
                   </p>
                 )}
                 <p className="podium__rank">{t.rank} place</p>
@@ -116,8 +128,19 @@ export default function Prizes() {
 
         <Reveal delay={140}>
           <p className="text-center text-[15px] text-[var(--faint)] mt-8">
-            These prizes crown the Grand Finale&rsquo;s top three — the 12-hour Qualifier decides
-            who gets to fight for them.
+            {stage === "results" || stage === "winners" ? (
+              <>These prizes go to the Grand Finale&rsquo;s top three, decided on the final board on 25 September.</>
+            ) : stage ? (
+              <>
+                These prizes crown the Grand Finale&rsquo;s top three — the 12-hour Qualifier decided
+                who gets to fight for them.
+              </>
+            ) : (
+              <>
+                These prizes crown the Grand Finale&rsquo;s top three — the 12-hour Qualifier decides
+                who gets to fight for them.
+              </>
+            )}
           </p>
         </Reveal>
       </div>

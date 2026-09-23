@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { Users, Zap, Clock, Award, Check } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
-import { FinalePhase, useFinale } from "../../hooks/useFinale";
+import { WINNERS } from "../../constants";
+import { EventStage, hasWinners, useEventStage } from "../../hooks/useEventStage";
 
 interface Milestone {
   date: string;
@@ -14,12 +15,13 @@ interface Milestone {
 
 /* Finale and results times as published on Unstop: the finale runs
    10:00 AM – 10:00 PM IST on 25 September, results at 12:00 PM IST on
-   27 September. While the finale is on, the milestones behind it read as
-   done and the live marker sits on the finale; otherwise the timeline
-   reads as it always has. */
-function timeline(finale: FinalePhase): Milestone[] {
+   27 September. As the event moves on, milestones behind it read as
+   done and the live marker moves to the one that is current. */
+function timeline(stage: EventStage): Milestone[] {
+  const past = stage !== null;
+  const finaleDone = stage === "results" || stage === "winners";
   return [
-    finale
+    past
       ? {
           date: "17 September 2026",
           title: "Registration closed",
@@ -34,7 +36,7 @@ function timeline(finale: FinalePhase): Milestone[] {
           icon: <Users className="h-5 w-5" />,
           active: true,
         },
-    finale
+    past
       ? {
           date: "18 September 2026",
           title: "Qualifier complete",
@@ -49,17 +51,22 @@ function timeline(finale: FinalePhase): Milestone[] {
           icon: <Zap className="h-5 w-5" />,
         },
     {
-      date: finale === "live" ? "Live now" : finale === "soon" ? "25 September 2026 · Up next" : "25 September 2026",
-      title: finale ? "The Grand Finale" : "Null Origin Finals CTF",
-      desc: "The top teams from the qualifier meet on the final board for the second 12-hour round, 10:00 AM to 10:00 PM IST.",
+      date: stage === "live" ? "Live now" : stage === "soon" ? "25 September 2026 · Up next" : "25 September 2026",
+      title: past ? "The Grand Finale" : "Null Origin Finals CTF",
+      desc: "The top teams from the Qualifier meet on the final board for the second 12-hour round, 10:00 AM to 10:00 PM IST.",
       icon: <Clock className="h-5 w-5" />,
-      active: !!finale,
+      active: stage === "soon" || stage === "live",
+      done: finaleDone,
     },
     {
-      date: "27 September 2026",
+      date: stage === "results" ? "27 September 2026 · Up next" : "27 September 2026",
       title: "Winners announced",
-      desc: "Results go live at 12:00 PM IST — the podium is crowned and the prize pool is handed to the Finale's top three.",
+      desc:
+        stage === "winners" && hasWinners()
+          ? `The podium is crowned — congratulations to ${WINNERS.first}, ${WINNERS.second} and ${WINNERS.third}.`
+          : "Results go live at 12:00 PM IST — the podium is crowned and the prize pool is handed to the Finale's top three.",
       icon: <Award className="h-5 w-5" />,
+      active: finaleDone,
     },
   ];
 }
@@ -76,7 +83,7 @@ function timeline(finale: FinalePhase): Milestone[] {
  * of a 1200px container.)
  */
 export default function Schedule() {
-  const finale = useFinale();
+  const stage = useEventStage();
   return (
     <section id="schedule" className="section">
       <div className="shell">
@@ -89,7 +96,7 @@ export default function Schedule() {
         </Reveal>
 
         <div className="timeline mt-14" role="list">
-          {timeline(finale).map((t, i) => (
+          {timeline(stage).map((t, i) => (
             // Keyed by position and with a constant class on the Reveal: the
             // reveal sweep adds "in" outside React, and a remount or a
             // className rewrite when the finale flips would strip it and

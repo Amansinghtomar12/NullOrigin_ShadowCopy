@@ -2,6 +2,7 @@ import { Ref, ReactNode } from "react";
 import { Users, Target, Layers, Clock, Globe, Trophy } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
+import { useEventStage } from "../../hooks/useEventStage";
 
 const STATS = [
   { icon: <Users className="h-5 w-5" />, val: "4000+", label: "Expected players" },
@@ -29,6 +30,8 @@ function Stat({ icon, val, label }: { icon: ReactNode; val: string; label: strin
 }
 
 export default function Impact() {
+  // Once registration closed, the first figure is a count, not a forecast.
+  const closed = useEventStage() !== null;
   return (
     <section className="section">
       <div className="shell">
@@ -41,8 +44,10 @@ export default function Impact() {
         </Reveal>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-12">
           {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 60}>
-              <Stat icon={s.icon} val={s.val} label={s.label} />
+            // Keyed by position: a label that changes must not remount the
+            // tile, or its Reveal would lose its "in" class.
+            <Reveal key={i} delay={i * 60}>
+              <Stat icon={s.icon} val={s.val} label={closed && i === 0 ? "Registrations" : s.label} />
             </Reveal>
           ))}
         </div>
@@ -50,7 +55,11 @@ export default function Impact() {
           <p className="text-center text-[15px] text-[var(--muted)] mt-7 max-w-2xl mx-auto">
             Audience makeup: penetration testers, security engineers, CTF competitors, university
             students and independent researchers.{" "}
-            <span className="text-[var(--faint)]">Projections based on programme scope and community size.</span>
+            <span className="text-[var(--faint)]">
+              {closed
+                ? "Registrations as counted on Unstop when sign-ups closed."
+                : "Projections based on programme scope and community size."}
+            </span>
           </p>
         </Reveal>
       </div>

@@ -2,13 +2,24 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
-import { useFinale } from "../../hooks/useFinale";
+import { EventStage, useEventStage } from "../../hooks/useEventStage";
 
-/* Asked the week of the finale, and only then. */
-const FINALE_FAQ = {
-  q: "Who plays the Grand Finale?",
-  a: "The top-ranked teams from the 18 September Qualifier. Finalists compete on ctf.cyberhx.com from 10:00 AM to 10:00 PM IST on 25 September, and the results are announced on 27 September at 12:00 PM IST.",
-};
+/* The question of the moment, asked only while it is the question. */
+function stageFaq(stage: EventStage) {
+  if (stage === "soon" || stage === "live") {
+    return {
+      q: "Who plays the Grand Finale?",
+      a: "The top-ranked teams from the 18 September Qualifier. Finalists compete on ctf.cyberhx.com from 10:00 AM to 10:00 PM IST on 25 September, and the results are announced on 27 September at 12:00 PM IST.",
+    };
+  }
+  if (stage === "results") {
+    return {
+      q: "When are the results announced?",
+      a: "On 27 September at 12:00 PM IST. The Grand Finale's top three take the podium and the prize pool, and the podium goes up on this page.",
+    };
+  }
+  return null;
+}
 
 const FAQS = [
   { q: "Is it really 24 hours non-stop?", a: "No — it's 24 hours of competition split into two 12-hour rounds. Round one is the online Qualifier on 18 September. The top teams then advance to the 12-hour Grand Finale on 25 September, 10:00 AM to 10:00 PM IST. Nobody plays a full day straight." },
@@ -20,39 +31,58 @@ const FAQS = [
   { q: "Where does the competition run?", a: "On a dedicated, security-hardened CTF platform — entirely separate from this showcase page." },
 ];
 
+/* Once registration has closed, two answers change tense — "anyone can
+   join, free" beside "only qualified teams play the finale" contradicted
+   itself. The questions stay the same, so nothing remounts. */
+const CLOSED_ANSWERS: Record<string, string> = {
+  "Who can participate?":
+    "The Qualifier was open to anyone — students, professionals and hobbyists from anywhere in the world. The Grand Finale is for the teams that qualified.",
+  "Is it free to register?":
+    "Yes — entry was completely free. Registration for Null Origin 2026 closed on 17 September.",
+};
+
 export default function FAQ() {
-  const finale = useFinale();
-  const faqs = finale ? [FINALE_FAQ, ...FAQS] : FAQS;
-  const [open, setOpen] = useState<number | null>(0);
+  const stage = useEventStage();
+  const extra = stageFaq(stage);
+  const regular = stage ? FAQS.map((f) => ({ ...f, a: CLOSED_ANSWERS[f.q] ?? f.a })) : FAQS;
+  const faqs = extra ? [extra, ...regular] : regular;
+  // Tracked by question, not position: the stage question comes and goes
+  // at a stage change, and an index would then point at a different
+  // answer. undefined = the default, which is the first question open.
+  const [picked, setPicked] = useState<string | null | undefined>(undefined);
+  const open =
+    picked === undefined || (picked !== null && !faqs.some((f) => f.q === picked)) ? faqs[0].q : picked;
 
   return (
     <section id="faq" className="section">
       <div className="shell max-w-3xl">
         <Reveal><SectionHeading tag="Support" title="Frequently Asked" /></Reveal>
         <div className="mt-12 space-y-3">
-          {/* Keyed by question so the finale entry can come and go without
-              the others remounting (a remount would drop the reveal). */}
+          {/* Keyed so nothing remounts at a stage change — a remounted
+              Reveal never gets its "in" class and stays invisible. The
+              regular questions key by their text; the stage question
+              keeps one key while its text changes from stage to stage. */}
           {faqs.map((f, i) => (
-            <Reveal key={f.q} delay={i * 50}>
+            <Reveal key={extra && i === 0 ? "stage-question" : f.q} delay={i * 50}>
               <div className="glass rounded-[var(--radius-sm)] overflow-hidden">
                 <button
                   className="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer"
-                  onClick={() => { setOpen(open === i ? null : i); sound.playClick(); }}
-                  aria-expanded={open === i}
+                  onClick={() => { setPicked(open === f.q ? null : f.q); sound.playClick(); }}
+                  aria-expanded={open === f.q}
                   aria-controls={`faq-answer-${i}`}
                 >
                   <span className="text-[15px] font-semibold text-white">{f.q}</span>
                   <ChevronDown
                     aria-hidden="true"
                     className={`h-4 w-4 shrink-0 transition-transform duration-300 ${
-                      open === i ? "rotate-180 text-red-500" : "text-[var(--faint)]"
+                      open === f.q ? "rotate-180 text-red-500" : "text-[var(--faint)]"
                     }`}
                   />
                 </button>
                 <div
                   id={`faq-answer-${i}`}
                   role="region"
-                  className={`faq-body ${open === i ? "faq-body--open" : ""}`}
+                  className={`faq-body ${open === f.q ? "faq-body--open" : ""}`}
                 >
                   <div>
                     <p className="px-5 pb-5 text-[15px] text-[var(--muted)] leading-relaxed border-t border-[var(--line)] pt-4">

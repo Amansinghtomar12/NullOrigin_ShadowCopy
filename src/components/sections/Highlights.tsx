@@ -6,7 +6,8 @@ import {
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
 import { SAMPLE_CIPHER, isSampleFlag } from "../../constants/challenge";
-import { UNSTOP_EVENT_URL } from "../../constants";
+import { CTFTIME_FINALE_URL, UNSTOP_EVENT_URL } from "../../constants";
+import { isFinaleStage, useEventStage } from "../../hooks/useEventStage";
 
 const PILLARS = [
   { icon: <Flag className="h-5 w-5" />, title: "Capture The Flag", desc: "Two rounds of Jeopardy-style battle — a 12-hour Qualifier, then a 12-hour Finale for the teams that make the cut — across six domains." },
@@ -25,6 +26,7 @@ const DOMAINS = [
 ];
 
 function SampleChallenge() {
+  const stage = useEventStage();
   const [input, setInput] = useState("");
   const [status, setStatus] = useState<"idle" | "correct" | "incorrect">("idle");
   // Tracked so a wrong-then-right guess inside 2.5s can't have the stale
@@ -81,15 +83,21 @@ function SampleChallenge() {
             <div className="flex items-center gap-2 text-[13px] text-emerald-400 font-semibold bg-emerald-950/25 border border-emerald-800/40 p-3 rounded-xl">
               <CheckCircle className="h-4 w-4" /> Flag accepted — nicely done.
             </div>
-            {/* The reward for solving: the door to the real competition. */}
+            {/* The reward for solving: the door to the real competition —
+                registration while it was open, the Grand Finale since. */}
             <a
-              href={UNSTOP_EVENT_URL}
+              href={stage ? CTFTIME_FINALE_URL : UNSTOP_EVENT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary w-full !py-2.5 !text-[15px]"
               onMouseEnter={() => sound.playHover()}
             >
-              You're ready — register on Unstop <ArrowUpRight className="h-4 w-4" />
+              {stage === null
+                ? "You're ready — register on Unstop"
+                : isFinaleStage(stage)
+                  ? "You're ready — follow the Grand Finale"
+                  : "You're ready — see the Grand Finale on CTFtime"}{" "}
+              <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
         )}

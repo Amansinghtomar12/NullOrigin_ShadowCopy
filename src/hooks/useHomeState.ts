@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, FormEvent } from "react";
 import { sound } from "./utils/audio";
 import { SAMPLE_FLAG, isSampleFlag } from "../constants/challenge";
-import { EVENT_DATE, FINALE_END, FINALE_START } from "../constants";
-import { useFinale } from "./useFinale";
+import { EVENT_DATE, FINALE_END, FINALE_START, RESULTS_AT } from "../constants";
+import { refreshStage, useEventStage } from "./useEventStage";
 
 export interface Cadet {
   email: string;
@@ -40,12 +40,19 @@ export function useHomeState() {
   // Countdown timer — a fixed instant, the same for every viewer. The
   // previous target was midnight in the *viewer's* local zone, so clocks
   // around the world counted to different moments and none matched the
-  // real start. During the finale window it counts to the finale's start,
-  // then to its close; otherwise to the Qualifier, as it always did.
-  const finale = useFinale();
+  // real start. It follows the event: to the finale's start, then its
+  // close, then the results; before the Qualifier closed, to the
+  // Qualifier. Once the winners are out there is nothing left to count.
+  const stage = useEventStage();
   useEffect(() => {
     const target = (
-      finale === "soon" ? FINALE_START : finale === "live" ? FINALE_END : EVENT_DATE
+      stage === "soon"
+        ? FINALE_START
+        : stage === "live"
+          ? FINALE_END
+          : stage === "results" || stage === "winners"
+            ? RESULTS_AT
+            : EVENT_DATE
     ).getTime();
     let interval = 0;
     const tick = () => {
@@ -53,6 +60,9 @@ export function useHomeState() {
       if (difference <= 0) {
         setTimeLeft({ days: "00", hours: "00", minutes: "00", seconds: "00" });
         if (interval) clearInterval(interval);
+        // Zero is a stage boundary: move on now rather than waiting for
+        // the stage store's own timer.
+        refreshStage();
         return;
       }
       const d = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -71,7 +81,7 @@ export function useHomeState() {
     tick();
     interval = window.setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [finale]);
+  }, [stage]);
 
   // Load registrations from localStorage
   useEffect(() => {

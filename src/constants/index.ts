@@ -4,20 +4,34 @@ export const REGISTER_URL = "https://ctf.cyberhx.com/";
 export const UNSTOP_EVENT_URL =
   "https://unstop.com/hackathons/null-origin-24-hour-ctf-challenge-cyber-hx-1698744";
 export const PARTNER_EMAIL = "partners@cyberhx.com";
+/** The Grand Finale's own CTFtime listing (the Qualifier's is event 3346). */
+export const CTFTIME_FINALE_URL = "https://ctftime.org/event/3454";
 export const ORG_SITE = "https://cyberhx.com";
 export const EVENT_DATE = new Date("2026-09-18T10:00:00+05:30");
 /** The same instant, written the way the hero states it. Keep in step with EVENT_DATE. */
 export const EVENT_WHEN = "18 Sep 2026 · 10:00 AM IST";
 
-/* Round 2 — the Grand Finale. The same window Unstop and CTFtime list
-   (25 Sep, 04:30–16:30 UTC). The site dresses for the finale from the
-   close of the Qualifier until FINALE_END, then takes the dressing off
-   on its own. */
+/* Round 2 — the Grand Finale — and the results, in the windows Unstop
+   and CTFtime list (finale 25 Sep, 04:30–16:30 UTC; results 27 Sep,
+   12:00 IST). The site moves through the stages on its own clock; see
+   src/hooks/useEventStage.ts. */
 export const QUALIFIER_END = new Date("2026-09-18T22:00:00+05:30");
 export const FINALE_START = new Date("2026-09-25T10:00:00+05:30");
 export const FINALE_END = new Date("2026-09-25T22:00:00+05:30");
+export const RESULTS_AT = new Date("2026-09-27T12:00:00+05:30");
 export const FINALE_WHEN = "25 Sep 2026 · 10:00 AM IST";
 export const FINALE_CLOSES = "25 Sep 2026 · 10:00 PM IST";
+export const RESULTS_WHEN = "27 Sep 2026 · 12:00 PM IST";
+
+/**
+ * The Grand Finale podium, shown from RESULTS_AT onwards (the hero,
+ * the prize podium and the timeline all read from here).
+ *
+ * Fill these in at or after the announcement, not before: everything in
+ * this file ships in the page source, and CTF players read the source.
+ * While they are empty, the winners view says the podium is on its way.
+ */
+export const WINNERS = { first: "", second: "", third: "" };
 
 export const NAV = [
   { id: "about", label: "About" },
