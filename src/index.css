@@ -1999,18 +1999,36 @@ input[type="file"] {
   background: #1a0f00;
   color: #ffd76a;
 }
+/* The pulse is a ring scaling out on a pseudo-element — transform and
+   opacity only. Animating box-shadow repainted the ribbon every frame. */
 .finale-ribbon__live {
+  position: relative;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #d4002a;
-  box-shadow: 0 0 0 0 rgba(212, 0, 42, 0.6);
-  animation: finale-live 1.6s ease-out infinite;
   flex-shrink: 0;
 }
+.finale-ribbon__live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(212, 0, 42, 0.6);
+  animation: finale-live 1.6s ease-out infinite;
+}
 @keyframes finale-live {
-  0%   { box-shadow: 0 0 0 0 rgba(212, 0, 42, 0.6); }
-  100% { box-shadow: 0 0 0 9px rgba(212, 0, 42, 0); }
+  from { transform: scale(1);   opacity: 1; }
+  to   { transform: scale(3.2); opacity: 0; }
+}
+/* Folded out of sight, the pulse has no reason to keep running. */
+.finale-ribbon--folded .finale-ribbon__live::after { animation-play-state: paused; }
+/* The ribbon clips its overflow, which would hide the site's usual
+   focus ring drawn outside the link — so its ring sits inside. */
+.finale-ribbon__link:focus-visible {
+  outline: 3px solid #1a0f00;
+  outline-offset: -5px;
+  border-radius: 4px;
 }
 /* Long date on wide screens, short one below 720px (the live line is
    the longer of the two and needs about 672px inside its padding), and
@@ -2068,18 +2086,20 @@ input[type="file"] {
   overflow: hidden;
   pointer-events: none;
 }
+/* The glow is part of the background — a blurred box-shadow on every
+   ember made each one an expensive layer — and the embers stop while
+   the hero is off screen (FinaleEmbers toggles --paused). */
 .finale-embers span {
   position: absolute;
   bottom: -12px;
   border-radius: 50%;
-  background: #ffd76a;
-  box-shadow: 0 0 8px 2px rgba(255, 194, 60, 0.7);
+  background: radial-gradient(circle, #fff3c4 0 14%, #ffd76a 24%, rgba(255, 194, 60, 0.5) 40%, rgba(255, 194, 60, 0) 70%);
   opacity: 0;
-  will-change: transform, opacity;
   animation-name: ember-rise;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+.finale-embers--paused span { animation-play-state: paused; }
 @keyframes ember-rise {
   0%   { opacity: 0;    transform: translate3d(0, 0, 0); }
   12%  { opacity: 0.95; }
@@ -2087,7 +2107,7 @@ input[type="file"] {
   100% { opacity: 0;    transform: translate3d(-10px, -95vh, 0); }
 }
 @media (max-width: 700px), (pointer: coarse) {
-  .finale-embers span:nth-child(n + 9) { display: none; }
+  .finale-embers span:nth-child(n + 7) { display: none; }
 }
 
 /* ── Prizes: what is at stake ────────────────────────────── */
@@ -2182,7 +2202,7 @@ input[type="file"] {
 @media (prefers-reduced-motion: reduce) {
   .finale-embers { display: none; }
   .finale-ribbon { transition: none; }
-  .finale-ribbon__live { animation: none; }
+  .finale-ribbon__live::after { animation: none; opacity: 0; }
 }
 
 /* ═══════════════════════════════════════════════════════════

@@ -19,6 +19,10 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
   const discord = SOCIALS.find((s) => s.name === "Discord");
   const stage = useEventStage();
   const finale = isFinaleStage(stage) ? stage : null;
+  // While the ribbon link has keyboard focus it stays unfolded: folding
+  // makes it inert, which would drop focus to <body> mid-scroll.
+  const [ribbonFocused, setRibbonFocused] = useState(false);
+  const fold = scrolled && !ribbonFocused;
   // Once the finale is over the button stops pointing at the platform
   // and takes visitors to the podium instead.
   const after = stage === "results" || stage === "winners";
@@ -53,13 +57,15 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
           doorway to the platform. Folds away once the page scrolls, so
           it never eats reading space. */}
       {finale && (
-        <div className={`finale-ribbon ${scrolled ? "finale-ribbon--folded" : ""}`} inert={scrolled}>
+        <div className={`finale-ribbon ${fold ? "finale-ribbon--folded" : ""}`} inert={fold}>
           <div className="finale-ribbon__clip">
             <a
               href={REGISTER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="finale-ribbon__link"
+              onFocus={(e) => setRibbonFocused(e.currentTarget.matches(":focus-visible"))}
+              onBlur={() => setRibbonFocused(false)}
               onMouseEnter={() => sound.playHover()}
               onClick={() => sound.playClick()}
             >

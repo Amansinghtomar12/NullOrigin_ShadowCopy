@@ -1,11 +1,14 @@
+import { useEffect, useRef, useState } from "react";
+
 /**
  * Gold embers drifting up through the hero while the finale is on — the
  * one piece of pure celebration in the finale dressing.
  *
  * Plain spans on a CSS loop (transform and opacity only, so it stays on
- * the compositor). Each ember's lane, size, speed and delay come from a
- * fixed table rather than Math.random(), so the scene is the same on
- * every render. Phones get half the count; reduced motion gets none.
+ * the compositor), paused whenever the hero is scrolled out of view.
+ * Each ember's lane, size, speed and delay come from a fixed table
+ * rather than Math.random(), so the scene is the same on every render.
+ * Phones get half the count; reduced motion gets none.
  */
 const EMBERS = [
   [6, 3, 9.5, 0], [14, 2, 12, 3.1], [22, 4, 10.5, 6.4], [31, 2, 13, 1.2],
@@ -15,15 +18,27 @@ const EMBERS = [
 ];
 
 export default function FinaleEmbers() {
+  const box = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const el = box.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="finale-embers" aria-hidden="true">
+    <div ref={box} className={`finale-embers ${visible ? "" : "finale-embers--paused"}`} aria-hidden="true">
       {EMBERS.map(([x, size, dur, delay], i) => (
         <span
           key={i}
           style={{
             left: `${x}%`,
-            width: size,
-            height: size,
+            // The glow is drawn inside the box, so the box is 4x the ember.
+            width: size * 4,
+            height: size * 4,
             animationDuration: `${dur}s`,
             animationDelay: `-${delay}s`,
           }}
