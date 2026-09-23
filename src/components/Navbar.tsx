@@ -170,7 +170,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
             </button>
             <a
               href="#sponsors"
-              className="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-4 !text-[13px] whitespace-nowrap"
+              className="hidden sm:inline-flex lg:hidden xl:inline-flex btn btn-ghost !py-2.5 !px-4 !text-[13px] whitespace-nowrap"
               onMouseEnter={() => sound.playHover()}
             >
               Partner with us

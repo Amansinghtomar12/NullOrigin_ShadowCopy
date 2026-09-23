@@ -96,7 +96,7 @@ function SampleChallenge() {
                 ? "You're ready — register on Unstop"
                 : isFinaleStage(stage)
                   ? "You're ready — follow the Grand Finale"
-                  : "You're ready — see the Grand Finale on CTFtime"}{" "}
+                  : "You're ready — see it on CTFtime"}{" "}
               <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>

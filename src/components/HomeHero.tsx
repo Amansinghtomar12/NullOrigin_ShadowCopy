@@ -150,8 +150,8 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
             </>
           ) : stage === "results" ? (
             <>
-              The Grand Finale is over — two rounds, 24 hours of CTF, one final board. The podium
-              goes up on 27 September at 12:00 PM IST.
+              The Grand Finale is over — two rounds, 24 hours of CTF, one final board. Results are
+              announced on 27 September at 12:00 PM IST.
             </>
           ) : stage === "winners" ? (
             crowned ? (

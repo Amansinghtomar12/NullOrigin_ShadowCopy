@@ -1,7 +1,8 @@
 import { Target, Users, Sparkles, Handshake, Mail, Check, ExternalLink } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { sound } from "../../hooks/utils/audio";
-import { PARTNER_EMAIL, PARTNERS } from "../../constants";
+import { PARTNER_EMAIL, PARTNERS, PLATFORM_CLOSED } from "../../constants";
+import { useEventStage } from "../../hooks/useEventStage";
 
 const WHY_SPONSOR = [
   { icon: <Target className="h-4 w-4" />, title: "A vetted audience", desc: "Reach thousands of motivated security practitioners and students in one focused window." },
@@ -80,6 +81,8 @@ function PartnerFeature({ name, logo, href, tier, plate, blurb, about, includes 
 }
 
 export default function Sponsors() {
+  // Registration closed on 17 September: the Unstop card says so.
+  const closed = useEventStage() !== null;
   return (
     <section id="sponsors" className="section relative">
       <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(255,51,85,0.06),transparent_70%)]" />
@@ -95,7 +98,7 @@ export default function Sponsors() {
         <div className="space-y-6 mt-12">
           {PARTNERS.map((p, i) => (
             <Reveal key={p.name} delay={i * 90}>
-              <PartnerFeature {...p} />
+              <PartnerFeature {...(closed && p.name === "Unstop" ? { ...p, ...PLATFORM_CLOSED } : p)} />
             </Reveal>
           ))}
         </div>

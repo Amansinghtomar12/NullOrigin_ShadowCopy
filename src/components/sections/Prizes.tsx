@@ -103,7 +103,7 @@ export default function Prizes() {
           </p>
         )}
 
-        <div className={`grid sm:grid-cols-3 gap-5 items-end max-w-3xl mx-auto ${stakes ? "mt-10" : "mt-14"}`}>
+        <div className={`grid grid-cols-1 sm:grid-cols-3 gap-5 items-end max-w-3xl mx-auto ${stakes ? "mt-10" : "mt-14"}`}>
           {TIERS.map((t, i) => (
             <Reveal key={t.rank} delay={i * 90} className={t.order}>
               <div className={`podium glass glass-hover ${t.variant}`}>
@@ -111,7 +111,7 @@ export default function Prizes() {
                   {t.icon}
                 </div>
                 {crowned && teamFor[t.rank] && (
-                  <p className="font-display text-[22px] tracking-wide text-[var(--amber)] leading-tight break-words">
+                  <p className="font-display text-[22px] tracking-wide text-[var(--amber)] leading-tight [overflow-wrap:anywhere]">
                     {teamFor[t.rank]}
                   </p>
                 )}

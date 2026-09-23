@@ -15,7 +15,7 @@ function stageFaq(stage: EventStage) {
   if (stage === "results") {
     return {
       q: "When are the results announced?",
-      a: "On 27 September at 12:00 PM IST. The Grand Finale's top three take the podium and the prize pool, and the podium goes up on this page.",
+      a: "On 27 September at 12:00 PM IST. The Grand Finale's top three take the podium and the prize pool, and the podium goes up on this page once the results are out.",
     };
   }
   return null;

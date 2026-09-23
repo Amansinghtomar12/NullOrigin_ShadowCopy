@@ -486,7 +486,9 @@ input[type="file"] {
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
     padding-inline: 14px;
-    width: 100%;
+    /* auto, not 100%: with the mx-4 margins a full-width box sat
+       off-centre and touched the right edge. */
+    width: auto;
   }
   .coin { min-width: 0; }
 }
@@ -1626,6 +1628,8 @@ input[type="file"] {
   color: var(--muted);
   margin-top: 6px;
   max-width: 46ch;
+  /* Team names can be one long word; let them break inside the card. */
+  overflow-wrap: anywhere;
 }
 
 /* Desktop: three-column grid per row — card | node | card — with the
@@ -2042,8 +2046,10 @@ input[type="file"] {
 @media (max-width: 560px) {
   .finale-ribbon__link { gap: 7px; letter-spacing: 0.1em; padding-inline: 10px; }
 }
-@media (max-width: 380px) {
+@media (max-width: 419px) {
   .finale-ribbon__star { display: none; }
+}
+@media (max-width: 380px) {
   .finale-ribbon__link { gap: 6px; font-size: 10px; letter-spacing: 0.04em; padding-inline: 8px; }
 }
 
@@ -2213,13 +2219,22 @@ input[type="file"] {
 .champions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: end;
+  /* Top-aligned: bottom alignment lifted a runner-up's medal above the
+     champion's whenever its name wrapped to more lines. */
+  align-items: start;
   gap: clamp(10px, 2vw, 22px);
   width: min(680px, calc(100% - 32px));
   margin-inline: auto;
   padding: 22px clamp(14px, 3vw, 28px);
   border-radius: var(--radius-lg);
   list-style: none;
+}
+/* Room for real team names on desktop; the champion's column is widest. */
+@media (min-width: 1024px) {
+  .champions {
+    width: min(960px, calc(100% - 32px));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+  }
 }
 /* Ceremony order on wider screens: silver, gold, bronze. */
 .champion--silver { order: 1; }

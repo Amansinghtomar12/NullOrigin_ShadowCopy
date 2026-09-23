@@ -102,6 +102,17 @@ export const PLATFORM_PARTNER = {
   ],
 };
 
+/** The Unstop card's wording once registration has closed. */
+export const PLATFORM_CLOSED = {
+  blurb: "Where the Null Origin 2026 field found the competition and signed up.",
+  about:
+    "Unstop hosts competitions, hackathons and hiring challenges for students and early-career professionals across India and beyond. Registration for Null Origin 2026 ran through their platform — 4,000+ sign-ups before it closed on 17 September.",
+  includes: [
+    "Team registration and entry handling",
+    "Listing Null Origin to their competitor community",
+  ],
+};
+
 export const CLOUD_PARTNER = {
   name: "Render",
   logo: "/render-logo.svg",

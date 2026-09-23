@@ -9,7 +9,7 @@ interface Milestone {
   /** A status after the date, e.g. "Up next". */
   tag?: string;
   title: string;
-  desc: string;
+  desc: ReactNode;
   icon: ReactNode;
   active?: boolean;
   done?: boolean;
@@ -66,8 +66,15 @@ function timeline(stage: EventStage): Milestone[] {
       tag: stage === "results" ? "Up next" : undefined,
       title: "Winners announced",
       desc:
-        stage === "winners" && hasWinners()
-          ? `The podium is crowned — congratulations to ${WINNERS.first}, ${WINNERS.second} and ${WINNERS.third}.`
+        stage === "winners"
+          ? hasWinners()
+            ? (
+                <>
+                  The podium is crowned — congratulations to <bdi>{WINNERS.first}</bdi>,{" "}
+                  <bdi>{WINNERS.second}</bdi> and <bdi>{WINNERS.third}</bdi>.
+                </>
+              )
+            : "Results were announced at 12:00 PM IST — the champions' names go up here shortly."
           : "Results go live at 12:00 PM IST — the podium is crowned and the prize pool is handed to the Finale's top three.",
       icon: <Award className="h-5 w-5" />,
       active: finaleDone,
