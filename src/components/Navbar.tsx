@@ -164,7 +164,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
             </button>
             <a
               href="#sponsors"
-              className="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-4 !text-[13px]"
+              className="hidden sm:inline-flex btn btn-ghost !py-2.5 !px-4 !text-[13px] whitespace-nowrap"
               onMouseEnter={() => sound.playHover()}
             >
               Partner with us
@@ -175,7 +175,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
               rel={after ? undefined : "noopener noreferrer"}
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className={`hidden sm:inline-flex btn ${finale ? "btn-gold" : "btn-primary"} !py-2.5 !px-4 !text-[13px]`}
+              className={`hidden sm:inline-flex btn ${finale ? "btn-gold" : "btn-primary"} !py-2.5 !px-4 !text-[13px] whitespace-nowrap`}
             >
               {after ? (
                 <>
@@ -206,7 +206,12 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
 
         {/* Mobile menu */}
         {open && (
-          <div id="mobile-nav" className="lg:hidden glass glass-nav rounded-2xl mt-2 p-4 space-y-1">
+          // Height-capped and scrollable: the menu hangs off a fixed
+          // header, so anything below the fold could not be reached.
+          <div
+            id="mobile-nav"
+            className="lg:hidden glass glass-nav rounded-2xl mt-2 p-4 space-y-1 max-h-[calc(100dvh-8.5rem)] overflow-y-auto overscroll-contain"
+          >
             {NAV.map((s) => (
               <a
                 key={s.id}
@@ -231,10 +236,13 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                 Join the Discord
               </a>
             )}
-            <div className="flex gap-2 pt-2">
+            {/* The two buttons share a row while their labels fit on one
+                line and stack otherwise — "Enter Finale" does not fit
+                beside "Partner" on 375px and narrower phones. */}
+            <div className="flex flex-wrap gap-2 pt-2">
               <a
                 href="#sponsors"
-                className="btn btn-ghost flex-1 !py-2.5"
+                className="btn btn-ghost flex-auto whitespace-nowrap !py-2.5"
                 onClick={() => setOpen(false)}
               >
                 Partner
@@ -244,7 +252,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                 target={after ? undefined : "_blank"}
                 rel={after ? undefined : "noopener noreferrer"}
                 onClick={() => setOpen(false)}
-                className={`btn ${finale ? "btn-gold" : "btn-primary"} flex-1 !py-2.5`}
+                className={`btn ${finale ? "btn-gold" : "btn-primary"} flex-auto whitespace-nowrap !py-2.5`}
               >
                 {after ? "Podium" : finale ? "Enter Finale" : "Register"}
               </a>

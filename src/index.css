@@ -1937,8 +1937,8 @@ input[type="file"] {
    while the finale is ahead or live) or off elements that only render
    then. When the finale window closes the attribute goes, the elements
    unmount, and the page is back in its everyday red — nothing to undo.
-   (.finale-stakes and .boot__stamp-sub are shared with the results and
-   winners stages that follow.)
+   (.finale-stakes is shared with the results and winners stages that
+   follow.)
    ═══════════════════════════════════════════════════════════ */
 
 /* ── Ribbon above the navbar ─────────────────────────────── */
@@ -1949,7 +1949,9 @@ input[type="file"] {
   /* Sits flush with the top edge: cancels the header's top padding. */
   margin-top: -12px;
   margin-bottom: 10px;
-  background: linear-gradient(90deg, #7a4a00, #ffc23c 30%, #ffe08a 50%, #ffc23c 70%, #7a4a00);
+  /* End stops no darker than #c08a1e: the dark text keeps 6:1 contrast
+     wherever it lands on the gradient. */
+  background: linear-gradient(90deg, #c08a1e, #ffc23c 25%, #ffe08a 50%, #ffc23c 75%, #c08a1e);
   border-bottom: 2px solid #000;
   transition: grid-template-rows 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
               margin 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -2010,11 +2012,12 @@ input[type="file"] {
   0%   { box-shadow: 0 0 0 0 rgba(212, 0, 42, 0.6); }
   100% { box-shadow: 0 0 0 9px rgba(212, 0, 42, 0); }
 }
-/* Long date on wide screens, short one below 640px (the live line is
-   the longer of the two and no longer fits there), and the decorative
-   stars go on the narrowest phones so the Enter pill is never clipped. */
+/* Long date on wide screens, short one below 720px (the live line is
+   the longer of the two and needs about 672px inside its padding), and
+   the decorative stars go on the narrowest phones so the Enter pill is
+   never clipped. */
 .finale-ribbon__short { display: none; }
-@media (max-width: 639px) {
+@media (max-width: 719px) {
   .finale-ribbon__more { display: none; }
   .finale-ribbon__short { display: inline; }
 }
@@ -2106,16 +2109,6 @@ input[type="file"] {
   text-align: center;
 }
 
-/* ── Boot intro subline ──────────────────────────────────── */
-.boot__stamp-sub {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.42em;
-  letter-spacing: 0.32em;
-  color: #ffd76a;
-  text-shadow: 0 0 24px rgba(255, 194, 60, 0.6);
-}
-
 /* ── Existing pieces, re-gilded ──────────────────────────── */
 :root[data-finale] .glass-nav {
   border-color: rgba(255, 194, 60, 0.55);
@@ -2171,11 +2164,20 @@ input[type="file"] {
   border-color: rgba(255, 194, 60, 0.7);
 }
 :root[data-finale] .tl-item--active .tl-date { color: #ffd76a; }
+/* Done milestones step back through colour rather than opacity: a faded
+   card took its small date label under 4.5:1 contrast. */
 .tl-item--done .tl-node {
   background: rgba(30, 8, 16, 0.92);
   color: var(--faint);
 }
-.tl-item--done .tl-card { opacity: 0.72; }
+.tl-item--done .tl-card { border-color: rgba(255, 51, 85, 0.2); }
+.tl-item--done .tl-date { color: var(--faint); }
+.tl-item--done .tl-title { color: var(--muted); }
+
+/* A status tag after the date ("Up next") moves to its own line as a
+   whole on narrow cards instead of orphaning its last word. */
+.tl-date { flex-wrap: wrap; row-gap: 2px; }
+.tl-date__tag { white-space: nowrap; }
 
 @media (prefers-reduced-motion: reduce) {
   .finale-embers { display: none; }

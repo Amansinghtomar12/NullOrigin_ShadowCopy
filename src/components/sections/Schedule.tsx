@@ -6,6 +6,8 @@ import { EventStage, hasWinners, useEventStage } from "../../hooks/useEventStage
 
 interface Milestone {
   date: string;
+  /** A status after the date, e.g. "Up next". */
+  tag?: string;
   title: string;
   desc: string;
   icon: ReactNode;
@@ -51,7 +53,8 @@ function timeline(stage: EventStage): Milestone[] {
           icon: <Zap className="h-5 w-5" />,
         },
     {
-      date: stage === "live" ? "Live now" : stage === "soon" ? "25 September 2026 · Up next" : "25 September 2026",
+      date: stage === "live" ? "Live now" : "25 September 2026",
+      tag: stage === "soon" ? "Up next" : undefined,
       title: past ? "The Grand Finale" : "Null Origin Finals CTF",
       desc: "The top teams from the Qualifier meet on the final board for the second 12-hour round, 10:00 AM to 10:00 PM IST.",
       icon: <Clock className="h-5 w-5" />,
@@ -59,7 +62,8 @@ function timeline(stage: EventStage): Milestone[] {
       done: finaleDone,
     },
     {
-      date: stage === "results" ? "27 September 2026 · Up next" : "27 September 2026",
+      date: "27 September 2026",
+      tag: stage === "results" ? "Up next" : undefined,
       title: "Winners announced",
       desc:
         stage === "winners" && hasWinners()
@@ -119,6 +123,7 @@ export default function Schedule() {
                   <p className="tl-date">
                     {t.active && <span className="dot" aria-hidden="true" />}
                     {t.date}
+                    {t.tag && <span className="tl-date__tag">· {t.tag}</span>}
                   </p>
                   <h3 className="tl-title">{t.title}</h3>
                   <p className="tl-desc">{t.desc}</p>

@@ -50,11 +50,15 @@ function stageLines(stage: EventStage) {
   return LINES;
 }
 
-const STAMP_SUB: Partial<Record<Exclude<EventStage, null>, string>> = {
-  soon: "Grand Finale",
-  live: "Grand Finale",
-  results: "Results · 27 Sep",
-  winners: "Champions",
+/* The stage rides in the terminal's title bar. It used to be a line
+   under the stamp, but the stamp is placed absolutely above a centred
+   panel and on short screens (1366x768 laptops, small phones) the extra
+   line slid under the panel. */
+const BAR_TITLE: Record<string, string> = {
+  soon: "null_origin — grand finale",
+  live: "null_origin — grand finale · live",
+  results: "null_origin — results",
+  winners: "null_origin — podium",
 };
 
 const LINE_MS = 300;
@@ -231,13 +235,12 @@ export default function BootIntro() {
 
       <div className="boot__stamp" aria-hidden="true">
         NULL ORIGIN
-        {stage && <span className="boot__stamp-sub">{STAMP_SUB[stage]}</span>}
       </div>
 
       <div className="boot__panel">
         <div className="boot__bar">
           <span className="boot__dot" />
-          <span>null_origin — secure shell</span>
+          <span>{(stage && BAR_TITLE[stage]) || "null_origin — secure shell"}</span>
           <span className="boot__pct">{pct}%</span>
         </div>
 
