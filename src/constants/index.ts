@@ -31,7 +31,9 @@ export const RESULTS_WHEN = "27 Sep 2026 · 12:00 PM IST";
  * this file ships in the page source, and CTF players read the source.
  * While they are empty, the winners view says the podium is on its way.
  */
-export const WINNERS = { first: "", second: "", third: "" };
+// Official Grand Finale scoreboard, ctftime.org/event/3454 (42 teams):
+// 1. Jokers 17,600 · 2. roamers 16,850 · 3. AetherQuant 16,700.
+export const WINNERS = { first: "Jokers", second: "roamers", third: "AetherQuant" };
 
 export const NAV = [
   { id: "about", label: "About" },
