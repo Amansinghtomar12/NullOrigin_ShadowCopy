@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Trophy } from "lucide-react";
 import { Reveal, SectionHeading } from "../ui";
 import { WINNERS } from "../../constants";
@@ -126,7 +127,12 @@ export default function Prizes() {
         <Reveal delay={140}>
           <p className="text-center text-[15px] text-[var(--faint)] mt-8">
             {stage === "results" || stage === "winners" ? (
-              <>These prizes go to the Grand Finale&rsquo;s top three, decided on the final board on 25 September.</>
+              <>
+                These prizes go to the Grand Finale&rsquo;s top three, decided on the final board on 25 September.{" "}
+                <Link to="/scoreboard" className="text-[var(--accent)] underline underline-offset-4 hover:text-white">
+                  View the full scoreboard →
+                </Link>
+              </>
             ) : stage ? (
               <>
                 These prizes crown the Grand Finale&rsquo;s top three — the 12-hour Qualifier decided

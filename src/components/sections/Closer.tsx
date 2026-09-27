@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Globe, Handshake, Mail, ArrowRight } from "lucide-react";
 import { Reveal } from "../ui";
 import { sound } from "../../hooks/utils/audio";
@@ -28,17 +29,28 @@ export default function Closer() {
               >
                 <Handshake className="h-4 w-4" /> Become a sponsor
               </a>
-              <a
-                href={after ? "#prizes" : REGISTER_URL}
-                target={after ? undefined : "_blank"}
-                rel={after ? undefined : "noopener noreferrer"}
-                onClick={() => sound.playClick()}
-                className="btn btn-ghost"
-                onMouseEnter={() => sound.playHover()}
-              >
-                {after ? "See the podium" : isFinaleStage(stage) ? "Enter the Finale" : "Register your team"}{" "}
-                <ArrowRight className="h-4 w-4" />
-              </a>
+              {after ? (
+                <Link
+                  to="/scoreboard"
+                  onClick={() => sound.playClick()}
+                  className="btn btn-ghost"
+                  onMouseEnter={() => sound.playHover()}
+                >
+                  See the scoreboard <ArrowRight className="h-4 w-4" />
+                </Link>
+              ) : (
+                <a
+                  href={REGISTER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playClick()}
+                  className="btn btn-ghost"
+                  onMouseEnter={() => sound.playHover()}
+                >
+                  {isFinaleStage(stage) ? "Enter the Finale" : "Register your team"}{" "}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              )}
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-7 text-[15px] text-[var(--muted)]">
               <a

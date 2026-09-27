@@ -1,6 +1,9 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { Award, ListOrdered } from "lucide-react";
 import { Trophy } from "lucide-react";
 import {
+  CERTS_URL,
   EVENT_WHEN,
   FINALE_CLOSES,
   FINALE_WHEN,
@@ -172,14 +175,28 @@ export default function HomeHero({ timeLeft }: HomeHeroProps) {
 
         <div data-depth="0.4" className="flex gap-3 justify-center mt-9 flex-wrap px-4">
           {after ? (
-            <a
-              href="#prizes"
-              onClick={() => sound.playClick()}
-              onMouseEnter={() => sound.playHover()}
-              className="btn btn-ghost"
-            >
-              <Trophy className="h-[18px] w-[18px]" aria-hidden="true" /> View the podium
-            </a>
+            <>
+              {stage === "winners" && (
+                <a
+                  href={CERTS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playClick()}
+                  onMouseEnter={() => sound.playHover()}
+                  className="btn btn-gold"
+                >
+                  <Award className="h-[18px] w-[18px]" aria-hidden="true" /> Claim certificate
+                </a>
+              )}
+              <Link
+                to="/scoreboard"
+                onClick={() => sound.playClick()}
+                onMouseEnter={() => sound.playHover()}
+                className="btn btn-ghost"
+              >
+                <ListOrdered className="h-[18px] w-[18px]" aria-hidden="true" /> View scoreboard
+              </Link>
+            </>
           ) : (
             <a
               href={REGISTER_URL}

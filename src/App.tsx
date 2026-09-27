@@ -17,6 +17,7 @@ import Prizes from "./components/sections/Prizes";
 import Closer from "./components/sections/Closer";
 import FAQ from "./components/sections/FAQ";
 import SiteFooter from "./components/SiteFooter";
+import ScoreboardPage from "./components/ScoreboardPage";
 import { REGISTER_URL } from "./constants";
 import { useHomeState } from "./hooks/useHomeState";
 import { useScrollReveal } from "./components/ui";
@@ -66,6 +67,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/register" element={<RegisterRedirect />} />
+      <Route path="/scoreboard" element={<ScoreboardPage />} />
       {/* Unknown paths never reach the app: the host answers them with its
           own 404. This route only exists for a client-side navigation to a
           path that does not exist, and says the same thing plainly. */}

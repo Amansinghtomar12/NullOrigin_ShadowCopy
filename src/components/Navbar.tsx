@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Volume2, VolumeX, Menu, X, Trophy } from "lucide-react";
-import { FINALE_CLOSES, FINALE_WHEN, NAV, REGISTER_URL, SOCIALS } from "../constants";
+import { Link } from "react-router-dom";
+import { ArrowRight, Volume2, VolumeX, Menu, X, Trophy, Award, ListOrdered } from "lucide-react";
+import { CERTS_URL, FINALE_CLOSES, FINALE_WHEN, NAV, REGISTER_URL, SOCIALS } from "../constants";
 import { useScrollSpy } from "../hooks/useScrollSpy";
 import { isFinaleStage, useEventStage } from "../hooks/useEventStage";
 import { sound } from "../hooks/utils/audio";
@@ -26,6 +27,8 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
   // Once the finale is over the button stops pointing at the platform
   // and takes visitors to the podium instead.
   const after = stage === "results" || stage === "winners";
+  // Once the winners are out, the ribbon carries the certificate call.
+  const certs = stage === "winners";
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 36);
@@ -56,11 +59,11 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
       {/* Finale ribbon: the event of the week, on every screen, as a
           doorway to the platform. Folds away once the page scrolls, so
           it never eats reading space. */}
-      {finale && (
+      {(finale || certs) && (
         <div className={`finale-ribbon ${fold ? "finale-ribbon--folded" : ""}`} inert={fold}>
           <div className="finale-ribbon__clip">
             <a
-              href={REGISTER_URL}
+              href={certs ? CERTS_URL : REGISTER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="finale-ribbon__link"
@@ -69,7 +72,15 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
               onMouseEnter={() => sound.playHover()}
               onClick={() => sound.playClick()}
             >
-              {finale === "live" ? (
+              {certs ? (
+                <>
+                  <Award className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  <span>
+                    Certificates are out
+                    <span className="finale-ribbon__more"> · claim your Null Origin 2026 certificate</span>
+                  </span>
+                </>
+              ) : finale === "live" ? (
                 <>
                   <span className="finale-ribbon__live" aria-hidden="true" />
                   <span>
@@ -89,7 +100,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                 </>
               )}
               <span className="finale-ribbon__cta">
-                Enter <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                {certs ? "Claim" : "Enter"} <ArrowRight className="h-3 w-3" aria-hidden="true" />
               </span>
             </a>
           </div>
@@ -175,19 +186,25 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
             >
               Partner with us
             </a>
+            {after ? (
+              <Link
+                to="/scoreboard"
+                onClick={() => sound.playClick()}
+                onMouseEnter={() => sound.playHover()}
+                className="hidden sm:inline-flex btn btn-primary !py-2.5 !px-4 !text-[13px] whitespace-nowrap"
+              >
+                <ListOrdered className="h-3.5 w-3.5" /> Scoreboard
+              </Link>
+            ) : (
             <a
-              href={after ? "#prizes" : REGISTER_URL}
-              target={after ? undefined : "_blank"}
-              rel={after ? undefined : "noopener noreferrer"}
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
               className={`hidden sm:inline-flex btn ${finale ? "btn-gold" : "btn-primary"} !py-2.5 !px-4 !text-[13px] whitespace-nowrap`}
             >
-              {after ? (
-                <>
-                  <Trophy className="h-3.5 w-3.5" /> Podium
-                </>
-              ) : finale ? (
+              {finale ? (
                 <>
                   <Trophy className="h-3.5 w-3.5" /> Enter Finale
                 </>
@@ -197,6 +214,7 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
                 </>
               )}
             </a>
+            )}
             <button
               id="nav-menu-toggle"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -253,16 +271,37 @@ export default function Navbar({ audioEnabled, onToggleSound }: NavbarProps) {
               >
                 Partner
               </a>
-              <a
-                href={after ? "#prizes" : REGISTER_URL}
-                target={after ? undefined : "_blank"}
-                rel={after ? undefined : "noopener noreferrer"}
-                onClick={() => setOpen(false)}
-                className={`btn ${finale ? "btn-gold" : "btn-primary"} flex-auto whitespace-nowrap !py-2.5`}
-              >
-                {after ? "Podium" : finale ? "Enter Finale" : "Register"}
-              </a>
+              {after ? (
+                <Link
+                  to="/scoreboard"
+                  onClick={() => setOpen(false)}
+                  className="btn btn-primary flex-auto whitespace-nowrap !py-2.5"
+                >
+                  Scoreboard
+                </Link>
+              ) : (
+                <a
+                  href={REGISTER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className={`btn ${finale ? "btn-gold" : "btn-primary"} flex-auto whitespace-nowrap !py-2.5`}
+                >
+                  {finale ? "Enter Finale" : "Register"}
+                </a>
+              )}
             </div>
+            {certs && (
+              <a
+                href={CERTS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="btn btn-gold w-full whitespace-nowrap !py-2.5 mt-2"
+              >
+                <Award className="h-4 w-4" aria-hidden="true" /> Claim certificate
+              </a>
+            )}
           </div>
         )}
       </div>

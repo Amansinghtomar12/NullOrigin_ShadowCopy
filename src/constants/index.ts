@@ -7,6 +7,8 @@ export const PARTNER_EMAIL = "partners@cyberhx.com";
 /** The Grand Finale's own CTFtime listing (the Qualifier's is event 3346). */
 export const CTFTIME_FINALE_URL = "https://ctftime.org/event/3454";
 export const ORG_SITE = "https://cyberhx.com";
+/** Official certificate portal (claim and verify). */
+export const CERTS_URL = "https://creds.cyberhx.com/";
 export const EVENT_DATE = new Date("2026-09-18T10:00:00+05:30");
 /** The same instant, written the way the hero states it. Keep in step with EVENT_DATE. */
 export const EVENT_WHEN = "18 Sep 2026 · 10:00 AM IST";

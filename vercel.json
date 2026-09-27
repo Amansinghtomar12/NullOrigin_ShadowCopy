@@ -12,6 +12,16 @@
       "permanent": false
     }
   ],
+  "rewrites": [
+    {
+      "source": "/scoreboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/scoreboard/",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
