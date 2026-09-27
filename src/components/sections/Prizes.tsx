@@ -29,7 +29,6 @@ const TIERS: {
       "INE Learning Path + Certificate — any one domain",
       "CPPT — Certified Practical Penetration Tester by CyberHX, worth $99",
       "MITRE ATT&CK lab access by CyberHX",
-      "Internship opportunity with CyberHX",
     ],
     order: "sm:order-2",
   },
@@ -43,7 +42,6 @@ const TIERS: {
       "INE Learning Path + Certificate — any one domain",
       "CPPT — Certified Practical Penetration Tester by CyberHX, worth $99",
       "MITRE ATT&CK lab access by CyberHX",
-      "Internship opportunity with CyberHX",
     ],
     order: "sm:order-1",
   },
@@ -57,7 +55,6 @@ const TIERS: {
       "INE Learning Path + Certificate — any one domain",
       "CPPT — Certified Practical Penetration Tester by CyberHX, worth $99",
       "MITRE ATT&CK lab access by CyberHX",
-      "Internship opportunity with CyberHX",
     ],
     order: "sm:order-3",
   },
@@ -92,7 +89,7 @@ export default function Prizes() {
           <SectionHeading
             tag="Rewards"
             title="Prize Pool"
-            sub="A pool worth ₹10 Lakh+ in total — premium cybersecurity training, certifications, hands-on labs, cloud credits and career opportunities from CyberHX and our official partners."
+            sub="A pool worth ₹10 Lakh+ in total — premium cybersecurity training, certifications, hands-on labs and cloud credits from CyberHX and our official partners."
           />
         </Reveal>
 
